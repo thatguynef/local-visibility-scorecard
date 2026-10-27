@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "audit_mode": "public",
+  "model": {
+    "name": "synthetic-reviewer",
+    "provider": "fixture",
+    "reviewed_at": "2026-01-01T00:00:00Z"
+  },
+  "checks": {
+    "LV-ORG-05": {
+      "score": 1,
+      "confidence": "verified",
+      "evidence": [
+        "Dedicated service and problem pages rank for the core service intents, but near-me, city-modified, and high-ticket rankings sometimes resolve to the home page."
+      ],
+      "evidence_refs": ["google-organic"],
+      "notes": "Reviewed the ranking URL for every observed organic result."
+    },
+    "LV-AI-04": {
+      "score": 2,
+      "confidence": "strong_signal",
+      "evidence": [
+        "Every observed mention is for the service in the prompt; no off-service mention was found in the synthetic AI answers."
+      ],
+      "evidence_refs": ["google-ai-mode", "chatgpt-llm"]
+    },
+    "LV-AI-05": {
+      "score": 2,
+      "confidence": "strong_signal",
+      "evidence": [
+        "Every mention places the business in Example County; no out-of-market recommendation was found."
+      ],
+      "evidence_refs": ["google-ai-mode", "chatgpt-llm"]
+    },
+    "LV-AI-06": {
+      "score": 1,
+      "confidence": "strong_signal",
+      "evidence": [
+        "The observed AI answers use the correct business name and domain wherever the business appears."
+      ],
+      "evidence_refs": ["google-ai-mode", "chatgpt-llm"]
+    },
+    "LV-AUT-02": {
+      "score": 1,
+      "confidence": "strong_signal",
+      "evidence": [
+        "One local news source and one chamber listing corroborate the business. The remaining local-looking results are generic directories, not independent local corroboration."
+      ],
+      "evidence_refs": ["backlinks", "business-listings"]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Local Visibility Scorecard</title>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="92%" cy="0%" r="80%">
+      <stop offset="0" stop-color="#FF3B3B" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#FF3B3B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="#0B0B0C"/>
+  <circle cx="32" cy="30" r="20" fill="none" stroke="#FF3B3B" stroke-opacity="0.3"/>
+  <path d="M32 12c-8 0-14 6-14 14 0 10.5 14 26 14 26s14-15.5 14-26c0-8-6-14-14-14Z" fill="#FF3B3B"/>
+  <circle cx="32" cy="26" r="5" fill="#0B0B0C"/>
+
+</svg>

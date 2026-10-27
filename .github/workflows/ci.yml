@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Unit and pipeline tests
+        run: npm test
+
+      - name: Validate canonical rubric
+        run: npm run check:rubric
+
+      - name: Generated artifacts are current
+        run: npm run check:generated
+
+      - name: Schema validation
+        run: npm run check:schemas
+
+      - name: Link check
+        run: npm run check:links
+
+      - name: Asset check
+        run: npm run check:assets
+
+      - name: Privacy scan
+        run: npm run check:privacy
+
+      - name: Privacy history scan
+        run: node scripts/privacy_scan.mjs --history
+
+      - name: Verify synthetic example with mutation tests
+        run: npm run verify:example
+
+      # CI does not access DataForSEO, use credentials, run paid tasks, search
+      # real businesses, call live models, or mutate external services.
+
+  docs:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install docs dependencies
+        run: pip install -r requirements-docs.txt
+
+      - name: Build strict
+        env:
+          NO_MKDOCS_2_WARNING: "1"
+        run: python3 -m mkdocs build --strict

@@ -1,0 +1,541 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local Visibility Scorecard \u2014 query universe v1",
+  "$defs": {
+    "query_service": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "primary",
+            "secondary"
+          ]
+        },
+        "symptoms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "demand": {
+          "type": "object",
+          "properties": {
+            "volume": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cpc": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trend": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label"
+      ]
+    },
+    "query_intent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "service_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class": {
+          "type": "string",
+          "enum": [
+            "category",
+            "service",
+            "emergency",
+            "near_me",
+            "city_modified",
+            "problem_symptom",
+            "high_ticket"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demand": {
+          "type": "object",
+          "properties": {
+            "volume": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cpc": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trend": {
+              "type": "number"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "core": {
+          "type": "boolean"
+        },
+        "brand": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "non_brand"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "service_id",
+        "class",
+        "label",
+        "weight",
+        "core",
+        "brand"
+      ]
+    },
+    "query_item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "service_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_class": {
+          "type": "string",
+          "enum": [
+            "category",
+            "service",
+            "emergency",
+            "near_me",
+            "city_modified",
+            "problem_symptom",
+            "high_ticket"
+          ]
+        },
+        "brand": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "non_brand"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "core",
+            "diagnostic"
+          ]
+        },
+        "demand": {
+          "type": "object",
+          "properties": {
+            "volume": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cpc": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trend": {
+              "type": "number"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "google_local_pack",
+              "google_maps",
+              "google_local_finder",
+              "google_organic",
+              "google_ai_mode",
+              "google_ai_overview",
+              "chatgpt",
+              "gemini",
+              "perplexity",
+              "claude"
+            ]
+          }
+        },
+        "grid": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent_id",
+        "service_id",
+        "text",
+        "intent_class",
+        "brand",
+        "role",
+        "weight",
+        "surfaces",
+        "grid"
+      ]
+    },
+    "prompt_item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "service_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "template_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform": {
+          "type": "string",
+          "enum": [
+            "google_ai_mode",
+            "google_ai_overview",
+            "chatgpt",
+            "gemini",
+            "perplexity",
+            "claude"
+          ]
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repeat_default": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "core",
+            "diagnostic"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent_id",
+        "service_id",
+        "template_id",
+        "text",
+        "platform",
+        "language",
+        "repeat_default",
+        "role"
+      ]
+    },
+    "query_universe": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "universe_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "universe_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trade": {
+          "type": "string",
+          "minLength": 1
+        },
+        "market": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "region": {
+              "type": "string",
+              "minLength": 1
+            },
+            "country": {
+              "type": "string",
+              "minLength": 1
+            },
+            "language": {
+              "type": "string",
+              "minLength": 1
+            },
+            "device": {
+              "type": "string",
+              "enum": [
+                "desktop",
+                "mobile"
+              ]
+            },
+            "center": {
+              "type": "object",
+              "properties": {
+                "lat": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "lng": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "lat",
+                "lng"
+              ]
+            },
+            "radius_km": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 500
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "country",
+            "language",
+            "device",
+            "center",
+            "radius_km"
+          ]
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "device": {
+          "type": "string",
+          "enum": [
+            "desktop",
+            "mobile"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locked_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "generation_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "approved",
+                "rejected"
+              ]
+            },
+            "reviewed_at": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reviewer": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ]
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/query_service"
+          },
+          "minItems": 1
+        },
+        "intents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/query_intent"
+          },
+          "minItems": 1
+        },
+        "queries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/query_item"
+          },
+          "minItems": 1
+        },
+        "prompts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/prompt_item"
+          },
+          "minItems": 1
+        },
+        "demand_model": {
+          "type": "object",
+          "properties": {
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "service_cluster_weighting": {
+              "type": "string",
+              "minLength": 1
+            },
+            "demand_signal": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "formula",
+            "service_cluster_weighting",
+            "demand_signal"
+          ]
+        },
+        "quality_gates": {
+          "type": "object",
+          "properties": {
+            "non_branded_core_share": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "min_services": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "min_core_queries": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "min_core_prompts": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "non_branded_core_share",
+            "min_services",
+            "min_core_queries",
+            "min_core_prompts"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "universe_id",
+        "universe_version",
+        "trade",
+        "market",
+        "language",
+        "device",
+        "created_at",
+        "locked",
+        "generation_method",
+        "review",
+        "hash",
+        "services",
+        "intents",
+        "queries",
+        "prompts",
+        "demand_model",
+        "quality_gates"
+      ]
+    }
+  },
+  "$ref": "#/$defs/query_universe"
+}

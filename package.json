@@ -1,0 +1,54 @@
+{
+  "name": "local-visibility-scorecard",
+  "version": "1.0.0",
+  "description": "Evidence-based local visibility scorecard across Search, Maps, AI answers, competitors, and external authority.",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "python": ">=3.10"
+  },
+  "keywords": [
+    "local-visibility",
+    "local-seo",
+    "geo-grid",
+    "ai-visibility",
+    "home-services",
+    "scorecard",
+    "audit",
+    "open-source"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thatguynef/local-visibility-scorecard.git"
+  },
+  "homepage": "https://thatguynef.github.io/local-visibility-scorecard/",
+  "bugs": {
+    "url": "https://github.com/thatguynef/local-visibility-scorecard/issues"
+  },
+  "scripts": {
+    "audit": "node scripts/audit.mjs",
+    "universe": "node .opencode/skills/home-service-local-visibility-audit/scripts/build_universe.mjs",
+    "collect": "node .opencode/skills/home-service-local-visibility-audit/scripts/collect.mjs",
+    "score": "python3 .opencode/skills/home-service-local-visibility-audit/scripts/score.py",
+    "render": "node .opencode/skills/home-service-local-visibility-audit/scripts/render.mjs",
+    "verify": "node .opencode/skills/home-service-local-visibility-audit/scripts/verify.mjs",
+    "judge": "node .opencode/skills/home-service-local-visibility-audit/scripts/apply_judgment.mjs",
+    "eval": "node .opencode/skills/home-service-local-visibility-audit/scripts/eval.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "test": "python3 -m unittest discover -s .opencode/skills/home-service-local-visibility-audit/scripts -p 'test_*.py' && node --test .opencode/skills/home-service-local-visibility-audit/scripts/test_pipeline.mjs",
+    "check:rubric": "python3 .opencode/skills/home-service-local-visibility-audit/scripts/validate_rubric.py",
+    "check:generated": "python3 .opencode/skills/home-service-local-visibility-audit/scripts/render_rubric.py --check && python3 .opencode/skills/home-service-local-visibility-audit/scripts/render_coverage.py --check && python3 .opencode/skills/home-service-local-visibility-audit/scripts/render_portable.py --check && python3 .opencode/skills/home-service-local-visibility-audit/scripts/render_fix_library.py --check && node scripts/render_docs_assets.mjs --check",
+    "check:schemas": "node scripts/check_schemas.mjs",
+    "check:privacy": "node scripts/privacy_scan.mjs",
+    "check:assets": "node scripts/check_assets.mjs",
+    "check:links": "node scripts/check_links.mjs",
+    "render:assets": "node scripts/render_docs_assets.mjs",
+    "docs:build": "node scripts/docs_build.mjs build --strict",
+    "docs:serve": "node scripts/docs_build.mjs serve",
+    "check": "npm test && npm run check:rubric && npm run check:generated && npm run check:schemas && npm run check:links && npm run check:assets && npm run check:privacy",
+    "render:example": "npm run render -- --scores examples/acme-plumbing/scores.json --content examples/acme-plumbing/content.json --out examples/acme-plumbing/one-page.md && npm run render -- --mode full --scores examples/acme-plumbing/scores.json --content examples/acme-plumbing/content.json --out examples/acme-plumbing/full-report.md",
+    "verify:example": "node .opencode/skills/home-service-local-visibility-audit/scripts/verify.mjs --run examples/acme-plumbing --filled examples/acme-plumbing/audit.filled.json --scores examples/acme-plumbing/scores.json --content examples/acme-plumbing/content.json --report examples/acme-plumbing/full-report.md --one-page examples/acme-plumbing/one-page.md --out examples/acme-plumbing/verification.json --mutation --fixture --synthetic"
+  }
+}

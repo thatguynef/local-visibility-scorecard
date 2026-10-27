@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0",
+  "template": "market-config-v1",
+  "business": {
+    "name": "Acme Plumbing (synthetic)",
+    "trade": "plumbing",
+    "domain": "acme-plumbing.example",
+    "phone": "(555) 010-0200",
+    "place_id": "SYNTHETIC-PLACE-ACME-001",
+    "aliases": [
+      "Acme Plumbing & Drain (synthetic)"
+    ]
+  },
+  "market": {
+    "name": "Example County, CA",
+    "region": "CA",
+    "country": "US",
+    "language": "en",
+    "device": "mobile",
+    "center": {
+      "lat": 34.0,
+      "lng": -117.0
+    },
+    "radius_km": 12,
+    "location_code": 2840
+  },
+  "configuration": {
+    "emergency_service": true,
+    "near_me_demand": true,
+    "city_modified_demand": true,
+    "local_finder_configured": false,
+    "branded_diagnostics_enabled": true,
+    "historical_runs_available": false,
+    "ai_repeats": 3,
+    "grid_size": 7,
+    "max_queries": 40,
+    "trade": "plumbing",
+    "market": "Example County, CA"
+  },
+  "services": [
+    {
+      "id": "general_plumbing",
+      "label": "plumber",
+      "priority": "primary",
+      "symptoms": [
+        "leaking pipe",
+        "low water pressure"
+      ],
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02
+      }
+    },
+    {
+      "id": "emergency_plumbing",
+      "label": "emergency plumber",
+      "priority": "primary",
+      "symptoms": [
+        "burst pipe",
+        "no hot water"
+      ],
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05
+      }
+    },
+    {
+      "id": "drain_cleaning",
+      "label": "drain cleaning",
+      "priority": "primary",
+      "symptoms": [
+        "clogged drain",
+        "slow sink"
+      ],
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01
+      }
+    },
+    {
+      "id": "water_heater_repair",
+      "label": "water heater repair",
+      "priority": "primary",
+      "symptoms": [
+        "water heater not working",
+        "no hot water"
+      ],
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03
+      }
+    },
+    {
+      "id": "sewer_repair",
+      "label": "sewer repair",
+      "priority": "secondary",
+      "symptoms": [
+        "sewage backup",
+        "broken sewer line"
+      ],
+      "demand": {
+        "volume": 720,
+        "cpc": 18.0,
+        "trend": 0.0
+      }
+    },
+    {
+      "id": "repiping",
+      "label": "repiping",
+      "priority": "secondary",
+      "symptoms": [
+        "old pipes",
+        "pipe replacement"
+      ],
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04
+      }
+    }
+  ],
+  "branded_queries": [
+    "Acme Plumbing",
+    "Acme Plumbing reviews"
+  ],
+  "ai_platforms": [
+    "google_ai_mode",
+    "chatgpt"
+  ],
+  "known_competitors": [
+    {
+      "id": "cmp-blue-line",
+      "name": "Blue Line Plumbing (synthetic)",
+      "place_id": "SYNTHETIC-PLACE-BLUE-002",
+      "domain": "blueline-plumbing.example",
+      "aliases": []
+    },
+    {
+      "id": "cmp-summit",
+      "name": "Summit Drain & Sewer (synthetic)",
+      "place_id": "SYNTHETIC-PLACE-SUMMIT-003",
+      "domain": "summit-drain.example",
+      "aliases": []
+    },
+    {
+      "id": "cmp-coast",
+      "name": "Coast Plumbing Co. (synthetic)",
+      "place_id": "SYNTHETIC-PLACE-COAST-004",
+      "domain": "coast-plumbing.example",
+      "aliases": []
+    }
+  ],
+  "serp_occupiers": [
+    "yelp.com",
+    "angi.com",
+    "bbb.org",
+    "reddit.com",
+    "youtube.com",
+    "nextdoor.com"
+  ],
+  "provider": {
+    "name": "dataforseo",
+    "language_code": "en",
+    "location_code": 2840
+  }
+}

@@ -1,0 +1,2760 @@
+{
+  "version": "1.0.0",
+  "schema_version": "1.0",
+  "framework": "local-discovery",
+  "updated": "2026-10-27",
+  "total": 100,
+  "title": "Local Visibility Scorecard",
+  "subtitle": "Evidence-based diagnosis of local discovery across Search, Maps, AI answers, competitors, and external authority",
+  "scoring": {
+    "model": "applicability_aware_category_normalization_with_caps",
+    "formula": "For each category: normalized = category.max * earned / applicable_max. Total = sum(normalized) * 100 / sum(category.max for categories with applicable checks). Category caps apply to normalized category points; overall caps apply to the total. Final = min(total, overall cap).",
+    "rounding": "Category normalized values are rounded to 2 decimals. Total and final are rounded to 1 decimal. Display = final rounded to the nearest integer (half up). Bands use the display score.",
+    "owner_data": "Owner-data questions are never scored and never reduce the public score.",
+    "connected_mode": "Authorized Search Console, GA4, Google Ads, Bing, or client revenue data is reported separately and never silently rewrites the Public Mode score.",
+    "evidence": "Every applicable check needs evidence and confidence verified or strong_signal. A deterministic check must be verified.",
+    "caps": "Only one cap exists in V1: no_non_branded_discovery. Its trigger is deterministic, tested, and depends on sufficient valid evidence.",
+    "demand_weighting": "Each core service cluster receives equal cluster weight (1 / number of core service clusters). Within a cluster, intent weight is proportional to sqrt(max(search_volume,1)) and capped at 50% of the cluster weight before renormalization. This prevents a single head term from dominating the score.",
+    "visibility_index": "For a query/surface observation, rank credit is 1.0 for rank 1-3, 0.7 for 4-10, 0.3 for 11-20, and 0 outside the top 20. Demand-weighted coverage is sum(weight * credit) / sum(weight) over applicable core queries. Top-N coverage counts a query when the best observed rank on that surface is at most N.",
+    "grid_aggregation": "A grid point is covered for an intent when the target appears in the top 10 at that point. Geo-grid consistency is the demand-weighted share of grid points covered across configured core Maps intents. Quadrant metrics split the grid into four geographic quadrants around the configured center.",
+    "ai_aggregation": "Each prompt-platform pair is observed R times. Mention, recommendation, and citation status for the pair is true when it appears in at least ceil(R/2) repeats. Repeat stability is the share of pairs where all repeats agree. Only validated consumer/search surfaces or validated model/API surfaces contribute to the core score. Source types are recorded separately and are never pooled.",
+    "missing_observations": "A missing observation is reported as not collected, never as rank 0. If core coverage falls below a validity threshold, the run returns INSUFFICIENT EVIDENCE and no score is written.",
+    "applies_to": "All seven categories, all 52 checks, and the synthetic fixture. Public Mode only in V1."
+  },
+  "categories": [
+    {
+      "id": "A",
+      "name": "Intent & Demand Coverage",
+      "max": 15,
+      "question": "Across the commercially meaningful things local customers search for, how broadly is this business visible?"
+    },
+    {
+      "id": "B",
+      "name": "Maps & Local Pack Visibility",
+      "max": 25,
+      "question": "How consistently does the business appear prominently in Google's local-business results throughout the target market?"
+    },
+    {
+      "id": "C",
+      "name": "Organic Search Visibility",
+      "max": 15,
+      "question": "How well does the business appear in ordinary Google search results for commercially relevant local intent?"
+    },
+    {
+      "id": "D",
+      "name": "AI & Generative Visibility",
+      "max": 20,
+      "question": "When prospective customers ask AI systems for local service recommendations, how often and how credibly does the business appear?"
+    },
+    {
+      "id": "E",
+      "name": "Competitive Share of Visibility",
+      "max": 10,
+      "question": "Relative to the actual businesses competing for the same local demand, what share of discovery does the business earn?"
+    },
+    {
+      "id": "F",
+      "name": "Authority & Entity Footprint",
+      "max": 10,
+      "question": "How strongly is the business corroborated across external sources that support discovery and recommendation?"
+    },
+    {
+      "id": "G",
+      "name": "Visibility Resilience",
+      "max": 5,
+      "question": "Is discoverability reasonably diversified, or does it depend on one fragile source of visibility?"
+    }
+  ],
+  "bands": [
+    {
+      "min": 90,
+      "band": "A",
+      "label": "Elite"
+    },
+    {
+      "min": 75,
+      "band": "B",
+      "label": "Strong"
+    },
+    {
+      "min": 60,
+      "band": "C",
+      "label": "Average"
+    },
+    {
+      "min": 40,
+      "band": "D",
+      "label": "Weak"
+    },
+    {
+      "min": 0,
+      "band": "F",
+      "label": "Critical"
+    }
+  ],
+  "conditions": [
+    {
+      "key": "emergency_service",
+      "label": "Emergency service",
+      "description": "Enables emergency and urgent intent coverage checks. Disable when the business does not sell urgent work."
+    },
+    {
+      "key": "near_me_demand",
+      "label": "Near-me demand",
+      "description": "Enables the near-me intent coverage check."
+    },
+    {
+      "key": "city_modified_demand",
+      "label": "City-modified demand",
+      "description": "Enables service + city and city-modified organic checks."
+    },
+    {
+      "key": "local_finder_configured",
+      "label": "Local Finder configured",
+      "description": "Enables the Local Finder observation check. Local Finder is optional because Maps and Local Pack already cover the core local surface."
+    },
+    {
+      "key": "branded_diagnostics_enabled",
+      "label": "Branded diagnostics",
+      "description": "Enables the branded/non-branded dependence check. Branded queries are diagnostic and never inflate the core score."
+    },
+    {
+      "key": "historical_runs_available",
+      "label": "Historical runs available",
+      "description": "Enables the visibility trend check when a prior run used a comparable query universe and grid."
+    }
+  ],
+  "journey": [
+    {
+      "id": "search",
+      "order": 1,
+      "label": "Search",
+      "customerQuestion": "When a local customer searches for the service, does the business appear across the demand it sells?",
+      "coverageStatus": "scored",
+      "checks": [
+        "LV-INT-01",
+        "LV-INT-02",
+        "LV-INT-03",
+        "LV-INT-04",
+        "LV-INT-05",
+        "LV-INT-06",
+        "LV-INT-07"
+      ],
+      "ownerData": [
+        "OD-LV-GSC-CLICKS",
+        "OD-LV-GSC-CTR",
+        "OD-LV-PRIORITY-SERVICES"
+      ]
+    },
+    {
+      "id": "discover",
+      "order": 2,
+      "label": "Discover",
+      "customerQuestion": "Does the business appear in Maps, the Local Pack, and ordinary organic results throughout the market?",
+      "coverageStatus": "scored",
+      "checks": [
+        "LV-MAP-01",
+        "LV-MAP-02",
+        "LV-MAP-03",
+        "LV-MAP-04",
+        "LV-MAP-05",
+        "LV-MAP-06",
+        "LV-MAP-07",
+        "LV-MAP-08",
+        "LV-MAP-09",
+        "LV-MAP-10",
+        "LV-ORG-01",
+        "LV-ORG-02",
+        "LV-ORG-03",
+        "LV-ORG-04",
+        "LV-ORG-05",
+        "LV-ORG-06",
+        "LV-ORG-07"
+      ],
+      "ownerData": []
+    },
+    {
+      "id": "ask",
+      "order": 3,
+      "label": "Ask",
+      "customerQuestion": "When a customer asks an AI system for a recommendation, is the business mentioned, recommended, and cited?",
+      "coverageStatus": "scored",
+      "checks": [
+        "LV-AI-01",
+        "LV-AI-02",
+        "LV-AI-03",
+        "LV-AI-04",
+        "LV-AI-05",
+        "LV-AI-06",
+        "LV-AI-07",
+        "LV-AI-08",
+        "LV-AI-09",
+        "LV-AI-10"
+      ],
+      "ownerData": [
+        "OD-LV-AI-REFERRALS",
+        "OD-LV-AI-LEADS"
+      ]
+    },
+    {
+      "id": "compare",
+      "order": 4,
+      "label": "Compare",
+      "customerQuestion": "How does the business's share of discovery compare with real local competitors and credible external sources?",
+      "coverageStatus": "scored",
+      "checks": [
+        "LV-CMP-01",
+        "LV-CMP-02",
+        "LV-CMP-03",
+        "LV-CMP-04",
+        "LV-CMP-05",
+        "LV-CMP-06",
+        "LV-CMP-07",
+        "LV-AUT-01",
+        "LV-AUT-02",
+        "LV-AUT-03",
+        "LV-AUT-04",
+        "LV-AUT-05",
+        "LV-AUT-06"
+      ],
+      "ownerData": [
+        "OD-LV-ORGANIC-LEADS",
+        "OD-LV-ORGANIC-REVENUE"
+      ]
+    },
+    {
+      "id": "resilience",
+      "order": 5,
+      "label": "Resilience",
+      "customerQuestion": "Would the business still be discoverable if one surface, service, or area weakened?",
+      "coverageStatus": "scored",
+      "checks": [
+        "LV-RES-01",
+        "LV-RES-02",
+        "LV-RES-03",
+        "LV-RES-04",
+        "LV-RES-05"
+      ],
+      "ownerData": [
+        "OD-LV-LOCAL-SEARCH-REVENUE"
+      ]
+    },
+    {
+      "id": "handoff",
+      "order": 6,
+      "label": "Handoff",
+      "customerQuestion": "When the customer chooses the business, do the Google Business Profile and owned website create trust and convert?",
+      "coverageStatus": "observed_unscored",
+      "checks": [],
+      "ownerData": []
+    },
+    {
+      "id": "measure",
+      "order": 7,
+      "label": "Measure",
+      "customerQuestion": "Can discovery-origin demand be tied to qualified leads, jobs, and revenue?",
+      "coverageStatus": "owner_data_required",
+      "checks": [],
+      "ownerData": [
+        "OD-LV-PAID-ROI"
+      ]
+    }
+  ],
+  "ownerData": [
+    {
+      "id": "OD-LV-GSC-CLICKS",
+      "journeyStage": "search",
+      "title": "Search Console clicks by query cluster",
+      "serviceMapping": "market_intelligence",
+      "whyItMatters": "Public SERP observation shows where the business appears; Search Console shows whether those impressions produced clicks.",
+      "questions": [
+        "How many non-branded clicks did the tracked service and city query clusters receive in the last 90 days?",
+        "Which clusters receive impressions but almost no clicks?"
+      ]
+    },
+    {
+      "id": "OD-LV-GSC-CTR",
+      "journeyStage": "search",
+      "title": "Search Console CTR and average position",
+      "serviceMapping": "market_intelligence",
+      "whyItMatters": "A ranking can be visible and still be ignored. CTR and position separate a ranking problem from a result-quality problem.",
+      "questions": [
+        "What are the impressions, clicks, CTR, and average position for each core service cluster?",
+        "Does the business appear for the query but lose the click to a directory or a competitor?"
+      ]
+    },
+    {
+      "id": "OD-LV-PRIORITY-SERVICES",
+      "journeyStage": "search",
+      "title": "Priority services by gross profit",
+      "serviceMapping": "marketing_intelligence",
+      "whyItMatters": "The audit measures visibility across the configured services. The owner knows which services deserve disproportionate attention.",
+      "questions": [
+        "Which service lines produce the highest gross profit per job?",
+        "Which services should the business grow, maintain, or stop selling?"
+      ]
+    },
+    {
+      "id": "OD-LV-ORGANIC-LEADS",
+      "journeyStage": "compare",
+      "title": "Qualified leads from non-branded organic search",
+      "serviceMapping": "marketing_intelligence",
+      "whyItMatters": "Visibility is not the same as qualified demand. Only the owner can show whether an organic visit became a real lead.",
+      "questions": [
+        "How many qualified leads came from non-branded organic search last quarter?",
+        "What percentage became booked jobs?"
+      ]
+    },
+    {
+      "id": "OD-LV-ORGANIC-REVENUE",
+      "journeyStage": "compare",
+      "title": "Revenue from organic discovery",
+      "serviceMapping": "marketing_intelligence",
+      "whyItMatters": "A visibility gap matters more when the affected service produces meaningful revenue.",
+      "questions": [
+        "What revenue is attributable to non-branded organic search?",
+        "Which service clusters produce the most revenue per organic lead?"
+      ]
+    },
+    {
+      "id": "OD-LV-AI-REFERRALS",
+      "journeyStage": "ask",
+      "title": "AI referral traffic",
+      "serviceMapping": "market_intelligence",
+      "whyItMatters": "A mention in an AI answer may or may not produce a visit. Referral data is the only public-adjacent way to see the handoff.",
+      "questions": [
+        "Does analytics show referrals from AI surfaces such as Google AI Mode, ChatGPT, Gemini, Perplexity, or Claude?",
+        "Which prompts or landing pages are associated with those referrals?"
+      ]
+    },
+    {
+      "id": "OD-LV-AI-LEADS",
+      "journeyStage": "ask",
+      "title": "AI-origin leads and jobs",
+      "serviceMapping": "marketing_intelligence",
+      "whyItMatters": "Being recommended by an AI system is not proof that the recommendation becomes a customer.",
+      "questions": [
+        "Have AI referrals produced qualified leads or booked jobs?",
+        "Do customers mention an AI answer when they call or submit a request?"
+      ]
+    },
+    {
+      "id": "OD-LV-LOCAL-SEARCH-REVENUE",
+      "journeyStage": "resilience",
+      "title": "Revenue concentration by service and area",
+      "serviceMapping": "marketing_intelligence",
+      "whyItMatters": "A diversified visibility profile only matters if the underlying revenue is also diversified.",
+      "questions": [
+        "What share of revenue comes from the top service and the top geographic area?",
+        "Which service or area would hurt most if visibility declined?"
+      ]
+    },
+    {
+      "id": "OD-LV-PAID-ROI",
+      "journeyStage": "measure",
+      "title": "Paid discovery return",
+      "serviceMapping": "marketing_intelligence",
+      "whyItMatters": "Paid search and Local Services Ads are optional discovery channels. Their absence never lowers the public score.",
+      "questions": [
+        "What is the cost per qualified lead for Search Ads and Local Services Ads?",
+        "Does paid search cover demand the business cannot earn organically?"
+      ]
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "paid_search",
+      "label": "Paid search coverage",
+      "radModule": "marketing_intelligence",
+      "why": "Paid search can cover high-intent demand that organic and Maps visibility do not reach, but its absence is never a score penalty.",
+      "evidence": "Only recommend when core non-branded coverage is weak and the owner has a paid-media budget."
+    },
+    {
+      "id": "local_services_ads",
+      "label": "Local Services Ads",
+      "radModule": "marketing_intelligence",
+      "why": "Local Services Ads can place a home-service business above the Local Pack for urgent demand.",
+      "evidence": "Only recommend when the trade and market support LSA and the business can answer leads."
+    },
+    {
+      "id": "secondary_search",
+      "label": "Bing and secondary search coverage",
+      "radModule": "market_intelligence",
+      "why": "Secondary engines can be a low-cost incremental discovery surface for some local trades.",
+      "evidence": "Only recommend when the audit shows a measurable gap and the owner wants incremental reach."
+    },
+    {
+      "id": "apple_maps",
+      "label": "Apple Maps presence",
+      "radModule": "market_intelligence",
+      "why": "iPhone users may discover a local business outside Google.",
+      "evidence": "Only recommend when the business has no verified Apple Maps listing."
+    },
+    {
+      "id": "bing_maps",
+      "label": "Bing Maps presence",
+      "radModule": "market_intelligence",
+      "why": "Bing Maps and Bing local results can corroborate the same entity.",
+      "evidence": "Only recommend when the entity footprint is thin or inconsistent."
+    },
+    {
+      "id": "nextdoor",
+      "label": "Nextdoor and neighborhood presence",
+      "radModule": "marketing_intelligence",
+      "why": "Neighborhood recommendations can matter for service-area businesses.",
+      "evidence": "Only recommend when local corroboration is weak and the market is neighborhood-driven."
+    },
+    {
+      "id": "yelp_optimization",
+      "label": "Yelp and marketplace profile",
+      "radModule": "marketing_intelligence",
+      "why": "Some markets and trades see meaningful discovery through marketplaces even when they are not the primary surface.",
+      "evidence": "Only recommend when the marketplace is a real SERP occupier for the tracked services."
+    },
+    {
+      "id": "youtube_visibility",
+      "label": "YouTube and video discovery",
+      "radModule": "market_intelligence",
+      "why": "Video can occupy SERP features and corroborate the work a business claims to do.",
+      "evidence": "Only recommend when video already appears in the tracked commercial SERPs."
+    },
+    {
+      "id": "local_sponsorship",
+      "label": "Local sponsorship and community presence",
+      "radModule": "market_intelligence",
+      "why": "Local sponsorships can create relevant local citations and entity corroboration.",
+      "evidence": "Only recommend when local authority is thin and the business is active in the community."
+    },
+    {
+      "id": "manufacturer_directory",
+      "label": "Manufacturer or dealer directory",
+      "radModule": "market_intelligence",
+      "why": "A relevant manufacturer or dealer listing can be a strong, trade-specific corroborating source.",
+      "evidence": "Only recommend when the business sells a manufacturer-backed product or service."
+    },
+    {
+      "id": "pr_local_media",
+      "label": "Local media and PR",
+      "radModule": "market_intelligence",
+      "why": "Credible local publications can strengthen the entity footprint and AI citation ecosystem.",
+      "evidence": "Only recommend when the business has a genuine story and local sources are absent."
+    },
+    {
+      "id": "ai_citation_source",
+      "label": "AI citation-source development",
+      "radModule": "market_intelligence",
+      "why": "AI answers cite sources. Relevant, citable content and third-party corroboration can improve the chance of being referenced.",
+      "evidence": "Only recommend when the business is mentioned but rarely cited, or absent from the sources AI systems use."
+    },
+    {
+      "id": "new_service_area",
+      "label": "New service-area market",
+      "radModule": "market_intelligence",
+      "why": "The audit may reveal a geographic visibility gap that is better addressed by a deliberate market decision than by more content.",
+      "evidence": "Only recommend when the grid shows a durable gap and the owner wants to expand."
+    },
+    {
+      "id": "content_expansion",
+      "label": "Service and location content expansion",
+      "radModule": "market_intelligence",
+      "why": "Organic and AI visibility can be limited by the absence of pages that match the tracked intent.",
+      "evidence": "Only recommend when the ranking URL is missing or generic for a commercially important cluster."
+    }
+  ],
+  "serviceMappings": [
+    {
+      "id": "revenue_recovery",
+      "label": "Revenue Recovery",
+      "description": "Recover revenue from open estimates, unsold opportunities, and conversion leaks."
+    },
+    {
+      "id": "speed_to_lead",
+      "label": "Speed-to-Lead",
+      "description": "Improve response time, routing, booking, and lead handling."
+    },
+    {
+      "id": "customer_reactivation",
+      "label": "Customer Reactivation",
+      "description": "Bring back inactive customers and past opportunities."
+    },
+    {
+      "id": "market_intelligence",
+      "label": "Market Intelligence",
+      "description": "Improve local visibility, service-area clarity, and market positioning."
+    },
+    {
+      "id": "marketing_intelligence",
+      "label": "Marketing Intelligence",
+      "description": "Connect lead sources, measurement, and channel profitability."
+    },
+    {
+      "id": "cost_compression",
+      "label": "Cost Compression",
+      "description": "Reduce waste from slow, broken, or unusable digital experiences."
+    }
+  ],
+  "fixes": [
+    {
+      "checkId": "LV-INT-01",
+      "priority": "high",
+      "fix": "Prioritize the service clusters with no qualified visibility. Confirm the business actually sells them before treating the gap as a defect.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-INT-02",
+      "priority": "critical",
+      "fix": "Rebuild the content and entity strategy around the uncovered demand, starting with the highest-weight clusters. Do not optimize a head term at the expense of every other service.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-INT-03",
+      "priority": "high",
+      "fix": "Focus the next content and profile work on the commercial intents that are absent.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-INT-04",
+      "priority": "high",
+      "fix": "Treat emergency visibility as a service-line decision: either build a credible urgent path or state that the business does not offer one.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-INT-05",
+      "priority": "high",
+      "fix": "Create or improve the location-specific service pages and confirm the market is actually served.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-INT-06",
+      "priority": "medium",
+      "fix": "Check proximity, service-area configuration, and the strength of the local entity footprint before adding pages.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-INT-07",
+      "priority": "medium",
+      "fix": "Map content to the symptoms the business actually solves. Do not publish generic DIY content that cannot produce a service lead.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-01",
+      "priority": "critical",
+      "fix": "Investigate relevance, proximity, authority, service-area competition, and profile configuration. Cross-reference GBP Scorecard for profile diagnosis.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-02",
+      "priority": "high",
+      "fix": "Look for the service and geographic clusters where the business disappears, not just the market average.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-03",
+      "priority": "medium",
+      "fix": "Prioritize complete absence over rank improvement. A missing entity is a different problem from a weak rank.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-04",
+      "priority": "medium",
+      "fix": "Use this as context, not as the primary score. Coverage and geographic consistency are more robust.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-05",
+      "priority": "critical",
+      "fix": "Diagnose Maps separately. Check proximity, category relevance, and geographic coverage before assuming a content problem.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-06",
+      "priority": "high",
+      "fix": "Compare Maps and Local Pack results. A gap between them is diagnostic, not noise.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-07",
+      "priority": "high",
+      "fix": "Use the grid and quadrant summary to find the areas where the business disappears. Do not average the gap away.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-08",
+      "priority": "high",
+      "fix": "Separate the strong service from the weak service in the report. The fix is usually service-specific, not market-wide.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-09",
+      "priority": "medium",
+      "fix": "Check whether the weak quadrant is actually served. If it is, investigate proximity and location-page coverage.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-MAP-10",
+      "priority": "medium",
+      "fix": "Treat Local Finder as a separate observation. Do not merge it into the Maps rank.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-ORG-01",
+      "priority": "high",
+      "fix": "Investigate the pages that rank, the intent match, and the authority gap. Cross-reference Website Scorecard for page quality.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-ORG-02",
+      "priority": "high",
+      "fix": "Focus on the service clusters with no top-10 presence. Confirm a relevant page exists before recommending content.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-ORG-03",
+      "priority": "medium",
+      "fix": "Prioritize complete absence over marginal rank movement.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-ORG-04",
+      "priority": "medium",
+      "fix": "Use coverage bands for the primary diagnosis and rank credit as supporting context.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-ORG-05",
+      "priority": "high",
+      "fix": "Map each commercial intent to a page that genuinely serves it. Do not score page speed, forms, or UX here; those belong to Website Scorecard.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-ORG-06",
+      "priority": "medium",
+      "fix": "Check location-page coverage and the market configuration before adding pages.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-ORG-07",
+      "priority": "medium",
+      "fix": "Use the cluster view to decide whether the organic gap is service-specific or market-wide.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-01",
+      "priority": "critical",
+      "fix": "Analyze the prompt intents and surfaces where the business is absent. Distinguish mention from recommendation before prescribing a fix.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-02",
+      "priority": "critical",
+      "fix": "Analyze the citation and corroboration ecosystem, not just content. A recommendation usually depends on third-party evidence.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-03",
+      "priority": "high",
+      "fix": "Build citable, source-worthy content and third-party corroboration. Do not claim a citation you cannot observe.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-04",
+      "priority": "high",
+      "fix": "If relevance is weak, investigate entity ambiguity and content-to-intent mismatch. Do not treat the mention as a win.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-05",
+      "priority": "high",
+      "fix": "Clarify the service area and entity location. Cross-reference GBP Scorecard for location configuration.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-06",
+      "priority": "medium",
+      "fix": "Correct the underlying entity footprint and cross-reference GBP Scorecard identity checks. Do not edit an AI answer directly.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-07",
+      "priority": "medium",
+      "fix": "Compare the sources AI systems cite for the competitors. The gap is usually corroboration, not prompt wording.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-08",
+      "priority": "high",
+      "fix": "Expand prompt coverage and investigate the intents where the business never appears.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-09",
+      "priority": "medium",
+      "fix": "Increase repeats before drawing a conclusion. Report unstable prompts separately.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AI-10",
+      "priority": "medium",
+      "fix": "Distinguish consumer/search surfaces from model/API surfaces in the report. Do not treat them as equivalent.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-CMP-01",
+      "priority": "high",
+      "fix": "Identify the competitors winning the appearances and the surfaces where they win. Do not count directories as contractors.",
+      "radModules": [
+        "marketing_intelligence"
+      ],
+      "crossScorecard": "marketing_intelligence"
+    },
+    {
+      "checkId": "LV-CMP-02",
+      "priority": "high",
+      "fix": "Compare service by service. A market-wide average can hide a single-service collapse.",
+      "radModules": [
+        "marketing_intelligence"
+      ],
+      "crossScorecard": "marketing_intelligence"
+    },
+    {
+      "checkId": "LV-CMP-03",
+      "priority": "medium",
+      "fix": "If Maps share is weak, investigate proximity and local relevance before content.",
+      "radModules": [
+        "marketing_intelligence"
+      ],
+      "crossScorecard": "marketing_intelligence"
+    },
+    {
+      "checkId": "LV-CMP-04",
+      "priority": "medium",
+      "fix": "If organic share is weak, investigate page-to-intent coverage and authority.",
+      "radModules": [
+        "marketing_intelligence"
+      ],
+      "crossScorecard": "marketing_intelligence"
+    },
+    {
+      "checkId": "LV-CMP-05",
+      "priority": "medium",
+      "fix": "Compare the cited sources. AI recommendations often follow corroboration, not direct optimization.",
+      "radModules": [
+        "marketing_intelligence"
+      ],
+      "crossScorecard": "marketing_intelligence"
+    },
+    {
+      "checkId": "LV-CMP-06",
+      "priority": "high",
+      "fix": "Prioritize the clusters where the gap is largest and the service matters commercially.",
+      "radModules": [
+        "marketing_intelligence"
+      ],
+      "crossScorecard": "marketing_intelligence"
+    },
+    {
+      "checkId": "LV-CMP-07",
+      "priority": "medium",
+      "fix": "Use the quadrant comparison to decide whether the gap is geographic or service-specific.",
+      "radModules": [
+        "marketing_intelligence"
+      ],
+      "crossScorecard": "marketing_intelligence"
+    },
+    {
+      "checkId": "LV-AUT-01",
+      "priority": "high",
+      "fix": "Pursue a small number of genuinely relevant local, manufacturer, trade, or association sources. Do not buy generic directory links.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AUT-02",
+      "priority": "high",
+      "fix": "Build relationships with local organizations, publications, and trade sources. Do not treat a generic directory as local proof.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AUT-03",
+      "priority": "medium",
+      "fix": "Pursue manufacturer/dealer listings, trade associations, and credible trade publications where the business qualifies.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AUT-04",
+      "priority": "high",
+      "fix": "Correct the highest-authority inconsistent listings first. Cross-reference GBP Scorecard for the primary profile.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AUT-05",
+      "priority": "medium",
+      "fix": "Compare the sources the leading competitors have that the business does not. Prioritize relevance over volume.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-AUT-06",
+      "priority": "medium",
+      "fix": "Prioritize sources that both corroborate the entity and appear in AI citations.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-RES-01",
+      "priority": "medium",
+      "fix": "Do not weaken a strong surface. Build a second surface as insurance and report the concentration explicitly.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-RES-02",
+      "priority": "medium",
+      "fix": "Decide whether the concentration is intentional. If not, build visibility for the next most important service.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-RES-03",
+      "priority": "medium",
+      "fix": "Check whether the concentration matches the service area. If not, investigate proximity and location coverage.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-RES-04",
+      "priority": "medium",
+      "fix": "Separate branded from non-branded demand in every report. Do not let branded rank inflate the core score.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    },
+    {
+      "checkId": "LV-RES-05",
+      "priority": "low",
+      "fix": "Investigate lost visibility by surface and service. Do not invent a trend when the prior run is not comparable.",
+      "radModules": [
+        "market_intelligence"
+      ],
+      "crossScorecard": "market_intelligence"
+    }
+  ],
+  "items": [
+    {
+      "id": "LV-INT-01",
+      "cat": "A",
+      "title": "Core service clusters with any qualified visibility",
+      "max": 3,
+      "journeyStage": "search",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "At least 80% of core service clusters have a top-20 Maps/Pack or organic result, or an AI mention, somewhere in the market.",
+        "2": "50–79% of core service clusters have qualified visibility.",
+        "1": "25–49% of core service clusters have qualified visibility.",
+        "0": "Fewer than 25% of core service clusters have qualified visibility."
+      },
+      "evidence": "Core service clusters from the locked query universe and any qualified top-20 or AI-mention observation.",
+      "principle": "Breadth matters: a business can rank well for one service and be invisible for the rest of what it sells.",
+      "recommendedIntervention": "Prioritize the service clusters with no qualified visibility. Confirm the business actually sells them before treating the gap as a defect.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-INT-02",
+      "cat": "A",
+      "title": "Demand-weighted non-branded coverage",
+      "max": 3,
+      "journeyStage": "search",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "critical",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "Demand-weighted coverage is at least 75% of the core non-branded intent weight.",
+        "2": "Demand-weighted coverage is 50–74%.",
+        "1": "Demand-weighted coverage is 25–49%.",
+        "0": "Demand-weighted coverage is below 25%."
+      },
+      "evidence": "Demand-weighted share of core non-branded intents with any qualified visibility. Service clusters are equally weighted; within a cluster, no single intent may exceed 50% of the cluster weight.",
+      "principle": "The score should reflect how much commercially meaningful demand is covered, not how many keywords were collected.",
+      "recommendedIntervention": "Rebuild the content and entity strategy around the uncovered demand, starting with the highest-weight clusters. Do not optimize a head term at the expense of every other service.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-INT-03",
+      "cat": "A",
+      "title": "High-commercial-intent coverage",
+      "max": 2,
+      "journeyStage": "search",
+      "evidenceType": [
+        "organic_observation",
+        "maps_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 70% of high-commercial intents have a top-10 result or AI mention on at least one core surface.",
+        "1": "35–69% of high-commercial intents have that visibility.",
+        "0": "Fewer than 35% of high-commercial intents have that visibility."
+      },
+      "evidence": "Share of intents classified commercial or transactional with a qualified top-10 or AI mention.",
+      "principle": "Commercial intent is where visibility is most likely to matter to the business.",
+      "recommendedIntervention": "Focus the next content and profile work on the commercial intents that are absent.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-INT-04",
+      "cat": "A",
+      "title": "Emergency or urgent intent coverage",
+      "max": 2,
+      "journeyStage": "search",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "conditional",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 70% of emergency intents have a top-10 result or AI mention on at least one core surface.",
+        "1": "30–69% of emergency intents have that visibility.",
+        "0": "Fewer than 30% of emergency intents have that visibility."
+      },
+      "evidence": "Share of emergency and urgent intents with qualified visibility. Only scored when configuration.emergency_service is true.",
+      "principle": "Urgent demand is often the highest-intent, highest-value demand a trade sells.",
+      "recommendedIntervention": "Treat emergency visibility as a service-line decision: either build a credible urgent path or state that the business does not offer one.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence",
+      "condition": "emergency_service"
+    },
+    {
+      "id": "LV-INT-05",
+      "cat": "A",
+      "title": "Service + city intent coverage",
+      "max": 2,
+      "journeyStage": "search",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "conditional",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 70% of service + city intents have a top-20 Maps/Pack or organic result.",
+        "1": "30–69% of service + city intents have that visibility.",
+        "0": "Fewer than 30% of service + city intents have that visibility."
+      },
+      "evidence": "Share of city-modified service intents with qualified visibility. Only scored when configuration.city_modified_demand is true.",
+      "principle": "Service + city queries are how many local customers express intent.",
+      "recommendedIntervention": "Create or improve the location-specific service pages and confirm the market is actually served.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence",
+      "condition": "city_modified_demand"
+    },
+    {
+      "id": "LV-INT-06",
+      "cat": "A",
+      "title": "Near-me intent coverage",
+      "max": 1,
+      "journeyStage": "search",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "conditional",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "At least 50% of near-me intents have a top-10 Maps/Pack or organic result.",
+        "0": "Fewer than 50% of near-me intents have that visibility."
+      },
+      "evidence": "Share of near-me intents with qualified visibility. Only scored when configuration.near_me_demand is true.",
+      "principle": "Near-me queries are the closest thing to a customer standing in the market and asking who is nearby.",
+      "recommendedIntervention": "Check proximity, service-area configuration, and the strength of the local entity footprint before adding pages.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence",
+      "condition": "near_me_demand"
+    },
+    {
+      "id": "LV-INT-07",
+      "cat": "A",
+      "title": "Problem and symptom intent coverage",
+      "max": 2,
+      "journeyStage": "search",
+      "evidenceType": [
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 60% of problem/symptom intents have a top-20 organic result or AI mention.",
+        "1": "25–59% of problem/symptom intents have that visibility.",
+        "0": "Fewer than 25% of problem/symptom intents have that visibility."
+      },
+      "evidence": "Share of problem and symptom intents with qualified visibility.",
+      "principle": "Problem-led searches are how customers describe the job before they know the service name.",
+      "recommendedIntervention": "Map content to the symptoms the business actually solves. Do not publish generic DIY content that cannot produce a service lead.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-01",
+      "cat": "B",
+      "title": "Demand-weighted Local Pack Top-3 coverage",
+      "max": 3,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "critical",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "Demand-weighted Top-3 coverage in the Local Pack is at least 50%.",
+        "2": "Demand-weighted Top-3 coverage is 25–49%.",
+        "1": "Demand-weighted Top-3 coverage is 10–24%.",
+        "0": "Demand-weighted Top-3 coverage is below 10%."
+      },
+      "evidence": "Best Local Pack rank per core query across the grid; demand-weighted.",
+      "principle": "The Local Pack is the most concentrated local-discovery surface. Top-3 presence is the practical visibility outcome.",
+      "recommendedIntervention": "Investigate relevance, proximity, authority, service-area competition, and profile configuration. Cross-reference GBP Scorecard for profile diagnosis.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-02",
+      "cat": "B",
+      "title": "Local Pack Top-10 coverage",
+      "max": 3,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "At least 70% of core Local Pack observations place the business in the top 10.",
+        "2": "45–69% place it in the top 10.",
+        "1": "20–44% place it in the top 10.",
+        "0": "Fewer than 20% place it in the top 10."
+      },
+      "evidence": "Share of core Local Pack query-grid observations with a top-10 target rank.",
+      "principle": "Top-10 presence shows whether the business is a realistic option beyond a single lucky location.",
+      "recommendedIntervention": "Look for the service and geographic clusters where the business disappears, not just the market average.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-03",
+      "cat": "B",
+      "title": "Local Pack Top-20 coverage",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 80% of core Local Pack observations place the business in the top 20.",
+        "1": "50–79% place it in the top 20.",
+        "0": "Fewer than 50% place it in the top 20."
+      },
+      "evidence": "Share of core Local Pack query-grid observations with a top-20 target rank.",
+      "principle": "A business absent from the top 20 is not a realistic local option on that surface.",
+      "recommendedIntervention": "Prioritize complete absence over rank improvement. A missing entity is a different problem from a weak rank.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-04",
+      "cat": "B",
+      "title": "Average visible Local Pack position",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "The demand-weighted average visible Local Pack position is 3.0 or better.",
+        "1": "The average visible position is between 3.1 and 7.0.",
+        "0": "The average visible position is worse than 7.0, or the business is not visible."
+      },
+      "evidence": "Demand-weighted average of the best Local Pack rank per core query. Missing observations are excluded from the average and counted by coverage checks.",
+      "principle": "Average position adds texture that top-N coverage alone hides.",
+      "recommendedIntervention": "Use this as context, not as the primary score. Coverage and geographic consistency are more robust.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-05",
+      "cat": "B",
+      "title": "Google Maps Top-3 coverage",
+      "max": 3,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "maps_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "critical",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "At least 50% of core Maps observations place the business in the top 3.",
+        "2": "25–49% place it in the top 3.",
+        "1": "10–24% place it in the top 3.",
+        "0": "Fewer than 10% place it in the top 3."
+      },
+      "evidence": "Share of core Google Maps query-grid observations with a top-3 target rank.",
+      "principle": "Maps is a distinct surface from the Local Pack. Its ordering can differ and must not be silently merged.",
+      "recommendedIntervention": "Diagnose Maps separately. Check proximity, category relevance, and geographic coverage before assuming a content problem.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-06",
+      "cat": "B",
+      "title": "Google Maps Top-10 coverage",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "maps_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 70% of core Maps observations place the business in the top 10.",
+        "1": "40–69% place it in the top 10.",
+        "0": "Fewer than 40% place it in the top 10."
+      },
+      "evidence": "Share of core Google Maps query-grid observations with a top-10 target rank.",
+      "principle": "Top-10 Maps visibility is the threshold where a business is a plausible choice across the market.",
+      "recommendedIntervention": "Compare Maps and Local Pack results. A gap between them is diagnostic, not noise.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-07",
+      "cat": "B",
+      "title": "Geo-grid consistency",
+      "max": 3,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "At least 60% of grid points have a top-10 Maps result for at least one core Maps intent.",
+        "2": "35–59% of grid points are covered.",
+        "1": "15–34% of grid points are covered.",
+        "0": "Fewer than 15% of grid points are covered."
+      },
+      "evidence": "Share of configured grid points with a top-10 target result, demand-weighted across core Maps intents.",
+      "principle": "A single strong pin can hide a market-wide visibility gap. The grid measures consistency.",
+      "recommendedIntervention": "Use the grid and quadrant summary to find the areas where the business disappears. Do not average the gap away.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-08",
+      "cat": "B",
+      "title": "Service-specific Maps coverage",
+      "max": 3,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "maps_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "At least 75% of core service clusters have 40% or better top-10 Maps coverage.",
+        "2": "50–74% of clusters meet that threshold.",
+        "1": "25–49% of clusters meet it.",
+        "0": "Fewer than 25% of clusters meet it."
+      },
+      "evidence": "Share of core service clusters whose Maps top-10 coverage is at least 40%.",
+      "principle": "A business can dominate one service in Maps and be absent from the services it wants to grow.",
+      "recommendedIntervention": "Separate the strong service from the weak service in the report. The fix is usually service-specific, not market-wide.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-09",
+      "cat": "B",
+      "title": "Geographic gap severity",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "The weakest grid quadrant still has at least 40% top-10 Maps coverage.",
+        "1": "The weakest quadrant has 15–39% coverage.",
+        "0": "The weakest quadrant has less than 15% coverage."
+      },
+      "evidence": "Top-10 Maps coverage in the weakest of the four grid quadrants.",
+      "principle": "The weakest area is the clearest evidence of a geographic visibility gap.",
+      "recommendedIntervention": "Check whether the weak quadrant is actually served. If it is, investigate proximity and location-page coverage.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-MAP-10",
+      "cat": "B",
+      "title": "Local Finder coverage",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "local_finder_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "conditional",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 60% of configured Local Finder observations place the business in the top 10.",
+        "1": "30–59% place it in the top 10.",
+        "0": "Fewer than 30% place it in the top 10."
+      },
+      "evidence": "Share of configured Local Finder observations with a top-10 target rank. Only scored when configuration.local_finder_configured is true.",
+      "principle": "Local Finder can reveal a different ordering from the Local Pack and Maps.",
+      "recommendedIntervention": "Treat Local Finder as a separate observation. Do not merge it into the Maps rank.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence",
+      "condition": "local_finder_configured"
+    },
+    {
+      "id": "LV-ORG-01",
+      "cat": "C",
+      "title": "Demand-weighted organic Top-3 coverage",
+      "max": 3,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "Demand-weighted organic Top-3 coverage is at least 35%.",
+        "2": "Demand-weighted Top-3 coverage is 15–34%.",
+        "1": "Demand-weighted Top-3 coverage is 5–14%.",
+        "0": "Demand-weighted Top-3 coverage is below 5%."
+      },
+      "evidence": "Best organic rank per core query, demand-weighted.",
+      "principle": "Organic Top-3 visibility is rare and valuable for local commercial queries.",
+      "recommendedIntervention": "Investigate the pages that rank, the intent match, and the authority gap. Cross-reference Website Scorecard for page quality.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-ORG-02",
+      "cat": "C",
+      "title": "Organic Top-10 coverage",
+      "max": 3,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "At least 60% of core organic observations place the business in the top 10.",
+        "2": "35–59% place it in the top 10.",
+        "1": "15–34% place it in the top 10.",
+        "0": "Fewer than 15% place it in the top 10."
+      },
+      "evidence": "Share of core organic queries with a top-10 target rank.",
+      "principle": "Top-10 organic presence is the practical threshold for non-branded discovery.",
+      "recommendedIntervention": "Focus on the service clusters with no top-10 presence. Confirm a relevant page exists before recommending content.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-ORG-03",
+      "cat": "C",
+      "title": "Organic Top-20 coverage",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 75% of core organic observations place the business in the top 20.",
+        "1": "45–74% place it in the top 20.",
+        "0": "Fewer than 45% place it in the top 20."
+      },
+      "evidence": "Share of core organic queries with a top-20 target rank.",
+      "principle": "A business absent from the top 20 is not a realistic organic option for that intent.",
+      "recommendedIntervention": "Prioritize complete absence over marginal rank movement.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-ORG-04",
+      "cat": "C",
+      "title": "Demand-weighted ranking coverage",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "The demand-weighted rank credit is at least 0.60.",
+        "1": "Rank credit is 0.30–0.59.",
+        "0": "Rank credit is below 0.30."
+      },
+      "evidence": "Rank credit: 1.0 for top 3, 0.7 for 4–10, 0.3 for 11–20, 0 outside the top 20; demand-weighted across core organic queries.",
+      "principle": "Rank credit captures partial visibility that top-N coverage alone does not.",
+      "recommendedIntervention": "Use coverage bands for the primary diagnosis and rank credit as supporting context.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-ORG-05",
+      "cat": "C",
+      "title": "Ranking URL relevance to intent",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "organic_observation",
+        "public_serp"
+      ],
+      "evaluation": "model_judgment",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "Every observed ranking URL is a dedicated page that matches the service and intent.",
+        "1": "Some rankings use a generic home page or a page that only partially matches the intent.",
+        "0": "Rankings are dominated by unrelated pages or a page that does not represent the service."
+      },
+      "evidence": "The ranking URL, its path or title, and the tracked intent. The reviewer judges relevance; the scorecard does not audit the page itself.",
+      "principle": "A ranking for the wrong page can look like visibility while failing the customer.",
+      "recommendedIntervention": "Map each commercial intent to a page that genuinely serves it. Do not score page speed, forms, or UX here; those belong to Website Scorecard.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-ORG-06",
+      "cat": "C",
+      "title": "City-modified organic coverage",
+      "max": 2,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "conditional",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 70% of city-modified organic queries have a top-20 target rank.",
+        "1": "30–69% have that visibility.",
+        "0": "Fewer than 30% have that visibility."
+      },
+      "evidence": "Share of city-modified organic queries with a top-20 target. Only scored when configuration.city_modified_demand is true.",
+      "principle": "City-modified queries show whether the business is visible in the places it claims to serve.",
+      "recommendedIntervention": "Check location-page coverage and the market configuration before adding pages.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence",
+      "condition": "city_modified_demand"
+    },
+    {
+      "id": "LV-ORG-07",
+      "cat": "C",
+      "title": "Service-cluster organic coverage",
+      "max": 1,
+      "journeyStage": "discover",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "At least 60% of core service clusters have 30% or better top-10 organic coverage.",
+        "0": "Fewer than 60% of service clusters meet that threshold."
+      },
+      "evidence": "Share of core service clusters with at least 30% top-10 organic coverage.",
+      "principle": "Portfolio coverage prevents one strong service from hiding an organic gap in the rest of the business.",
+      "recommendedIntervention": "Use the cluster view to decide whether the organic gap is service-specific or market-wide.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-01",
+      "cat": "D",
+      "title": "AI mention coverage",
+      "max": 3,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "critical",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "The target is mentioned in at least 60% of validated prompt-platform pairs (majority of repeats).",
+        "2": "The target is mentioned in 35–59% of pairs.",
+        "1": "The target is mentioned in 15–34% of pairs.",
+        "0": "The target is mentioned in fewer than 15% of pairs."
+      },
+      "evidence": "Share of validated prompt-platform pairs where the target is mentioned in at least half of repeats.",
+      "principle": "Mention is the first threshold of AI visibility. It is not the same as a recommendation.",
+      "recommendedIntervention": "Analyze the prompt intents and surfaces where the business is absent. Distinguish mention from recommendation before prescribing a fix.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-02",
+      "cat": "D",
+      "title": "AI recommendation coverage",
+      "max": 3,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "critical",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "The target is recommended in at least 40% of validated prompt-platform pairs.",
+        "2": "The target is recommended in 20–39% of pairs.",
+        "1": "The target is recommended in 5–19% of pairs.",
+        "0": "The target is recommended in fewer than 5% of pairs."
+      },
+      "evidence": "Share of validated prompt-platform pairs where the target is recommended, not merely mentioned, in at least half of repeats.",
+      "principle": "A mention inside a directory list is not the same as a recommendation.",
+      "recommendedIntervention": "Analyze the citation and corroboration ecosystem, not just content. A recommendation usually depends on third-party evidence.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-03",
+      "cat": "D",
+      "title": "AI citation and source coverage",
+      "max": 3,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "3": "The target's domain or entity is cited in at least 35% of validated prompt-platform pairs.",
+        "2": "The target is cited in 15–34% of pairs.",
+        "1": "The target is cited in 5–14% of pairs.",
+        "0": "The target is cited in fewer than 5% of pairs."
+      },
+      "evidence": "Share of validated prompt-platform pairs where the target's domain or entity is cited as a source, in at least half of repeats.",
+      "principle": "Being named is weaker than being the cited source. The distinction predicts durable AI visibility.",
+      "recommendedIntervention": "Build citable, source-worthy content and third-party corroboration. Do not claim a citation you cannot observe.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-04",
+      "cat": "D",
+      "title": "Service relevance in AI answers",
+      "max": 2,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation"
+      ],
+      "evaluation": "model_judgment",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "Every observed mention or recommendation is for the relevant service and the customer's stated problem.",
+        "1": "Some mentions are generic, adjacent-service, or only loosely relevant.",
+        "0": "Mentions are off-service or do not address the customer's problem."
+      },
+      "evidence": "The AI answer text, the prompt intent, and the configured service cluster.",
+      "principle": "AI answers can mention a business for the wrong service, which can create misleading visibility.",
+      "recommendedIntervention": "If relevance is weak, investigate entity ambiguity and content-to-intent mismatch. Do not treat the mention as a win.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-05",
+      "cat": "D",
+      "title": "Location relevance in AI answers",
+      "max": 2,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation"
+      ],
+      "evaluation": "model_judgment",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "Every mention or recommendation places the business in the target market.",
+        "1": "Some mentions are ambiguous, broader than the market, or only partially local.",
+        "0": "Mentions are for another market or do not establish local relevance."
+      },
+      "evidence": "The AI answer text, the configured market, and the observed location context.",
+      "principle": "A recommendation for a business outside the customer's market is not local visibility.",
+      "recommendedIntervention": "Clarify the service area and entity location. Cross-reference GBP Scorecard for location configuration.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-06",
+      "cat": "D",
+      "title": "Entity accuracy in AI answers",
+      "max": 1,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation"
+      ],
+      "evaluation": "model_judgment",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "Name, domain, phone, and service identity are accurate wherever observed.",
+        "0": "A material identity error appears in an AI answer."
+      },
+      "evidence": "The AI answer text and the resolved business identity.",
+      "principle": "An AI answer that confuses the business with another entity can harm trust and send the wrong customer.",
+      "recommendedIntervention": "Correct the underlying entity footprint and cross-reference GBP Scorecard identity checks. Do not edit an AI answer directly.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-07",
+      "cat": "D",
+      "title": "Competitive share of AI answers",
+      "max": 2,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "The target earns at least 25% of business-competitor recommendations in validated AI answers.",
+        "1": "The target earns 10–24%.",
+        "0": "The target earns less than 10%."
+      },
+      "evidence": "Target recommendations divided by target plus locked business-competitor recommendations, demand-weighted. Directories and publishers are excluded from the competitor denominator.",
+      "principle": "Share of answer is more informative than an isolated mention.",
+      "recommendedIntervention": "Compare the sources AI systems cite for the competitors. The gap is usually corroboration, not prompt wording.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-08",
+      "cat": "D",
+      "title": "Prompt-intent coverage",
+      "max": 2,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics",
+        "query_universe"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 60% of canonical prompt intents have a mention or recommendation on at least one validated surface.",
+        "1": "30–59% of prompt intents have that visibility.",
+        "0": "Fewer than 30% of prompt intents have that visibility."
+      },
+      "evidence": "Share of canonical prompt intents with at least one mention or recommendation across validated surfaces.",
+      "principle": "AI visibility should be measured across the demand model, not one convenient prompt.",
+      "recommendedIntervention": "Expand prompt coverage and investigate the intents where the business never appears.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-09",
+      "cat": "D",
+      "title": "AI repeat stability",
+      "max": 1,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "At least 80% of prompt-platform pairs have consistent mention status across all repeats.",
+        "0": "Fewer than 80% of pairs are consistent."
+      },
+      "evidence": "Share of prompt-platform pairs where every repeat agrees on whether the target was mentioned.",
+      "principle": "AI answers vary. A score that hides the variance is less trustworthy than one that reports it.",
+      "recommendedIntervention": "Increase repeats before drawing a conclusion. Report unstable prompts separately.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AI-10",
+      "cat": "D",
+      "title": "Validated AI surface breadth",
+      "max": 1,
+      "journeyStage": "ask",
+      "evidenceType": [
+        "ai_surface",
+        "ai_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The target is mentioned on at least 50% of validated AI surfaces with observations.",
+        "0": "The target is mentioned on fewer than 50% of validated surfaces."
+      },
+      "evidence": "Share of validated AI surfaces where the target appears at least once. Surfaces are never pooled across source_type.",
+      "principle": "A single AI surface is a fragile visibility source.",
+      "recommendedIntervention": "Distinguish consumer/search surfaces from model/API surfaces in the report. Do not treat them as equivalent.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-CMP-01",
+      "cat": "E",
+      "title": "Business-competitor share of Top-3",
+      "max": 2,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "The target earns at least 25% of business-competitor Top-3 appearances across core Maps/Pack/organic observations.",
+        "1": "The target earns 10–24%.",
+        "0": "The target earns less than 10%."
+      },
+      "evidence": "Target Top-3 appearances divided by target plus locked business-competitor Top-3 appearances.",
+      "principle": "Share of visibility relative to real local competitors is more meaningful than an absolute rank.",
+      "recommendedIntervention": "Identify the competitors winning the appearances and the surfaces where they win. Do not count directories as contractors.",
+      "serviceMapping": "marketing_intelligence",
+      "radModule": "marketing_intelligence"
+    },
+    {
+      "id": "LV-CMP-02",
+      "cat": "E",
+      "title": "Business-competitor share of Top-10",
+      "max": 2,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "The target earns at least 25% of business-competitor Top-10 appearances.",
+        "1": "The target earns 10–24%.",
+        "0": "The target earns less than 10%."
+      },
+      "evidence": "Target Top-10 appearances divided by target plus locked business-competitor Top-10 appearances.",
+      "principle": "Top-10 share shows whether the business is a consistent option, not a one-query exception.",
+      "recommendedIntervention": "Compare service by service. A market-wide average can hide a single-service collapse.",
+      "serviceMapping": "marketing_intelligence",
+      "radModule": "marketing_intelligence"
+    },
+    {
+      "id": "LV-CMP-03",
+      "cat": "E",
+      "title": "Maps share of visibility",
+      "max": 1,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "maps_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The target earns at least 25% of business-competitor Maps appearances.",
+        "0": "The target earns less than 25%."
+      },
+      "evidence": "Target Maps appearances divided by target plus business-competitor Maps appearances.",
+      "principle": "Maps share isolates the local surface from organic and AI.",
+      "recommendedIntervention": "If Maps share is weak, investigate proximity and local relevance before content.",
+      "serviceMapping": "marketing_intelligence",
+      "radModule": "marketing_intelligence"
+    },
+    {
+      "id": "LV-CMP-04",
+      "cat": "E",
+      "title": "Organic share of visibility",
+      "max": 1,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The target earns at least 20% of business-competitor organic appearances.",
+        "0": "The target earns less than 20%."
+      },
+      "evidence": "Target organic appearances divided by target plus business-competitor organic appearances.",
+      "principle": "Organic share isolates search-result visibility from Maps and AI.",
+      "recommendedIntervention": "If organic share is weak, investigate page-to-intent coverage and authority.",
+      "serviceMapping": "marketing_intelligence",
+      "radModule": "marketing_intelligence"
+    },
+    {
+      "id": "LV-CMP-05",
+      "cat": "E",
+      "title": "AI recommendation share",
+      "max": 1,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "ai_observation",
+        "competitor_cohort",
+        "ai_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The target earns at least 20% of business-competitor recommendations in validated AI answers.",
+        "0": "The target earns less than 20%."
+      },
+      "evidence": "Target AI recommendations divided by target plus business-competitor recommendations.",
+      "principle": "AI share shows whether recommendation behavior is concentrated or shared.",
+      "recommendedIntervention": "Compare the cited sources. AI recommendations often follow corroboration, not direct optimization.",
+      "serviceMapping": "marketing_intelligence",
+      "radModule": "marketing_intelligence"
+    },
+    {
+      "id": "LV-CMP-06",
+      "cat": "E",
+      "title": "Service-specific competitor gap",
+      "max": 2,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "The target meets or beats the cohort median top-10 share in at least 75% of core service clusters.",
+        "1": "The target meets the median in 40–74% of clusters.",
+        "0": "The target meets the median in fewer than 40% of clusters."
+      },
+      "evidence": "Per-service comparison against the locked business-competitor cohort median.",
+      "principle": "Aggregate share can hide a service where the business is structurally behind.",
+      "recommendedIntervention": "Prioritize the clusters where the gap is largest and the service matters commercially.",
+      "serviceMapping": "marketing_intelligence",
+      "radModule": "marketing_intelligence"
+    },
+    {
+      "id": "LV-CMP-07",
+      "cat": "E",
+      "title": "Geographic competitor gap",
+      "max": 1,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "grid_summary",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The target meets or beats the cohort median top-10 Maps coverage in at least half of the grid quadrants.",
+        "0": "The target meets the median in fewer than half of the quadrants."
+      },
+      "evidence": "Per-quadrant target coverage compared with the locked cohort median.",
+      "principle": "A competitor can dominate one part of the market while the market average looks acceptable.",
+      "recommendedIntervention": "Use the quadrant comparison to decide whether the gap is geographic or service-specific.",
+      "serviceMapping": "marketing_intelligence",
+      "radModule": "marketing_intelligence"
+    },
+    {
+      "id": "LV-AUT-01",
+      "cat": "F",
+      "title": "Relevant referring domains",
+      "max": 2,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "backlink_observation",
+        "authority_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 8 relevant referring domains (local, industry, manufacturer, trade, or association).",
+        "1": "3–7 relevant referring domains.",
+        "0": "Fewer than 3 relevant referring domains."
+      },
+      "evidence": "Count of referring domains classified as locally or industrially relevant. Generic low-value directories are excluded.",
+      "principle": "Relevant corroboration matters more than raw link quantity.",
+      "recommendedIntervention": "Pursue a small number of genuinely relevant local, manufacturer, trade, or association sources. Do not buy generic directory links.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AUT-02",
+      "cat": "F",
+      "title": "Local source relevance",
+      "max": 2,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "backlink_observation",
+        "authority_metrics"
+      ],
+      "evaluation": "model_judgment",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "Multiple current local sources corroborate the business as a local operator.",
+        "1": "One meaningful local source, or several low-relevance local directories, corroborate it.",
+        "0": "No meaningful local corroboration is observable."
+      },
+      "evidence": "The referring domains, listing sources, and their local relevance. The reviewer classifies source relevance.",
+      "principle": "A local business needs local corroboration, not just links from anywhere.",
+      "recommendedIntervention": "Build relationships with local organizations, publications, and trade sources. Do not treat a generic directory as local proof.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AUT-03",
+      "cat": "F",
+      "title": "Industry, manufacturer, and trade sources",
+      "max": 2,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "backlink_observation",
+        "authority_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 4 industry, manufacturer, dealer, trade-association, or trade-publication sources.",
+        "1": "1–3 such sources.",
+        "0": "No such sources are observed."
+      },
+      "evidence": "Count of industry and trade sources in the referring-domain and listing observations.",
+      "principle": "Trade-specific corroboration supports both search and AI recommendation.",
+      "recommendedIntervention": "Pursue manufacturer/dealer listings, trade associations, and credible trade publications where the business qualifies.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AUT-04",
+      "cat": "F",
+      "title": "External listing and entity consistency",
+      "max": 2,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "listing_observation",
+        "authority_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "high",
+      "allowed": [
+        2,
+        1,
+        0
+      ],
+      "anchors": {
+        "2": "At least 80% of observed external listings agree on name, domain, phone, and service category.",
+        "1": "50–79% agree.",
+        "0": "Fewer than 50% agree."
+      },
+      "evidence": "Share of observed listings with consistent name, domain, phone, and service category.",
+      "principle": "Inconsistent entity data weakens both local search and AI entity resolution.",
+      "recommendedIntervention": "Correct the highest-authority inconsistent listings first. Cross-reference GBP Scorecard for the primary profile.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AUT-05",
+      "cat": "F",
+      "title": "Competitor authority gap",
+      "max": 1,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "backlink_observation",
+        "competitor_cohort",
+        "authority_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "Relevant referring domains meet or exceed the locked cohort median.",
+        "0": "Relevant referring domains are below the cohort median."
+      },
+      "evidence": "Target relevant referring domains compared with the locked business-competitor cohort median.",
+      "principle": "Authority is relative. A number without a local comparison is not actionable.",
+      "recommendedIntervention": "Compare the sources the leading competitors have that the business does not. Prioritize relevance over volume.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-AUT-06",
+      "cat": "F",
+      "title": "Authority overlap with AI citations",
+      "max": 1,
+      "journeyStage": "compare",
+      "evidenceType": [
+        "backlink_observation",
+        "ai_observation",
+        "authority_metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "At least 25% of the target's relevant authority domains also appear as citation domains in the observed AI answer ecosystem.",
+        "0": "Fewer than 25% overlap."
+      },
+      "evidence": "Overlap between relevant referring domains and the domains cited in validated AI observations.",
+      "principle": "AI answers cite sources. If the business is absent from the sources the market relies on, recommendation visibility is fragile.",
+      "recommendedIntervention": "Prioritize sources that both corroborate the entity and appear in AI citations.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-RES-01",
+      "cat": "G",
+      "title": "Surface concentration",
+      "max": 1,
+      "journeyStage": "resilience",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The Herfindahl index of visibility appearances across Maps/Pack, organic, and AI is 0.55 or lower.",
+        "0": "The Herfindahl index is above 0.55."
+      },
+      "evidence": "Surface HHI computed from target appearances across core surfaces. Lower values indicate more diversified discovery.",
+      "principle": "A business that depends on one surface is fragile even when that surface is strong.",
+      "recommendedIntervention": "Do not weaken a strong surface. Build a second surface as insurance and report the concentration explicitly.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-RES-02",
+      "cat": "G",
+      "title": "Service concentration",
+      "max": 1,
+      "journeyStage": "resilience",
+      "evidenceType": [
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The Herfindahl index of visibility across core service clusters is 0.50 or lower.",
+        "0": "The Herfindahl index is above 0.50."
+      },
+      "evidence": "Service HHI computed from demand-weighted target visibility across service clusters.",
+      "principle": "One-service visibility is a business risk, not only an SEO risk.",
+      "recommendedIntervention": "Decide whether the concentration is intentional. If not, build visibility for the next most important service.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-RES-03",
+      "cat": "G",
+      "title": "Geographic concentration",
+      "max": 1,
+      "journeyStage": "resilience",
+      "evidenceType": [
+        "grid_summary",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "required",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The Herfindahl index of top-10 Maps coverage across the four grid quadrants is 0.50 or lower.",
+        "0": "The Herfindahl index is above 0.50."
+      },
+      "evidence": "Geographic HHI computed from top-10 coverage across the four grid quadrants.",
+      "principle": "A business visible in one corner of its market may not be visible across the market it claims.",
+      "recommendedIntervention": "Check whether the concentration matches the service area. If not, investigate proximity and location coverage.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence"
+    },
+    {
+      "id": "LV-RES-04",
+      "cat": "G",
+      "title": "Branded versus non-branded dependence",
+      "max": 1,
+      "journeyStage": "resilience",
+      "evidenceType": [
+        "organic_observation",
+        "branded_observation",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "conditional",
+      "severity": "medium",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "Branded appearances are 20% or less of total observed search appearances.",
+        "0": "Branded appearances are more than 20% of total appearances."
+      },
+      "evidence": "Share of branded visibility among all observed search appearances. Branded queries are diagnostic and never inflate the core score. Only scored when configuration.branded_diagnostics_enabled is true.",
+      "principle": "Strong branded visibility can mask weak non-branded discovery.",
+      "recommendedIntervention": "Separate branded from non-branded demand in every report. Do not let branded rank inflate the core score.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence",
+      "condition": "branded_diagnostics_enabled"
+    },
+    {
+      "id": "LV-RES-05",
+      "cat": "G",
+      "title": "Reproducible visibility trend",
+      "max": 1,
+      "journeyStage": "resilience",
+      "evidenceType": [
+        "historical_run",
+        "metrics"
+      ],
+      "evaluation": "deterministic",
+      "applicability": "conditional",
+      "severity": "low",
+      "allowed": [
+        1,
+        0
+      ],
+      "anchors": {
+        "1": "The current demand-weighted visibility index is within 10% of the prior comparable run, or has improved.",
+        "0": "The visibility index has declined by more than 10% against a comparable prior run."
+      },
+      "evidence": "Demand-weighted visibility index compared with a prior run that used a comparable query universe and grid. Only scored when configuration.historical_runs_available is true and a comparable run is supplied.",
+      "principle": "A trend is useful only when the comparison is reproducible.",
+      "recommendedIntervention": "Investigate lost visibility by surface and service. Do not invent a trend when the prior run is not comparable.",
+      "serviceMapping": "market_intelligence",
+      "radModule": "market_intelligence",
+      "condition": "historical_runs_available"
+    }
+  ],
+  "caps": [
+    {
+      "id": "no_non_branded_discovery",
+      "label": "No qualified non-branded discovery",
+      "scope": "overall",
+      "max": 25,
+      "trigger": {
+        "all": [
+          {
+            "fact": "non_branded_discovery_present",
+            "equals": false
+          }
+        ]
+      },
+      "rationale": "If the business has zero qualified presence across every required core non-branded discovery surface, despite sufficient valid evidence, it cannot be discovered for the demand it sells. The score is capped in the Critical band. This is the only V1 cap.",
+      "checks": [
+        "LV-INT-02",
+        "LV-MAP-01",
+        "LV-ORG-01",
+        "LV-AI-01"
+      ]
+    }
+  ],
+  "validityGates": [
+    {
+      "id": "schema_valid",
+      "label": "Artifact schema is valid",
+      "threshold": "The audit validates against the V1 schema and its schema_version is known."
+    },
+    {
+      "id": "target_resolved",
+      "label": "Target business resolved",
+      "threshold": "business.resolution.resolved is true and match confidence is at least 0.80."
+    },
+    {
+      "id": "query_universe_locked",
+      "label": "Query universe locked",
+      "threshold": "query_universe.locked is true, a hash is present, and the hash matches the universe content."
+    },
+    {
+      "id": "market_match",
+      "label": "Market configuration matches the universe",
+      "threshold": "Trade, market name, language, and device match between the audit and the query universe."
+    },
+    {
+      "id": "core_query_coverage",
+      "label": "Core query coverage",
+      "threshold": "At least 80% of planned core queries are observed on each required core surface."
+    },
+    {
+      "id": "grid_coverage",
+      "label": "Geo-grid coverage",
+      "threshold": "At least 80% of planned grid points are observed for each configured Maps surface."
+    },
+    {
+      "id": "ai_surface_availability",
+      "label": "Validated AI surface available",
+      "threshold": "At least one validated AI surface has observations."
+    },
+    {
+      "id": "ai_repeat_completeness",
+      "label": "AI repeat completeness",
+      "threshold": "At least 80% of planned prompt-platform-repeat observations are present."
+    },
+    {
+      "id": "competitor_cohort_locked",
+      "label": "Competitor cohort locked",
+      "threshold": "competitors.locked is true and at least two business competitors are in the locked cohort."
+    },
+    {
+      "id": "authority_data_present",
+      "label": "Authority data present",
+      "threshold": "At least one referring-domain or external listing observation is present."
+    },
+    {
+      "id": "provider_error_rate",
+      "label": "Provider error rate",
+      "threshold": "The recorded provider error rate is at most 0.10."
+    },
+    {
+      "id": "critical_source_outage",
+      "label": "No critical source outage",
+      "threshold": "No required core source is recorded as a critical outage."
+    }
+  ],
+  "facts": [
+    {
+      "key": "target_resolved",
+      "type": "boolean",
+      "description": "Restates business.resolution.resolved."
+    },
+    {
+      "key": "query_universe_locked",
+      "type": "boolean",
+      "description": "Restates query_universe.locked."
+    },
+    {
+      "key": "non_branded_discovery_present",
+      "type": "boolean",
+      "description": "True when the target has at least one qualified top-20 or AI mention on any required core non-branded surface."
+    },
+    {
+      "key": "maps_observations_present",
+      "type": "boolean",
+      "description": "True when at least one Maps or Local Pack observation exists."
+    },
+    {
+      "key": "organic_observations_present",
+      "type": "boolean",
+      "description": "True when at least one organic observation exists."
+    },
+    {
+      "key": "ai_observations_present",
+      "type": "boolean",
+      "description": "True when at least one validated AI observation exists."
+    },
+    {
+      "key": "ai_surfaces_validated",
+      "type": "boolean",
+      "description": "True when at least one AI surface is marked validated."
+    },
+    {
+      "key": "competitor_cohort_locked",
+      "type": "boolean",
+      "description": "Restates competitors.locked."
+    },
+    {
+      "key": "sufficient_valid_evidence",
+      "type": "boolean",
+      "description": "True when every required validity gate passes."
+    }
+  ],
+  "crossScorecard": [
+    {
+      "question": "Local Pack rank",
+      "visibility": "SCORE",
+      "gbp": "explanatory only",
+      "website": "—"
+    },
+    {
+      "question": "Google Maps rank",
+      "visibility": "SCORE",
+      "gbp": "explanatory only",
+      "website": "—"
+    },
+    {
+      "question": "Geo-grid visibility",
+      "visibility": "SCORE",
+      "gbp": "—",
+      "website": "—"
+    },
+    {
+      "question": "Organic rank and ranking URL",
+      "visibility": "SCORE",
+      "gbp": "—",
+      "website": "explanatory only"
+    },
+    {
+      "question": "AI mention, recommendation, and citation",
+      "visibility": "SCORE",
+      "gbp": "—",
+      "website": "—"
+    },
+    {
+      "question": "Competitor share of visibility",
+      "visibility": "SCORE",
+      "gbp": "—",
+      "website": "—"
+    },
+    {
+      "question": "Relevant referring domains and external corroboration",
+      "visibility": "SCORE",
+      "gbp": "—",
+      "website": "—"
+    },
+    {
+      "question": "GBP category quality",
+      "visibility": "explanatory only",
+      "gbp": "SCORE",
+      "website": "—"
+    },
+    {
+      "question": "GBP services, hours, attributes, photos",
+      "visibility": "explanatory only",
+      "gbp": "SCORE",
+      "website": "—"
+    },
+    {
+      "question": "GBP reviews and owner responses",
+      "visibility": "—",
+      "gbp": "SCORE",
+      "website": "—"
+    },
+    {
+      "question": "GBP phone, website, booking, or messaging action",
+      "visibility": "—",
+      "gbp": "SCORE",
+      "website": "—"
+    },
+    {
+      "question": "GBP-to-website handoff",
+      "visibility": "—",
+      "gbp": "SCORE",
+      "website": "—"
+    },
+    {
+      "question": "Page speed and mobile UX",
+      "visibility": "—",
+      "gbp": "—",
+      "website": "SCORE"
+    },
+    {
+      "question": "Website forms, CTA usability, booking flow",
+      "visibility": "—",
+      "gbp": "—",
+      "website": "SCORE"
+    },
+    {
+      "question": "On-site schema and technical implementation",
+      "visibility": "—",
+      "gbp": "—",
+      "website": "SCORE"
+    },
+    {
+      "question": "Website conversion tracking",
+      "visibility": "—",
+      "gbp": "—",
+      "website": "SCORE"
+    },
+    {
+      "question": "Review widget on website",
+      "visibility": "—",
+      "gbp": "—",
+      "website": "SCORE"
+    },
+    {
+      "question": "Paid search or Local Services Ads presence",
+      "visibility": "diagnostic, never scored",
+      "gbp": "—",
+      "website": "—"
+    },
+    {
+      "question": "Branded search visibility",
+      "visibility": "diagnostic, never scored",
+      "gbp": "—",
+      "website": "—"
+    },
+    {
+      "question": "Search Console clicks, calls, leads, revenue",
+      "visibility": "OWNER DATA REQUIRED",
+      "gbp": "OWNER DATA REQUIRED",
+      "website": "OWNER DATA REQUIRED"
+    }
+  ]
+}

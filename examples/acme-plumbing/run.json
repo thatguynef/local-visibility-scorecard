@@ -1,0 +1,73 @@
+{
+  "run_id": "2026-01-01T0000-acme",
+  "schema_version": "1.0",
+  "audit_mode": "public",
+  "source_mode": "fixture",
+  "synthetic": true,
+  "collector_version": "1.0.0",
+  "rubric_version": "1.0.0",
+  "started_at": "2026-01-01T00:00:00Z",
+  "finished_at": "2026-01-01T00:00:00Z",
+  "business": {
+    "name": "Acme Plumbing (synthetic)",
+    "trade": "plumbing",
+    "market": "Example County, CA",
+    "domain": "acme-plumbing.example",
+    "place_id": "SYNTHETIC-PLACE-ACME-001",
+    "phone": "(555) 010-0200",
+    "aliases": [
+      "Acme Plumbing & Drain (synthetic)"
+    ],
+    "resolution": {
+      "resolved": true,
+      "method": "place_id",
+      "confidence": 0.99,
+      "notes": "Synthetic fixture identity."
+    }
+  },
+  "query_universe_hash": "sha256:f1e8f2e1817f87f64c6c07801b91315c0e51458eecf7496da8f060db92c93d6c",
+  "sources": [
+    {
+      "id": "query-universe",
+      "type": "query_universe",
+      "field_completeness": 100
+    },
+    {
+      "id": "google-local-pack",
+      "type": "serp",
+      "field_completeness": 100
+    },
+    {
+      "id": "google-maps",
+      "type": "serp",
+      "field_completeness": 100
+    },
+    {
+      "id": "google-organic",
+      "type": "serp",
+      "field_completeness": 100
+    },
+    {
+      "id": "google-ai-mode",
+      "type": "ai",
+      "field_completeness": 100
+    },
+    {
+      "id": "chatgpt-llm",
+      "type": "ai",
+      "field_completeness": 100
+    },
+    {
+      "id": "backlinks",
+      "type": "backlinks",
+      "field_completeness": 100
+    },
+    {
+      "id": "business-listings",
+      "type": "business_listings",
+      "field_completeness": 100
+    }
+  ],
+  "non_destructive": true,
+  "review_required": true
+}

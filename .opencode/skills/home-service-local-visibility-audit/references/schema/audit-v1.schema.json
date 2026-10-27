@@ -1,0 +1,2399 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local Visibility Scorecard \u2014 filled audit v1",
+  "$defs": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endpoint_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "surface": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collected_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collector_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "device": {
+          "type": "string",
+          "enum": [
+            "desktop",
+            "mobile"
+          ]
+        },
+        "field_completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "provider",
+        "type",
+        "method",
+        "endpoint_family",
+        "surface",
+        "collected_at",
+        "collector_version",
+        "location_method",
+        "language",
+        "device",
+        "field_completeness"
+      ]
+    },
+    "target_match": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "place_id",
+            "domain",
+            "phone",
+            "name_alias",
+            "manual_verified"
+          ]
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "confidence"
+      ]
+    },
+    "competitor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "place_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "local_business",
+            "directory",
+            "publisher",
+            "marketplace",
+            "manufacturer",
+            "government",
+            "social_community",
+            "other"
+          ]
+        },
+        "recommended": {
+          "type": "boolean"
+        },
+        "cited": {
+          "type": "boolean"
+        },
+        "paid": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "query_service": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "primary",
+            "secondary"
+          ]
+        },
+        "symptoms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "demand": {
+          "type": "object",
+          "properties": {
+            "volume": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cpc": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trend": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label"
+      ]
+    },
+    "query_intent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "service_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class": {
+          "type": "string",
+          "enum": [
+            "category",
+            "service",
+            "emergency",
+            "near_me",
+            "city_modified",
+            "problem_symptom",
+            "high_ticket"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demand": {
+          "type": "object",
+          "properties": {
+            "volume": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cpc": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trend": {
+              "type": "number"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "core": {
+          "type": "boolean"
+        },
+        "brand": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "non_brand"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "service_id",
+        "class",
+        "label",
+        "weight",
+        "core",
+        "brand"
+      ]
+    },
+    "query_item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "service_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_class": {
+          "type": "string",
+          "enum": [
+            "category",
+            "service",
+            "emergency",
+            "near_me",
+            "city_modified",
+            "problem_symptom",
+            "high_ticket"
+          ]
+        },
+        "brand": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "non_brand"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "core",
+            "diagnostic"
+          ]
+        },
+        "demand": {
+          "type": "object",
+          "properties": {
+            "volume": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cpc": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trend": {
+              "type": "number"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "google_local_pack",
+              "google_maps",
+              "google_local_finder",
+              "google_organic",
+              "google_ai_mode",
+              "google_ai_overview",
+              "chatgpt",
+              "gemini",
+              "perplexity",
+              "claude"
+            ]
+          }
+        },
+        "grid": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent_id",
+        "service_id",
+        "text",
+        "intent_class",
+        "brand",
+        "role",
+        "weight",
+        "surfaces",
+        "grid"
+      ]
+    },
+    "prompt_item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "service_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "template_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform": {
+          "type": "string",
+          "enum": [
+            "google_ai_mode",
+            "google_ai_overview",
+            "chatgpt",
+            "gemini",
+            "perplexity",
+            "claude"
+          ]
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repeat_default": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "core",
+            "diagnostic"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent_id",
+        "service_id",
+        "template_id",
+        "text",
+        "platform",
+        "language",
+        "repeat_default",
+        "role"
+      ]
+    },
+    "query_universe": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "universe_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "universe_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trade": {
+          "type": "string",
+          "minLength": 1
+        },
+        "market": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "region": {
+              "type": "string",
+              "minLength": 1
+            },
+            "country": {
+              "type": "string",
+              "minLength": 1
+            },
+            "language": {
+              "type": "string",
+              "minLength": 1
+            },
+            "device": {
+              "type": "string",
+              "enum": [
+                "desktop",
+                "mobile"
+              ]
+            },
+            "center": {
+              "type": "object",
+              "properties": {
+                "lat": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "lng": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "lat",
+                "lng"
+              ]
+            },
+            "radius_km": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 500
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "country",
+            "language",
+            "device",
+            "center",
+            "radius_km"
+          ]
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "device": {
+          "type": "string",
+          "enum": [
+            "desktop",
+            "mobile"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locked_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "generation_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "approved",
+                "rejected"
+              ]
+            },
+            "reviewed_at": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reviewer": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ]
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/query_service"
+          },
+          "minItems": 1
+        },
+        "intents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/query_intent"
+          },
+          "minItems": 1
+        },
+        "queries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/query_item"
+          },
+          "minItems": 1
+        },
+        "prompts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/prompt_item"
+          },
+          "minItems": 1
+        },
+        "demand_model": {
+          "type": "object",
+          "properties": {
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "service_cluster_weighting": {
+              "type": "string",
+              "minLength": 1
+            },
+            "demand_signal": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "formula",
+            "service_cluster_weighting",
+            "demand_signal"
+          ]
+        },
+        "quality_gates": {
+          "type": "object",
+          "properties": {
+            "non_branded_core_share": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "min_services": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "min_core_queries": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "min_core_prompts": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "non_branded_core_share",
+            "min_services",
+            "min_core_queries",
+            "min_core_prompts"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "universe_id",
+        "universe_version",
+        "trade",
+        "market",
+        "language",
+        "device",
+        "created_at",
+        "locked",
+        "generation_method",
+        "review",
+        "hash",
+        "services",
+        "intents",
+        "queries",
+        "prompts",
+        "demand_model",
+        "quality_gates"
+      ]
+    },
+    "grid": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 15
+        },
+        "points": {
+          "type": "integer",
+          "minimum": 9,
+          "maximum": 225
+        },
+        "radius_km": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 500
+        },
+        "center": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "lng": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "lat",
+            "lng"
+          ]
+        },
+        "generation_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hash": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "coordinate_digits": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 7
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "size",
+        "points",
+        "radius_km",
+        "center",
+        "generation_method",
+        "version",
+        "hash"
+      ]
+    },
+    "maps_observation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "query": {
+          "type": "string",
+          "minLength": 1
+        },
+        "surface": {
+          "type": "string",
+          "enum": [
+            "google_local_pack",
+            "google_maps",
+            "google_local_finder"
+          ]
+        },
+        "point_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lng": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "rank": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_found": {
+          "type": "boolean"
+        },
+        "target_match": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/target_match"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "competitors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/competitor"
+          }
+        },
+        "collected_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+        },
+        "not_collected": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paid_items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "serp": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent_id",
+        "query",
+        "surface",
+        "point_id",
+        "lat",
+        "lng",
+        "rank",
+        "target_found",
+        "collected_at",
+        "source_id"
+      ]
+    },
+    "organic_observation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "query": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rank": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rank_group": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rank_absolute": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "url": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "serp_features": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "target_found": {
+          "type": "boolean"
+        },
+        "target_match": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/target_match"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "competitors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/competitor"
+          }
+        },
+        "collected_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+        },
+        "not_collected": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paid_items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "intent_id",
+        "query",
+        "rank",
+        "url",
+        "domain",
+        "target_found",
+        "collected_at",
+        "source_id"
+      ]
+    },
+    "ai_surface": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "product_surface": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "consumer_surface",
+            "model_api"
+          ]
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validated": {
+          "type": "boolean"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "platform",
+        "product_surface",
+        "source_type",
+        "method",
+        "provider",
+        "validated",
+        "available"
+      ]
+    },
+    "ai_observation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "surface_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "product_surface": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "consumer_surface",
+            "model_api"
+          ]
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "market": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collected_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repeat": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_mentioned": {
+          "type": "boolean"
+        },
+        "target_recommended": {
+          "type": "boolean"
+        },
+        "target_cited": {
+          "type": "boolean"
+        },
+        "target_entity_accuracy": {
+          "type": "string",
+          "enum": [
+            "accurate",
+            "minor_error",
+            "incorrect",
+            "not_present"
+          ]
+        },
+        "position": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cited_domains": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "competitor_mentions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/competitor"
+          }
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+        },
+        "not_collected": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "surface_id",
+        "platform",
+        "product_surface",
+        "source_type",
+        "method",
+        "provider",
+        "prompt_id",
+        "intent_id",
+        "prompt",
+        "market",
+        "language",
+        "collected_at",
+        "repeat",
+        "target_mentioned",
+        "target_recommended",
+        "target_cited",
+        "target_entity_accuracy",
+        "cited_domains",
+        "source_id"
+      ]
+    },
+    "authority": {
+      "type": "object",
+      "properties": {
+        "referring_domains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "main_domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "local",
+                  "industry",
+                  "manufacturer",
+                  "directory",
+                  "association",
+                  "publisher",
+                  "other"
+                ]
+              },
+              "relevance": {
+                "type": "string",
+                "enum": [
+                  "high",
+                  "medium",
+                  "low",
+                  "irrelevant"
+                ]
+              },
+              "first_seen": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "domain",
+              "type",
+              "relevance",
+              "source_id"
+            ]
+          }
+        },
+        "listings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name_consistent": {
+                "type": "boolean"
+              },
+              "domain_consistent": {
+                "type": "boolean"
+              },
+              "phone_consistent": {
+                "type": "boolean"
+              },
+              "category_consistent": {
+                "type": "boolean"
+              },
+              "source_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "source",
+              "name_consistent",
+              "domain_consistent",
+              "phone_consistent",
+              "category_consistent",
+              "source_id"
+            ]
+          }
+        },
+        "competitor_referring_domains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "competitor_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relevant_domains": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "competitor_id",
+              "relevant_domains"
+            ]
+          }
+        },
+        "ai_citation_domains": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "referring_domains",
+        "listings",
+        "competitor_referring_domains"
+      ]
+    },
+    "validity": {
+      "type": "object",
+      "properties": {
+        "provider_error_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "critical_source_outage": {
+          "type": "boolean"
+        },
+        "planned": {
+          "type": "object",
+          "properties": {
+            "core_queries": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maps_observations": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "organic_observations": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ai_prompt_runs": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "core_queries",
+            "maps_observations",
+            "organic_observations",
+            "ai_prompt_runs"
+          ]
+        },
+        "collected": {
+          "type": "object",
+          "properties": {
+            "core_queries": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maps_observations": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "organic_observations": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ai_prompt_runs": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "core_queries",
+            "maps_observations",
+            "organic_observations",
+            "ai_prompt_runs"
+          ]
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "passed": {
+                "type": "boolean"
+              },
+              "detail": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "passed"
+            ]
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "provider_error_rate",
+        "critical_source_outage",
+        "planned",
+        "collected",
+        "notes"
+      ]
+    },
+    "facts": {
+      "type": "object",
+      "properties": {
+        "target_resolved": {
+          "type": "boolean"
+        },
+        "query_universe_locked": {
+          "type": "boolean"
+        },
+        "non_branded_discovery_present": {
+          "type": "boolean"
+        },
+        "maps_observations_present": {
+          "type": "boolean"
+        },
+        "organic_observations_present": {
+          "type": "boolean"
+        },
+        "ai_observations_present": {
+          "type": "boolean"
+        },
+        "ai_surfaces_validated": {
+          "type": "boolean"
+        },
+        "competitor_cohort_locked": {
+          "type": "boolean"
+        },
+        "sufficient_valid_evidence": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "target_resolved",
+        "query_universe_locked",
+        "non_branded_discovery_present",
+        "maps_observations_present",
+        "organic_observations_present",
+        "ai_observations_present",
+        "ai_surfaces_validated",
+        "competitor_cohort_locked",
+        "sufficient_valid_evidence"
+      ]
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "generated_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "by_surface": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "by_intent": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "by_service": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "competitive": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "resilience": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "ai": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "visibility_matrix": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "service": {
+                "type": "string",
+                "minLength": 1
+              },
+              "maps": {
+                "type": "string",
+                "enum": [
+                  "Strong",
+                  "Partial",
+                  "Weak",
+                  "Absent",
+                  "N/A"
+                ]
+              },
+              "organic": {
+                "type": "string",
+                "enum": [
+                  "Strong",
+                  "Partial",
+                  "Weak",
+                  "Absent",
+                  "N/A"
+                ]
+              },
+              "ai": {
+                "type": "string",
+                "enum": [
+                  "Strong",
+                  "Partial",
+                  "Weak",
+                  "Absent",
+                  "N/A"
+                ]
+              },
+              "opportunity": {
+                "type": "string",
+                "enum": [
+                  "Maintain",
+                  "Improve",
+                  "High",
+                  "Critical",
+                  "N/A"
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "service",
+              "maps",
+              "organic",
+              "ai",
+              "opportunity"
+            ]
+          }
+        },
+        "geo": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "generated_by",
+        "version",
+        "by_surface",
+        "by_intent",
+        "by_service",
+        "coverage",
+        "competitive",
+        "authority",
+        "resilience",
+        "ai",
+        "visibility_matrix"
+      ]
+    },
+    "raw_check_entry": {
+      "type": "object",
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "strong_signal",
+            "owner_data_required",
+            "not_applicable",
+            "needs_review"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+          }
+        },
+        "needs_review": {
+          "type": "boolean"
+        },
+        "na_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "applicable",
+        "confidence",
+        "evidence",
+        "evidence_refs",
+        "needs_review",
+        "score"
+      ]
+    },
+    "filled_check_entry": {
+      "type": "object",
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "strong_signal",
+            "owner_data_required",
+            "not_applicable",
+            "needs_review"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+          }
+        },
+        "needs_review": {
+          "type": "boolean"
+        },
+        "na_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "applicable",
+        "confidence",
+        "evidence",
+        "evidence_refs",
+        "needs_review"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "audit_mode": {
+      "const": "public"
+    },
+    "run": {
+      "type": "object",
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "started_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "finished_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collector_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rubric_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_mode": {
+          "type": "string",
+          "enum": [
+            "fixture",
+            "live"
+          ]
+        },
+        "synthetic": {
+          "type": "boolean"
+        },
+        "query_universe_hash": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "started_at",
+        "collector_version",
+        "rubric_version",
+        "source_mode",
+        "synthetic",
+        "query_universe_hash"
+      ]
+    },
+    "business": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trade": {
+          "type": "string",
+          "minLength": 1
+        },
+        "market": {
+          "type": "string",
+          "minLength": 1
+        },
+        "domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "place_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "resolution": {
+          "type": "object",
+          "properties": {
+            "resolved": {
+              "type": "boolean"
+            },
+            "method": {
+              "type": "string",
+              "enum": [
+                "place_id",
+                "domain",
+                "phone",
+                "name_alias",
+                "manual_verified"
+              ]
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "notes": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "resolved",
+            "method",
+            "confidence"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "trade",
+        "market",
+        "domain",
+        "resolution"
+      ]
+    },
+    "market": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1
+        },
+        "country": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "device": {
+          "type": "string",
+          "enum": [
+            "desktop",
+            "mobile"
+          ]
+        },
+        "center": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "lng": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "lat",
+            "lng"
+          ]
+        },
+        "radius_km": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 500
+        },
+        "grid_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "query_universe_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "country",
+        "language",
+        "device",
+        "center",
+        "radius_km",
+        "grid_id",
+        "query_universe_id"
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "trade": {
+          "type": "string",
+          "minLength": 1
+        },
+        "market": {
+          "type": "string",
+          "minLength": 1
+        },
+        "emergency_service": {
+          "type": "boolean"
+        },
+        "near_me_demand": {
+          "type": "boolean"
+        },
+        "city_modified_demand": {
+          "type": "boolean"
+        },
+        "local_finder_configured": {
+          "type": "boolean"
+        },
+        "branded_diagnostics_enabled": {
+          "type": "boolean"
+        },
+        "historical_runs_available": {
+          "type": "boolean"
+        },
+        "ai_repeats": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "grid_size": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 15
+        },
+        "max_queries": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "trade",
+        "market",
+        "emergency_service",
+        "near_me_demand",
+        "city_modified_demand",
+        "local_finder_configured",
+        "branded_diagnostics_enabled",
+        "historical_runs_available",
+        "ai_repeats",
+        "grid_size",
+        "max_queries"
+      ]
+    },
+    "query_universe": {
+      "$ref": "#/$defs/query_universe"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      },
+      "minItems": 1
+    },
+    "validity": {
+      "$ref": "#/$defs/validity"
+    },
+    "maps": {
+      "type": "object",
+      "properties": {
+        "grid": {
+          "$ref": "#/$defs/grid"
+        },
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "google_local_pack",
+              "google_maps",
+              "google_local_finder"
+            ]
+          },
+          "minItems": 1
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/maps_observation"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "grid",
+        "surfaces",
+        "observations"
+      ]
+    },
+    "organic": {
+      "type": "object",
+      "properties": {
+        "observations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/organic_observation"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "observations"
+      ]
+    },
+    "ai": {
+      "type": "object",
+      "properties": {
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ai_surface"
+          },
+          "minItems": 1
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ai_observation"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "surfaces",
+        "observations"
+      ]
+    },
+    "competitors": {
+      "type": "object",
+      "properties": {
+        "locked": {
+          "type": "boolean"
+        },
+        "selection_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "business": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "place_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "selection_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "local_business",
+                  "directory",
+                  "publisher",
+                  "marketplace",
+                  "manufacturer",
+                  "government",
+                  "social_community",
+                  "other"
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "selection_reason"
+            ]
+          }
+        },
+        "serp_occupiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "directory",
+                  "publisher",
+                  "marketplace",
+                  "manufacturer",
+                  "government",
+                  "social_community",
+                  "other"
+                ]
+              },
+              "selection_reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "type",
+              "selection_reason"
+            ]
+          }
+        },
+        "ai": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "local_business",
+                  "directory",
+                  "publisher",
+                  "marketplace",
+                  "manufacturer",
+                  "government",
+                  "social_community",
+                  "other"
+                ]
+              },
+              "selection_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "place_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "type",
+              "selection_reason"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "locked",
+        "selection_method",
+        "business",
+        "serp_occupiers",
+        "ai"
+      ]
+    },
+    "authority": {
+      "$ref": "#/$defs/authority"
+    },
+    "resilience": {
+      "type": "object",
+      "properties": {
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "run_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "date": {
+                "type": "string",
+                "minLength": 1
+              },
+              "display": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "visibility_index": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "run_id",
+              "date",
+              "visibility_index"
+            ]
+          }
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "history"
+      ]
+    },
+    "metrics": {
+      "$ref": "#/$defs/metrics"
+    },
+    "facts": {
+      "$ref": "#/$defs/facts"
+    },
+    "checks": {
+      "type": "object",
+      "patternProperties": {
+        "^LV-(INT|MAP|ORG|AI|CMP|AUT|RES)-\\d{2}$": {
+          "$ref": "#/$defs/filled_check_entry"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 52,
+      "maxProperties": 52
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "complete"
+          ]
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "audit_mode",
+    "run",
+    "business",
+    "market",
+    "configuration",
+    "query_universe",
+    "sources",
+    "validity",
+    "maps",
+    "organic",
+    "ai",
+    "competitors",
+    "authority",
+    "resilience",
+    "metrics",
+    "facts",
+    "checks",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

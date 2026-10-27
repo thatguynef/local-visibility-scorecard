@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "note": "Local cost-estimation file. This tracked example deliberately contains no prices. Copy it outside the repository, fill in your contracted task prices, and pass it with --pricing. The tool will not invent a provider price.",
+  "currency": "USD",
+  "tasks": {
+    "serp_google_organic": null,
+    "serp_google_maps": null,
+    "serp_google_local_finder": null,
+    "serp_google_ai_mode": null,
+    "labs_keyword_overview": null,
+    "backlinks_summary": null,
+    "backlinks_referring_domains": null,
+    "business_listings_search": null,
+    "llm_response": null,
+    "llm_mentions": null
+  }
+}

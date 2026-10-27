@@ -1,0 +1,1298 @@
+{
+  "generated_by": "metrics.mjs",
+  "version": "1.0.0",
+  "by_surface": {
+    "google_local_pack": {
+      "surface": "google_local_pack",
+      "label": "Local Pack",
+      "observations": 392,
+      "intents_observed": 8,
+      "intents_planned": 8,
+      "query_coverage": 1,
+      "top3": 0.2173833241258161,
+      "top10": 0.4223110799825628,
+      "top20": 0.5096875501788637,
+      "demand_weighted_top3": 0.2173833241258161,
+      "demand_weighted_top10": 0.4223110799825628,
+      "demand_weighted_top20": 0.5096875501788637,
+      "demand_weighted_rank_credit": 0.6776422166691165,
+      "avg_visible_position": 1.2552346158237244
+    },
+    "google_maps": {
+      "surface": "google_maps",
+      "label": "Google Maps",
+      "observations": 392,
+      "intents_observed": 8,
+      "intents_planned": 8,
+      "query_coverage": 1,
+      "top3": 0.2649972930057236,
+      "top10": 0.4502752229263863,
+      "top20": 0.5163987487039347,
+      "demand_weighted_top3": 0.2649972930057236,
+      "demand_weighted_top10": 0.4502752229263863,
+      "demand_weighted_top20": 0.5163987487039347,
+      "demand_weighted_rank_credit": 0.6776422166691165,
+      "avg_visible_position": 1
+    },
+    "google_local_finder": {
+      "surface": "google_local_finder",
+      "label": "Local Finder",
+      "observations": 0,
+      "intents_observed": 0,
+      "intents_planned": 8,
+      "query_coverage": 0,
+      "top3": null,
+      "top10": null,
+      "top20": null,
+      "demand_weighted_top3": null,
+      "demand_weighted_top10": null,
+      "demand_weighted_top20": null,
+      "demand_weighted_rank_credit": null,
+      "avg_visible_position": null
+    },
+    "google_organic": {
+      "observations": 30,
+      "intents_observed": 30,
+      "intents_planned": 30,
+      "query_coverage": 1,
+      "top3": 0.11536199999999996,
+      "top10": 0.45772299999999994,
+      "top20": 0.5243889999999999,
+      "demand_weighted_top3": 0.11536199999999996,
+      "demand_weighted_top10": 0.45772299999999994,
+      "demand_weighted_top20": 0.5243889999999999,
+      "demand_weighted_rank_credit": 0.37501449999999986,
+      "avg_visible_position": 7.254210137893816,
+      "rows": [
+        {
+          "intent_id": "INT-general_plumbing-SERVICE",
+          "service_id": "general_plumbing",
+          "weight": 0.027343,
+          "rank": 3,
+          "url": "https://acme-plumbing.example/plumber/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-general_plumbing-NEAR_ME",
+          "service_id": "general_plumbing",
+          "weight": 0.027343,
+          "rank": 3,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-general_plumbing-CITY",
+          "service_id": "general_plumbing",
+          "weight": 0.027343,
+          "rank": 6,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-general_plumbing-PROBLEM",
+          "service_id": "general_plumbing",
+          "weight": 0.027343,
+          "rank": 2,
+          "url": "https://acme-plumbing.example/leaking-pipe-repair/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-general_plumbing-HIGH_TICKET",
+          "service_id": "general_plumbing",
+          "weight": 0.027343,
+          "rank": 8,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-emergency_plumbing-SERVICE",
+          "service_id": "emergency_plumbing",
+          "weight": 0.028862,
+          "rank": 10,
+          "url": "https://acme-plumbing.example/emergency-plumber/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-emergency_plumbing-NEAR_ME",
+          "service_id": "emergency_plumbing",
+          "weight": 0.028862,
+          "rank": 5,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-emergency_plumbing-CITY",
+          "service_id": "emergency_plumbing",
+          "weight": 0.028862,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-emergency_plumbing-PROBLEM",
+          "service_id": "emergency_plumbing",
+          "weight": 0.028862,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-emergency_plumbing-HIGH_TICKET",
+          "service_id": "emergency_plumbing",
+          "weight": 0.028862,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-drain_cleaning-SERVICE",
+          "service_id": "drain_cleaning",
+          "weight": 0.033333,
+          "rank": 4,
+          "url": "https://acme-plumbing.example/drain-cleaning/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-drain_cleaning-NEAR_ME",
+          "service_id": "drain_cleaning",
+          "weight": 0.033333,
+          "rank": 7,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-drain_cleaning-CITY",
+          "service_id": "drain_cleaning",
+          "weight": 0.033333,
+          "rank": 2,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-drain_cleaning-PROBLEM",
+          "service_id": "drain_cleaning",
+          "weight": 0.033333,
+          "rank": 10,
+          "url": "https://acme-plumbing.example/clogged-drain-repair/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-drain_cleaning-HIGH_TICKET",
+          "service_id": "drain_cleaning",
+          "weight": 0.033333,
+          "rank": 11,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-water_heater_repair-SERVICE",
+          "service_id": "water_heater_repair",
+          "weight": 0.033333,
+          "rank": 18,
+          "url": "https://acme-plumbing.example/water-heater-repair/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-water_heater_repair-NEAR_ME",
+          "service_id": "water_heater_repair",
+          "weight": 0.033333,
+          "rank": 10,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-water_heater_repair-CITY",
+          "service_id": "water_heater_repair",
+          "weight": 0.033333,
+          "rank": 4,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-water_heater_repair-PROBLEM",
+          "service_id": "water_heater_repair",
+          "weight": 0.033333,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-water_heater_repair-HIGH_TICKET",
+          "service_id": "water_heater_repair",
+          "weight": 0.033333,
+          "rank": 9,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        },
+        {
+          "intent_id": "INT-sewer_repair-SERVICE",
+          "service_id": "sewer_repair",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-sewer_repair-NEAR_ME",
+          "service_id": "sewer_repair",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-sewer_repair-CITY",
+          "service_id": "sewer_repair",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-sewer_repair-PROBLEM",
+          "service_id": "sewer_repair",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-repiping-SERVICE",
+          "service_id": "repiping",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-repiping-NEAR_ME",
+          "service_id": "repiping",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-repiping-CITY",
+          "service_id": "repiping",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-repiping-PROBLEM",
+          "service_id": "repiping",
+          "weight": 0.041667,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-emergency_plumbing-EMERGENCY",
+          "service_id": "emergency_plumbing",
+          "weight": 0.022356,
+          "rank": null,
+          "url": "",
+          "domain": ""
+        },
+        {
+          "intent_id": "INT-general_plumbing-CATEGORY",
+          "service_id": "general_plumbing",
+          "weight": 0.029953,
+          "rank": 9,
+          "url": "https://acme-plumbing.example/",
+          "domain": "acme-plumbing.example"
+        }
+      ],
+      "surface": "google_organic",
+      "label": "Google organic"
+    }
+  },
+  "by_intent": [
+    {
+      "intent_id": "INT-general_plumbing-SERVICE",
+      "service_id": "general_plumbing",
+      "class": "service",
+      "weight": 0.027343,
+      "best_maps_rank": 1,
+      "best_organic_rank": 3,
+      "ai_mention": 1,
+      "ai_recommendation": 1,
+      "ai_citation": 1,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-general_plumbing-NEAR_ME",
+      "service_id": "general_plumbing",
+      "class": "near_me",
+      "weight": 0.027343,
+      "best_maps_rank": null,
+      "best_organic_rank": 3,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-general_plumbing-CITY",
+      "service_id": "general_plumbing",
+      "class": "city_modified",
+      "weight": 0.027343,
+      "best_maps_rank": null,
+      "best_organic_rank": 6,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-general_plumbing-PROBLEM",
+      "service_id": "general_plumbing",
+      "class": "problem_symptom",
+      "weight": 0.027343,
+      "best_maps_rank": null,
+      "best_organic_rank": 2,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-general_plumbing-HIGH_TICKET",
+      "service_id": "general_plumbing",
+      "class": "high_ticket",
+      "weight": 0.027343,
+      "best_maps_rank": null,
+      "best_organic_rank": 8,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-emergency_plumbing-SERVICE",
+      "service_id": "emergency_plumbing",
+      "class": "service",
+      "weight": 0.028862,
+      "best_maps_rank": 1,
+      "best_organic_rank": 10,
+      "ai_mention": 0,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-emergency_plumbing-NEAR_ME",
+      "service_id": "emergency_plumbing",
+      "class": "near_me",
+      "weight": 0.028862,
+      "best_maps_rank": null,
+      "best_organic_rank": 5,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-emergency_plumbing-CITY",
+      "service_id": "emergency_plumbing",
+      "class": "city_modified",
+      "weight": 0.028862,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-emergency_plumbing-PROBLEM",
+      "service_id": "emergency_plumbing",
+      "class": "problem_symptom",
+      "weight": 0.028862,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-emergency_plumbing-HIGH_TICKET",
+      "service_id": "emergency_plumbing",
+      "class": "high_ticket",
+      "weight": 0.028862,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-drain_cleaning-SERVICE",
+      "service_id": "drain_cleaning",
+      "class": "service",
+      "weight": 0.033333,
+      "best_maps_rank": 1,
+      "best_organic_rank": 4,
+      "ai_mention": 1,
+      "ai_recommendation": 0,
+      "ai_citation": 0.5,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-drain_cleaning-NEAR_ME",
+      "service_id": "drain_cleaning",
+      "class": "near_me",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": 7,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-drain_cleaning-CITY",
+      "service_id": "drain_cleaning",
+      "class": "city_modified",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": 2,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-drain_cleaning-PROBLEM",
+      "service_id": "drain_cleaning",
+      "class": "problem_symptom",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": 10,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-drain_cleaning-HIGH_TICKET",
+      "service_id": "drain_cleaning",
+      "class": "high_ticket",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": 11,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-water_heater_repair-SERVICE",
+      "service_id": "water_heater_repair",
+      "class": "service",
+      "weight": 0.033333,
+      "best_maps_rank": 1,
+      "best_organic_rank": 18,
+      "ai_mention": 0.5,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-water_heater_repair-NEAR_ME",
+      "service_id": "water_heater_repair",
+      "class": "near_me",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": 10,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-water_heater_repair-CITY",
+      "service_id": "water_heater_repair",
+      "class": "city_modified",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": 4,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-water_heater_repair-PROBLEM",
+      "service_id": "water_heater_repair",
+      "class": "problem_symptom",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-water_heater_repair-HIGH_TICKET",
+      "service_id": "water_heater_repair",
+      "class": "high_ticket",
+      "weight": 0.033333,
+      "best_maps_rank": null,
+      "best_organic_rank": 9,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-sewer_repair-SERVICE",
+      "service_id": "sewer_repair",
+      "class": "service",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": 0,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-sewer_repair-NEAR_ME",
+      "service_id": "sewer_repair",
+      "class": "near_me",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-sewer_repair-CITY",
+      "service_id": "sewer_repair",
+      "class": "city_modified",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-sewer_repair-PROBLEM",
+      "service_id": "sewer_repair",
+      "class": "problem_symptom",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-repiping-SERVICE",
+      "service_id": "repiping",
+      "class": "service",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": 0,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-repiping-NEAR_ME",
+      "service_id": "repiping",
+      "class": "near_me",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-repiping-CITY",
+      "service_id": "repiping",
+      "class": "city_modified",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-repiping-PROBLEM",
+      "service_id": "repiping",
+      "class": "problem_symptom",
+      "weight": 0.041667,
+      "best_maps_rank": null,
+      "best_organic_rank": null,
+      "ai_mention": null,
+      "ai_recommendation": null,
+      "ai_citation": null,
+      "any_visibility": false
+    },
+    {
+      "intent_id": "INT-emergency_plumbing-EMERGENCY",
+      "service_id": "emergency_plumbing",
+      "class": "emergency",
+      "weight": 0.022356,
+      "best_maps_rank": 1,
+      "best_organic_rank": null,
+      "ai_mention": 0,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "any_visibility": true
+    },
+    {
+      "intent_id": "INT-general_plumbing-CATEGORY",
+      "service_id": "general_plumbing",
+      "class": "category",
+      "weight": 0.029953,
+      "best_maps_rank": 1,
+      "best_organic_rank": 9,
+      "ai_mention": 1,
+      "ai_recommendation": 1,
+      "ai_citation": 1,
+      "any_visibility": true
+    }
+  ],
+  "by_service": [
+    {
+      "service_id": "general_plumbing",
+      "label": "plumber",
+      "priority": "primary",
+      "weight": 0.1667,
+      "maps_top10": 0.9082,
+      "organic_top10": 1,
+      "ai_mention": 1,
+      "ai_recommendation": 1,
+      "ai_citation": 1,
+      "target_top10": 184,
+      "competitor_top10": 453,
+      "target_share": 0.2889,
+      "competitor_median_share": 0.2402,
+      "meets_competitor_median": true
+    },
+    {
+      "service_id": "emergency_plumbing",
+      "label": "emergency plumber",
+      "priority": "primary",
+      "weight": 0.1667,
+      "maps_top10": 0.25,
+      "organic_top10": 0.3333,
+      "ai_mention": 0,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "target_top10": 51,
+      "competitor_top10": 434,
+      "target_share": 0.1052,
+      "competitor_median_share": 0.2928,
+      "meets_competitor_median": false
+    },
+    {
+      "service_id": "drain_cleaning",
+      "label": "drain cleaning",
+      "priority": "primary",
+      "weight": 0.1667,
+      "maps_top10": 0.7959,
+      "organic_top10": 0.8,
+      "ai_mention": 1,
+      "ai_recommendation": 0,
+      "ai_citation": 0.5,
+      "target_top10": 82,
+      "competitor_top10": 214,
+      "target_share": 0.277,
+      "competitor_median_share": 0.2601,
+      "meets_competitor_median": true
+    },
+    {
+      "service_id": "water_heater_repair",
+      "label": "water heater repair",
+      "priority": "primary",
+      "weight": 0.1667,
+      "maps_top10": 0.6224,
+      "organic_top10": 0.6,
+      "ai_mention": 0.5,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "target_top10": 64,
+      "competitor_top10": 229,
+      "target_share": 0.2184,
+      "competitor_median_share": 0.2799,
+      "meets_competitor_median": false
+    },
+    {
+      "service_id": "sewer_repair",
+      "label": "sewer repair",
+      "priority": "secondary",
+      "weight": 0.1667,
+      "maps_top10": 0,
+      "organic_top10": 0,
+      "ai_mention": 0,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "target_top10": 0,
+      "competitor_top10": 233,
+      "target_share": 0,
+      "competitor_median_share": 0.3133,
+      "meets_competitor_median": false
+    },
+    {
+      "service_id": "repiping",
+      "label": "repiping",
+      "priority": "secondary",
+      "weight": 0.1667,
+      "maps_top10": 0,
+      "organic_top10": 0,
+      "ai_mention": 0,
+      "ai_recommendation": 0,
+      "ai_citation": 0,
+      "target_top10": 0,
+      "competitor_top10": 221,
+      "target_share": 0,
+      "competitor_median_share": 0.3484,
+      "meets_competitor_median": false
+    }
+  ],
+  "coverage": {
+    "service_cluster_coverage": 0.6667,
+    "demand_weighted_coverage": 0.5467,
+    "high_commercial_coverage": 0.5125,
+    "emergency_coverage": 0.1633,
+    "city_coverage": 0.4559,
+    "near_me_coverage": 0.5959,
+    "problem_coverage": 0.2943,
+    "city_organic_top20": 0.5,
+    "any_visibility_present": true,
+    "non_branded_discovery_present": true,
+    "service_maps_coverage_share": 0.5,
+    "service_organic_coverage_share": 0.6667,
+    "visibility_index": 0.441
+  },
+  "competitive": {
+    "top3_share": 0.2925,
+    "top10_share": 0.1763,
+    "maps_share": 0.1775,
+    "organic_share": 0.1532,
+    "ai_share": 0.5,
+    "service_gap_score": 0.3333,
+    "geo_gap_score": 0
+  },
+  "authority": {
+    "referring_domains": 10,
+    "relevant_domains": 7,
+    "local_sources": 1,
+    "industry_sources": 6,
+    "listing_consistency": 0.8,
+    "competitor_median_relevant_domains": 9,
+    "ai_citation_overlap": 0.1429,
+    "ai_citation_domains": [
+      "acme-plumbing.example",
+      "blueline-plumbing.example",
+      "example-county-news.example",
+      "reddit.com",
+      "summit-drain.example",
+      "yelp.com"
+    ]
+  },
+  "resilience": {
+    "surface_appearances": {
+      "maps": 366,
+      "organic": 17,
+      "ai": 3.5
+    },
+    "surface_hhi": 0.8987,
+    "service_hhi": 0.2668,
+    "geo_hhi": 0.2726,
+    "branded_share": 0.1053,
+    "visibility_index": 0.441,
+    "trend_available": false,
+    "trend_score": null,
+    "trend_prior": null
+  },
+  "ai": {
+    "pairs": 16,
+    "repeat_stability": 0.9375,
+    "surface_breadth": 1,
+    "mention_coverage": 0.4150471541193127,
+    "recommendation_coverage": 0.22163596555699108,
+    "citation_coverage": 0.2861063617444316,
+    "prompt_intent_coverage": 0.5,
+    "competitive_share": 0.5,
+    "target_recommendations": 4,
+    "competitor_recommendations": 4,
+    "by_surface": [
+      {
+        "id": "google-ai-mode",
+        "platform": "google",
+        "product_surface": "Google AI Mode",
+        "source_type": "consumer_surface",
+        "model_version": "synthetic-2026-01",
+        "pairs": 8,
+        "mention": 0.5,
+        "recommendation": 0.25,
+        "citation": 0.375
+      },
+      {
+        "id": "chatgpt-llm",
+        "platform": "chatgpt",
+        "product_surface": "ChatGPT (LLM Mentions)",
+        "source_type": "model_api",
+        "model_version": "synthetic-2026-01",
+        "pairs": 8,
+        "mention": 0.375,
+        "recommendation": 0.25,
+        "citation": 0.25
+      }
+    ],
+    "by_intent": [
+      {
+        "intent_id": "INT-general_plumbing-SERVICE",
+        "service_id": "general_plumbing",
+        "weight": 0.027343,
+        "mention": 1,
+        "recommendation": 1,
+        "citation": 1
+      },
+      {
+        "intent_id": "INT-emergency_plumbing-SERVICE",
+        "service_id": "emergency_plumbing",
+        "weight": 0.028862,
+        "mention": 0,
+        "recommendation": 0,
+        "citation": 0
+      },
+      {
+        "intent_id": "INT-drain_cleaning-SERVICE",
+        "service_id": "drain_cleaning",
+        "weight": 0.033333,
+        "mention": 1,
+        "recommendation": 0,
+        "citation": 0.5
+      },
+      {
+        "intent_id": "INT-water_heater_repair-SERVICE",
+        "service_id": "water_heater_repair",
+        "weight": 0.033333,
+        "mention": 0.5,
+        "recommendation": 0,
+        "citation": 0
+      },
+      {
+        "intent_id": "INT-sewer_repair-SERVICE",
+        "service_id": "sewer_repair",
+        "weight": 0.041667,
+        "mention": 0,
+        "recommendation": 0,
+        "citation": 0
+      },
+      {
+        "intent_id": "INT-repiping-SERVICE",
+        "service_id": "repiping",
+        "weight": 0.041667,
+        "mention": 0,
+        "recommendation": 0,
+        "citation": 0
+      },
+      {
+        "intent_id": "INT-emergency_plumbing-EMERGENCY",
+        "service_id": "emergency_plumbing",
+        "weight": 0.022356,
+        "mention": 0,
+        "recommendation": 0,
+        "citation": 0
+      },
+      {
+        "intent_id": "INT-general_plumbing-CATEGORY",
+        "service_id": "general_plumbing",
+        "weight": 0.029953,
+        "mention": 1,
+        "recommendation": 1,
+        "citation": 1
+      }
+    ],
+    "pairs_detail": [
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-general_plumbing-SERVICE-GOOGLE_AI_MODE",
+        "intent_id": "INT-general_plumbing-SERVICE",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": true,
+        "recommended": true,
+        "cited": true,
+        "stable_mention": true,
+        "cited_domains": [
+          "acme-plumbing.example",
+          "yelp.com",
+          "example-county-news.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-general_plumbing-SERVICE-CHATGPT",
+        "intent_id": "INT-general_plumbing-SERVICE",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": true,
+        "recommended": true,
+        "cited": true,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com",
+          "acme-plumbing.example"
+        ]
+      },
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-emergency_plumbing-SERVICE-GOOGLE_AI_MODE",
+        "intent_id": "INT-emergency_plumbing-SERVICE",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-emergency_plumbing-SERVICE-CHATGPT",
+        "intent_id": "INT-emergency_plumbing-SERVICE",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com"
+        ]
+      },
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-drain_cleaning-SERVICE-GOOGLE_AI_MODE",
+        "intent_id": "INT-drain_cleaning-SERVICE",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": true,
+        "recommended": false,
+        "cited": true,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "acme-plumbing.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-drain_cleaning-SERVICE-CHATGPT",
+        "intent_id": "INT-drain_cleaning-SERVICE",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": true,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": false,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com"
+        ]
+      },
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-water_heater_repair-SERVICE-GOOGLE_AI_MODE",
+        "intent_id": "INT-water_heater_repair-SERVICE",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": true,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-water_heater_repair-SERVICE-CHATGPT",
+        "intent_id": "INT-water_heater_repair-SERVICE",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com"
+        ]
+      },
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-sewer_repair-SERVICE-GOOGLE_AI_MODE",
+        "intent_id": "INT-sewer_repair-SERVICE",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-sewer_repair-SERVICE-CHATGPT",
+        "intent_id": "INT-sewer_repair-SERVICE",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com"
+        ]
+      },
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-repiping-SERVICE-GOOGLE_AI_MODE",
+        "intent_id": "INT-repiping-SERVICE",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-repiping-SERVICE-CHATGPT",
+        "intent_id": "INT-repiping-SERVICE",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com"
+        ]
+      },
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-emergency_plumbing-EMERGENCY-GOOGLE_AI_MODE",
+        "intent_id": "INT-emergency_plumbing-EMERGENCY",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-emergency_plumbing-EMERGENCY-CHATGPT",
+        "intent_id": "INT-emergency_plumbing-EMERGENCY",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": false,
+        "recommended": false,
+        "cited": false,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com"
+        ]
+      },
+      {
+        "surface_id": "google-ai-mode",
+        "prompt_id": "P-INT-general_plumbing-CATEGORY-GOOGLE_AI_MODE",
+        "intent_id": "INT-general_plumbing-CATEGORY",
+        "source_type": "consumer_surface",
+        "repeats": 3,
+        "mentioned": true,
+        "recommended": true,
+        "cited": true,
+        "stable_mention": true,
+        "cited_domains": [
+          "acme-plumbing.example",
+          "yelp.com",
+          "example-county-news.example"
+        ]
+      },
+      {
+        "surface_id": "chatgpt-llm",
+        "prompt_id": "P-INT-general_plumbing-CATEGORY-CHATGPT",
+        "intent_id": "INT-general_plumbing-CATEGORY",
+        "source_type": "model_api",
+        "repeats": 3,
+        "mentioned": true,
+        "recommended": true,
+        "cited": true,
+        "stable_mention": true,
+        "cited_domains": [
+          "yelp.com",
+          "example-county-news.example",
+          "reddit.com",
+          "acme-plumbing.example"
+        ]
+      }
+    ]
+  },
+  "geo": {
+    "points_observed": 49,
+    "points_planned": 49,
+    "covered_points": 49,
+    "geo_grid_coverage": 0.5338,
+    "weakest_quadrant": 0.3958,
+    "quadrant_coverage": {
+      "NE": 0.5234375,
+      "NW": 0.453125,
+      "SE": 0.4583333333333333,
+      "SW": 0.3958333333333333
+    },
+    "quadrant_counts": {
+      "NE": 134,
+      "NW": 87,
+      "SE": 88,
+      "SW": 57
+    },
+    "geo_hhi": 0.2726,
+    "geo_gap_score": 0,
+    "by_intent": [
+      {
+        "intent_id": "INT-general_plumbing-SERVICE",
+        "coverage": 1
+      },
+      {
+        "intent_id": "INT-emergency_plumbing-SERVICE",
+        "coverage": 0.4694
+      },
+      {
+        "intent_id": "INT-drain_cleaning-SERVICE",
+        "coverage": 0.9388
+      },
+      {
+        "intent_id": "INT-water_heater_repair-SERVICE",
+        "coverage": 0.8571
+      },
+      {
+        "intent_id": "INT-sewer_repair-SERVICE",
+        "coverage": 0
+      },
+      {
+        "intent_id": "INT-repiping-SERVICE",
+        "coverage": 0
+      },
+      {
+        "intent_id": "INT-emergency_plumbing-EMERGENCY",
+        "coverage": 0.3265
+      },
+      {
+        "intent_id": "INT-general_plumbing-CATEGORY",
+        "coverage": 1
+      }
+    ]
+  },
+  "counts": {
+    "planned": {
+      "core_queries": 30,
+      "maps_observations": 784,
+      "organic_observations": 30,
+      "ai_prompt_runs": 48
+    },
+    "collected": {
+      "core_queries": 30,
+      "maps_observations": 784,
+      "organic_observations": 30,
+      "ai_prompt_runs": 48
+    }
+  },
+  "visibility_matrix": [
+    {
+      "service": "plumber",
+      "maps": "Strong",
+      "organic": "Strong",
+      "ai": "Strong",
+      "opportunity": "Maintain"
+    },
+    {
+      "service": "emergency plumber",
+      "maps": "Weak",
+      "organic": "Partial",
+      "ai": "Absent",
+      "opportunity": "Critical"
+    },
+    {
+      "service": "drain cleaning",
+      "maps": "Strong",
+      "organic": "Strong",
+      "ai": "Strong",
+      "opportunity": "Maintain"
+    },
+    {
+      "service": "water heater repair",
+      "maps": "Strong",
+      "organic": "Strong",
+      "ai": "Partial",
+      "opportunity": "Improve"
+    },
+    {
+      "service": "sewer repair",
+      "maps": "Absent",
+      "organic": "Absent",
+      "ai": "Absent",
+      "opportunity": "High"
+    },
+    {
+      "service": "repiping",
+      "maps": "Absent",
+      "organic": "Absent",
+      "ai": "Absent",
+      "opportunity": "High"
+    }
+  ]
+}

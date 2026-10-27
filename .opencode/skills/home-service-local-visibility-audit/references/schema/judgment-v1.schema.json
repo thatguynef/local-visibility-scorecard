@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local Visibility Scorecard \u2014 judgment v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit_mode",
+    "model",
+    "checks"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "audit_mode": {
+      "const": "public"
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewed_at": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "checks": {
+      "type": "object",
+      "patternProperties": {
+        "^LV-(INT|MAP|ORG|AI|CMP|AUT|RES)-\\d{2}$": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "confidence": {
+              "type": "string",
+              "enum": [
+                "verified",
+                "strong_signal"
+              ]
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"
+              },
+              "minItems": 1
+            },
+            "notes": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "score",
+            "confidence",
+            "evidence",
+            "evidence_refs"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "client": "Acme Plumbing (synthetic)",
+  "url": "https://acme-plumbing.example/",
+  "trade": "Plumbing",
+  "market": "Example County, CA",
+  "date": "January 1, 2026",
+  "verdict": "Strong near the center for general plumbing and drain cleaning, but the business disappears for emergency demand, much of the Local Pack, and several service clusters where competitors are consistently visible. AI mentions are occasional and rarely cited.",
+  "gaps": [
+    {
+      "title": "Emergency demand is effectively invisible",
+      "stage": "Search",
+      "checkId": "LV-INT-04",
+      "confidence": "verified",
+      "what": "Only a small share of emergency query-grid observations place the business in the top 10, and no validated AI surface recommends it for emergency prompts.",
+      "evidence": "Emergency intent coverage is 14.3%; emergency AI recommendation coverage is 0%.",
+      "why": "Urgent demand is the highest-intent demand a plumbing business sells. A customer with a burst pipe does not browse.",
+      "fix": "Decide whether emergency work is a real service line. If it is, build a dedicated urgent path and make the operational capacity visible; if it is not, stop presenting it as one."
+    },
+    {
+      "title": "The Local Pack is thin across the market",
+      "stage": "Discover",
+      "checkId": "LV-MAP-02",
+      "confidence": "verified",
+      "what": "Local Pack top-10 coverage is 42.2% of query-grid observations, and top-20 coverage is 51.0%. Coverage is strongest near the center and weak in the southwest quadrant.",
+      "evidence": "Local Pack Top-10 coverage 42.2%; Top-20 coverage 51.0%; weakest geo-grid quadrant 39.6%.",
+      "why": "The Local Pack is the densest local-discovery surface. A business that appears only near its own pin is not consistently visible across the market it claims.",
+      "fix": "Investigate proximity, category and service relevance, and service-area competition. Cross-reference GBP Scorecard before treating this as a content problem."
+    },
+    {
+      "title": "Competitors win most service clusters",
+      "stage": "Compare",
+      "checkId": "LV-CMP-06",
+      "confidence": "verified",
+      "what": "The business meets or beats the locked competitor median top-10 share in only two of six service clusters. Emergency, sewer, and repiping are the largest gaps.",
+      "evidence": "Service-specific competitor gap: 2 of 6 clusters meet the cohort median (33.3%).",
+      "why": "Aggregate visibility can hide a service where the business is structurally behind. Competitors are not winning everywhere; they are winning the clusters the business wants to grow.",
+      "fix": "Prioritize the two clusters with the largest commercial gap. Compare the sources and page coverage competitors have that the business does not."
+    }
+  ],
+  "strengths": [
+    "General plumbing and drain cleaning have strong Maps and organic visibility near the market center.",
+    "Branded search is strong, which confirms the business is known once a customer already knows its name.",
+    "The external entity footprint includes relevant local, manufacturer, and trade sources, and most observed listings are consistent."
+  ],
+  "fixes": [
+    {
+      "fix": "Build or explicitly decline a dedicated emergency visibility path",
+      "checks": [
+        "LV-INT-04",
+        "LV-MAP-09"
+      ],
+      "points": 3,
+      "effort": "M"
+    },
+    {
+      "fix": "Diagnose the Local Pack gap by service and quadrant before adding pages",
+      "checks": [
+        "LV-MAP-02",
+        "LV-MAP-03",
+        "LV-MAP-07"
+      ],
+      "points": 4,
+      "effort": "M"
+    },
+    {
+      "fix": "Close the competitor gap in the two most commercially important service clusters",
+      "checks": [
+        "LV-CMP-06",
+        "LV-AUT-05",
+        "LV-AUT-06"
+      ],
+      "points": 3,
+      "effort": "L"
+    },
+    {
+      "fix": "Build citable, source-worthy content and third-party corroboration for AI answers",
+      "checks": [
+        "LV-AI-03",
+        "LV-AI-08"
+      ],
+      "points": 2,
+      "effort": "L"
+    },
+    {
+      "fix": "Diversify discovery beyond Maps",
+      "checks": [
+        "LV-RES-01"
+      ],
+      "points": 1,
+      "effort": "M"
+    }
+  ],
+  "fixNote": "Points are bounded by the recoverable points in the cited checks. They are not a revenue forecast.",
+  "journey": [
+    {
+      "stage": "Search",
+      "status": "scored",
+      "summary": "Demand coverage is mixed. General plumbing and drain cleaning are visible; emergency is the clearest gap."
+    },
+    {
+      "stage": "Discover",
+      "status": "scored",
+      "summary": "Maps is the strongest surface near the center. The Local Pack is thinner across the market."
+    },
+    {
+      "stage": "Ask",
+      "status": "scored",
+      "summary": "Mentioned sometimes, recommended less often, and rarely cited. AI is not yet a dependable discovery surface."
+    },
+    {
+      "stage": "Compare",
+      "status": "scored",
+      "summary": "Below the leading two contractors across most service clusters, despite a moderate external footprint."
+    },
+    {
+      "stage": "Resilience",
+      "status": "scored",
+      "summary": "Visibility is concentrated on Maps. Organic and AI are too thin to provide a second source of discovery."
+    },
+    {
+      "stage": "Handoff",
+      "status": "observed_unscored",
+      "summary": "Diagnosed by GBP and Website Scorecards. Local Visibility stops at discovery and comparison."
+    },
+    {
+      "stage": "Measure",
+      "status": "owner_data_required",
+      "summary": "Search Console, AI referrals, qualified leads, and revenue are owner data, not public evidence."
+    }
+  ],
+  "ownerData": [
+    {
+      "id": "OD-LV-GSC-CLICKS",
+      "why": "Search Console shows whether the impressions behind these rankings produced clicks."
+    },
+    {
+      "id": "OD-LV-AI-REFERRALS",
+      "why": "A mention in an AI answer is not proof that the recommendation produced a visit."
+    },
+    {
+      "id": "OD-LV-PRIORITY-SERVICES",
+      "why": "The owner knows which service lines deserve disproportionate attention."
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "local_services_ads",
+      "why": "Urgent demand is the clearest visibility gap, and LSA can place a qualified plumbing business above the Local Pack."
+    },
+    {
+      "id": "ai_citation_source",
+      "why": "The business is mentioned but rarely cited, which is the specific gap citation-source work addresses."
+    },
+    {
+      "id": "local_sponsorship",
+      "why": "Local corroboration is thinner than the competitor median; credible local sources would strengthen both search and AI."
+    },
+    {
+      "id": "content_expansion",
+      "why": "Emergency and high-ticket clusters lack a page that matches the intent."
+    }
+  ],
+  "limitations": [
+    "Public Mode observes discovery only. It cannot prove that a visibility gap produced a lost job or a revenue loss.",
+    "AI answers vary between runs. The fixture records three repeats per prompt and uses a majority rule; a live audit should increase repeats before drawing a firm conclusion.",
+    "Local Pack, Google Maps, and organic results are observed separately. Different surfaces can order the same businesses differently.",
+    "Authority relevance is classified from public source data; LV-AUT-02 remains a review-only judgment.",
+    "Paid visibility is diagnostic and unscored. The absence of paid advertising never lowers the public score.",
+    "The example is synthetic. It is not a real business, a real market, or a real competitor set."
+  ],
+  "nextSteps": [
+    "Decide whether emergency work is a service line the business can actually deliver. If yes, build the urgent path; if no, stop implying it.",
+    "Use the GBP Scorecard to diagnose category, service, and location configuration before changing content for the Local Pack gap.",
+    "Prioritize the two service clusters with the largest commercial competitor gap and compare the sources competitors have.",
+    "Run the AI prompt set again with more repeats before treating a single recommendation or citation as durable."
+  ],
+  "findings": [
+    {
+      "id": "LV-INT-04",
+      "observed": "Emergency intent coverage is 14.3%; no validated AI surface recommends the business for emergency prompts.",
+      "fix": "Decide whether emergency work is a real service line, then build or remove the urgent path."
+    },
+    {
+      "id": "LV-MAP-02",
+      "observed": "Local Pack Top-10 coverage is 42.2%; the southwest quadrant is weakest.",
+      "fix": "Diagnose proximity, relevance, and service-area competition before adding content."
+    },
+    {
+      "id": "LV-MAP-06",
+      "observed": "Google Maps Top-10 coverage is 45.0%, below the 70% strong-coverage anchor.",
+      "fix": "Compare Maps and Local Pack by service and quadrant; the gap is not uniform."
+    },
+    {
+      "id": "LV-AI-03",
+      "observed": "The business is cited in 28.6% of validated prompt-platform pairs, but recommendation coverage is only 22.2%.",
+      "fix": "Build citable sources and entity corroboration rather than prompt-specific content."
+    },
+    {
+      "id": "LV-AUT-05",
+      "observed": "Seven relevant referring domains versus a competitor median of nine.",
+      "fix": "Compare the specific sources competitors have; prioritize relevance over volume."
+    }
+  ],
+  "footer": "Synthetic example for documentation. Not a real business. Public Mode · evidence first · owner data separate.",
+  "executiveSummary": [
+    "General plumbing and drain cleaning are visible near the center, but the market-wide picture is weaker than a local owner would expect.",
+    "Emergency demand, the Local Pack, and several service clusters are the three largest visibility gaps.",
+    "The external footprint is moderate: relevant local and trade sources are present, but the competitor median is higher.",
+    "AI is a secondary surface today: the business is mentioned sometimes, recommended less often, and rarely cited.",
+    "Search Console, AI referrals, qualified leads, and revenue remain owner data and are excluded from the public score."
+  ]
+}

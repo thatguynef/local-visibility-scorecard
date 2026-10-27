@@ -1,0 +1,1479 @@
+{
+  "schema_version": "1.0",
+  "universe_id": "ACME_PLUMBING_SYNTHETIC-EXAMPLE_COUNTY-V1",
+  "universe_version": "1.0.0",
+  "trade": "plumbing",
+  "market": {
+    "name": "Example County, CA",
+    "region": "CA",
+    "country": "US",
+    "language": "en",
+    "device": "mobile",
+    "center": {
+      "lat": 34,
+      "lng": -117
+    },
+    "radius_km": 12
+  },
+  "language": "en",
+  "device": "mobile",
+  "created_at": "2026-01-01T00:00:00Z",
+  "locked_at": "2026-01-01T00:00:00Z",
+  "locked": true,
+  "generation_method": "deterministic_service_intent_templates_v1",
+  "review": {
+    "status": "approved",
+    "reviewed_at": "2026-01-01T00:00:00Z",
+    "reviewer": "synthetic-fixture"
+  },
+  "hash": "sha256:f1e8f2e1817f87f64c6c07801b91315c0e51458eecf7496da8f060db92c93d6c",
+  "services": [
+    {
+      "id": "general_plumbing",
+      "label": "plumber",
+      "priority": "primary",
+      "symptoms": [
+        "leaking pipe",
+        "low water pressure"
+      ],
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02
+      }
+    },
+    {
+      "id": "emergency_plumbing",
+      "label": "emergency plumber",
+      "priority": "primary",
+      "symptoms": [
+        "burst pipe",
+        "no hot water"
+      ],
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05
+      }
+    },
+    {
+      "id": "drain_cleaning",
+      "label": "drain cleaning",
+      "priority": "primary",
+      "symptoms": [
+        "clogged drain",
+        "slow sink"
+      ],
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01
+      }
+    },
+    {
+      "id": "water_heater_repair",
+      "label": "water heater repair",
+      "priority": "primary",
+      "symptoms": [
+        "water heater not working",
+        "no hot water"
+      ],
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03
+      }
+    },
+    {
+      "id": "sewer_repair",
+      "label": "sewer repair",
+      "priority": "secondary",
+      "symptoms": [
+        "sewage backup",
+        "broken sewer line"
+      ],
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0
+      }
+    },
+    {
+      "id": "repiping",
+      "label": "repiping",
+      "priority": "secondary",
+      "symptoms": [
+        "old pipes",
+        "pipe replacement"
+      ],
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04
+      }
+    }
+  ],
+  "intents": [
+    {
+      "service_id": "general_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "id": "INT-general_plumbing-SERVICE",
+      "class": "service",
+      "label": "plumber"
+    },
+    {
+      "service_id": "general_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "id": "INT-general_plumbing-NEAR_ME",
+      "class": "near_me",
+      "label": "plumber near me"
+    },
+    {
+      "service_id": "general_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "id": "INT-general_plumbing-CITY",
+      "class": "city_modified",
+      "label": "plumber Example County"
+    },
+    {
+      "service_id": "general_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "id": "INT-general_plumbing-PROBLEM",
+      "class": "problem_symptom",
+      "label": "leaking pipe repair"
+    },
+    {
+      "service_id": "general_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "id": "INT-general_plumbing-HIGH_TICKET",
+      "class": "high_ticket",
+      "label": "plumber contractor"
+    },
+    {
+      "service_id": "emergency_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "id": "INT-emergency_plumbing-SERVICE",
+      "class": "service",
+      "label": "emergency plumber"
+    },
+    {
+      "service_id": "emergency_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "id": "INT-emergency_plumbing-NEAR_ME",
+      "class": "near_me",
+      "label": "emergency plumber near me"
+    },
+    {
+      "service_id": "emergency_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "id": "INT-emergency_plumbing-CITY",
+      "class": "city_modified",
+      "label": "emergency plumber Example County"
+    },
+    {
+      "service_id": "emergency_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "id": "INT-emergency_plumbing-PROBLEM",
+      "class": "problem_symptom",
+      "label": "burst pipe repair"
+    },
+    {
+      "service_id": "emergency_plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "id": "INT-emergency_plumbing-HIGH_TICKET",
+      "class": "high_ticket",
+      "label": "emergency plumber contractor"
+    },
+    {
+      "service_id": "drain_cleaning",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-drain_cleaning-SERVICE",
+      "class": "service",
+      "label": "drain cleaning"
+    },
+    {
+      "service_id": "drain_cleaning",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-drain_cleaning-NEAR_ME",
+      "class": "near_me",
+      "label": "drain cleaning near me"
+    },
+    {
+      "service_id": "drain_cleaning",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-drain_cleaning-CITY",
+      "class": "city_modified",
+      "label": "drain cleaning Example County"
+    },
+    {
+      "service_id": "drain_cleaning",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-drain_cleaning-PROBLEM",
+      "class": "problem_symptom",
+      "label": "clogged drain repair"
+    },
+    {
+      "service_id": "drain_cleaning",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-drain_cleaning-HIGH_TICKET",
+      "class": "high_ticket",
+      "label": "drain cleaning contractor"
+    },
+    {
+      "service_id": "water_heater_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-water_heater_repair-SERVICE",
+      "class": "service",
+      "label": "water heater repair"
+    },
+    {
+      "service_id": "water_heater_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-water_heater_repair-NEAR_ME",
+      "class": "near_me",
+      "label": "water heater repair near me"
+    },
+    {
+      "service_id": "water_heater_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-water_heater_repair-CITY",
+      "class": "city_modified",
+      "label": "water heater repair Example County"
+    },
+    {
+      "service_id": "water_heater_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-water_heater_repair-PROBLEM",
+      "class": "problem_symptom",
+      "label": "water heater not working repair"
+    },
+    {
+      "service_id": "water_heater_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "id": "INT-water_heater_repair-HIGH_TICKET",
+      "class": "high_ticket",
+      "label": "water heater repair contractor"
+    },
+    {
+      "service_id": "sewer_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-sewer_repair-SERVICE",
+      "class": "service",
+      "label": "sewer repair"
+    },
+    {
+      "service_id": "sewer_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-sewer_repair-NEAR_ME",
+      "class": "near_me",
+      "label": "sewer repair near me"
+    },
+    {
+      "service_id": "sewer_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-sewer_repair-CITY",
+      "class": "city_modified",
+      "label": "sewer repair Example County"
+    },
+    {
+      "service_id": "sewer_repair",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-sewer_repair-PROBLEM",
+      "class": "problem_symptom",
+      "label": "sewage backup repair"
+    },
+    {
+      "service_id": "repiping",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-repiping-SERVICE",
+      "class": "service",
+      "label": "repiping"
+    },
+    {
+      "service_id": "repiping",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-repiping-NEAR_ME",
+      "class": "near_me",
+      "label": "repiping near me"
+    },
+    {
+      "service_id": "repiping",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-repiping-CITY",
+      "class": "city_modified",
+      "label": "repiping Example County"
+    },
+    {
+      "service_id": "repiping",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "id": "INT-repiping-PROBLEM",
+      "class": "problem_symptom",
+      "label": "old pipes repair"
+    },
+    {
+      "id": "INT-emergency_plumbing-EMERGENCY",
+      "service_id": "emergency_plumbing",
+      "class": "emergency",
+      "label": "emergency plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 960,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.022356
+    },
+    {
+      "id": "INT-general_plumbing-CATEGORY",
+      "service_id": "general_plumbing",
+      "class": "category",
+      "label": "plumbing",
+      "brand": "non_brand",
+      "core": true,
+      "demand": {
+        "volume": 4320,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.029953
+    },
+    {
+      "id": "INT-BRAND-1",
+      "service_id": "general_plumbing",
+      "class": "category",
+      "label": "Acme Plumbing",
+      "brand": "brand",
+      "core": false,
+      "demand": {
+        "volume": 0,
+        "cpc": 0,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0
+    },
+    {
+      "id": "INT-BRAND-2",
+      "service_id": "general_plumbing",
+      "class": "category",
+      "label": "Acme Plumbing reviews",
+      "brand": "brand",
+      "core": false,
+      "demand": {
+        "volume": 0,
+        "cpc": 0,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0
+    }
+  ],
+  "queries": [
+    {
+      "id": "Q-INT-general_plumbing-SERVICE",
+      "intent_id": "INT-general_plumbing-SERVICE",
+      "service_id": "general_plumbing",
+      "text": "plumber",
+      "intent_class": "service",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-general_plumbing-NEAR_ME",
+      "intent_id": "INT-general_plumbing-NEAR_ME",
+      "service_id": "general_plumbing",
+      "text": "plumber near me",
+      "intent_class": "near_me",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-general_plumbing-CITY",
+      "intent_id": "INT-general_plumbing-CITY",
+      "service_id": "general_plumbing",
+      "text": "plumber Example County",
+      "intent_class": "city_modified",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-general_plumbing-PROBLEM",
+      "intent_id": "INT-general_plumbing-PROBLEM",
+      "service_id": "general_plumbing",
+      "text": "leaking pipe repair",
+      "intent_class": "problem_symptom",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-general_plumbing-HIGH_TICKET",
+      "intent_id": "INT-general_plumbing-HIGH_TICKET",
+      "service_id": "general_plumbing",
+      "text": "plumber contractor",
+      "intent_class": "high_ticket",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 3600,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.027343,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-emergency_plumbing-SERVICE",
+      "intent_id": "INT-emergency_plumbing-SERVICE",
+      "service_id": "emergency_plumbing",
+      "text": "emergency plumber",
+      "intent_class": "service",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-emergency_plumbing-NEAR_ME",
+      "intent_id": "INT-emergency_plumbing-NEAR_ME",
+      "service_id": "emergency_plumbing",
+      "text": "emergency plumber near me",
+      "intent_class": "near_me",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-emergency_plumbing-CITY",
+      "intent_id": "INT-emergency_plumbing-CITY",
+      "service_id": "emergency_plumbing",
+      "text": "emergency plumber Example County",
+      "intent_class": "city_modified",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-emergency_plumbing-PROBLEM",
+      "intent_id": "INT-emergency_plumbing-PROBLEM",
+      "service_id": "emergency_plumbing",
+      "text": "burst pipe repair",
+      "intent_class": "problem_symptom",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-emergency_plumbing-HIGH_TICKET",
+      "intent_id": "INT-emergency_plumbing-HIGH_TICKET",
+      "service_id": "emergency_plumbing",
+      "text": "emergency plumber contractor",
+      "intent_class": "high_ticket",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1600,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.028862,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-drain_cleaning-SERVICE",
+      "intent_id": "INT-drain_cleaning-SERVICE",
+      "service_id": "drain_cleaning",
+      "text": "drain cleaning",
+      "intent_class": "service",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-drain_cleaning-NEAR_ME",
+      "intent_id": "INT-drain_cleaning-NEAR_ME",
+      "service_id": "drain_cleaning",
+      "text": "drain cleaning near me",
+      "intent_class": "near_me",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-drain_cleaning-CITY",
+      "intent_id": "INT-drain_cleaning-CITY",
+      "service_id": "drain_cleaning",
+      "text": "drain cleaning Example County",
+      "intent_class": "city_modified",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-drain_cleaning-PROBLEM",
+      "intent_id": "INT-drain_cleaning-PROBLEM",
+      "service_id": "drain_cleaning",
+      "text": "clogged drain repair",
+      "intent_class": "problem_symptom",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-drain_cleaning-HIGH_TICKET",
+      "intent_id": "INT-drain_cleaning-HIGH_TICKET",
+      "service_id": "drain_cleaning",
+      "text": "drain cleaning contractor",
+      "intent_class": "high_ticket",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 2400,
+        "cpc": 9.8,
+        "trend": 0.01,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-water_heater_repair-SERVICE",
+      "intent_id": "INT-water_heater_repair-SERVICE",
+      "service_id": "water_heater_repair",
+      "text": "water heater repair",
+      "intent_class": "service",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-water_heater_repair-NEAR_ME",
+      "intent_id": "INT-water_heater_repair-NEAR_ME",
+      "service_id": "water_heater_repair",
+      "text": "water heater repair near me",
+      "intent_class": "near_me",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-water_heater_repair-CITY",
+      "intent_id": "INT-water_heater_repair-CITY",
+      "service_id": "water_heater_repair",
+      "text": "water heater repair Example County",
+      "intent_class": "city_modified",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-water_heater_repair-PROBLEM",
+      "intent_id": "INT-water_heater_repair-PROBLEM",
+      "service_id": "water_heater_repair",
+      "text": "water heater not working repair",
+      "intent_class": "problem_symptom",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-water_heater_repair-HIGH_TICKET",
+      "intent_id": "INT-water_heater_repair-HIGH_TICKET",
+      "service_id": "water_heater_repair",
+      "text": "water heater repair contractor",
+      "intent_class": "high_ticket",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 1900,
+        "cpc": 15.2,
+        "trend": 0.03,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.033333,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-sewer_repair-SERVICE",
+      "intent_id": "INT-sewer_repair-SERVICE",
+      "service_id": "sewer_repair",
+      "text": "sewer repair",
+      "intent_class": "service",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-sewer_repair-NEAR_ME",
+      "intent_id": "INT-sewer_repair-NEAR_ME",
+      "service_id": "sewer_repair",
+      "text": "sewer repair near me",
+      "intent_class": "near_me",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-sewer_repair-CITY",
+      "intent_id": "INT-sewer_repair-CITY",
+      "service_id": "sewer_repair",
+      "text": "sewer repair Example County",
+      "intent_class": "city_modified",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-sewer_repair-PROBLEM",
+      "intent_id": "INT-sewer_repair-PROBLEM",
+      "service_id": "sewer_repair",
+      "text": "sewage backup repair",
+      "intent_class": "problem_symptom",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 720,
+        "cpc": 18,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-repiping-SERVICE",
+      "intent_id": "INT-repiping-SERVICE",
+      "service_id": "repiping",
+      "text": "repiping",
+      "intent_class": "service",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-repiping-NEAR_ME",
+      "intent_id": "INT-repiping-NEAR_ME",
+      "service_id": "repiping",
+      "text": "repiping near me",
+      "intent_class": "near_me",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-repiping-CITY",
+      "intent_id": "INT-repiping-CITY",
+      "service_id": "repiping",
+      "text": "repiping Example County",
+      "intent_class": "city_modified",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-repiping-PROBLEM",
+      "intent_id": "INT-repiping-PROBLEM",
+      "service_id": "repiping",
+      "text": "old pipes repair",
+      "intent_class": "problem_symptom",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 390,
+        "cpc": 16.5,
+        "trend": 0.04,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.041667,
+      "surfaces": [
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-emergency_plumbing-EMERGENCY",
+      "intent_id": "INT-emergency_plumbing-EMERGENCY",
+      "service_id": "emergency_plumbing",
+      "text": "emergency plumbing",
+      "intent_class": "emergency",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 960,
+        "cpc": 21.5,
+        "trend": 0.05,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.022356,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-general_plumbing-CATEGORY",
+      "intent_id": "INT-general_plumbing-CATEGORY",
+      "service_id": "general_plumbing",
+      "text": "plumbing",
+      "intent_class": "category",
+      "brand": "non_brand",
+      "role": "core",
+      "demand": {
+        "volume": 4320,
+        "cpc": 12.4,
+        "trend": 0.02,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0.029953,
+      "surfaces": [
+        "google_local_pack",
+        "google_maps",
+        "google_organic"
+      ],
+      "grid": true
+    },
+    {
+      "id": "Q-INT-BRAND-1",
+      "intent_id": "INT-BRAND-1",
+      "service_id": "general_plumbing",
+      "text": "Acme Plumbing",
+      "intent_class": "category",
+      "brand": "brand",
+      "role": "diagnostic",
+      "demand": {
+        "volume": 0,
+        "cpc": 0,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0,
+      "surfaces": [
+        "google_organic"
+      ],
+      "grid": false
+    },
+    {
+      "id": "Q-INT-BRAND-2",
+      "intent_id": "INT-BRAND-2",
+      "service_id": "general_plumbing",
+      "text": "Acme Plumbing reviews",
+      "intent_class": "category",
+      "brand": "brand",
+      "role": "diagnostic",
+      "demand": {
+        "volume": 0,
+        "cpc": 0,
+        "trend": 0,
+        "source": "synthetic_fixture"
+      },
+      "weight": 0,
+      "surfaces": [
+        "google_organic"
+      ],
+      "grid": false
+    }
+  ],
+  "prompts": [
+    {
+      "id": "P-INT-general_plumbing-SERVICE-GOOGLE_AI_MODE",
+      "intent_id": "INT-general_plumbing-SERVICE",
+      "service_id": "general_plumbing",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides plumber in Example County?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-general_plumbing-SERVICE-CHATGPT",
+      "intent_id": "INT-general_plumbing-SERVICE",
+      "service_id": "general_plumbing",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides plumber in Example County?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-emergency_plumbing-SERVICE-GOOGLE_AI_MODE",
+      "intent_id": "INT-emergency_plumbing-SERVICE",
+      "service_id": "emergency_plumbing",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides emergency plumber in Example County?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-emergency_plumbing-SERVICE-CHATGPT",
+      "intent_id": "INT-emergency_plumbing-SERVICE",
+      "service_id": "emergency_plumbing",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides emergency plumber in Example County?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-drain_cleaning-SERVICE-GOOGLE_AI_MODE",
+      "intent_id": "INT-drain_cleaning-SERVICE",
+      "service_id": "drain_cleaning",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides drain cleaning in Example County?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-drain_cleaning-SERVICE-CHATGPT",
+      "intent_id": "INT-drain_cleaning-SERVICE",
+      "service_id": "drain_cleaning",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides drain cleaning in Example County?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-water_heater_repair-SERVICE-GOOGLE_AI_MODE",
+      "intent_id": "INT-water_heater_repair-SERVICE",
+      "service_id": "water_heater_repair",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides water heater repair in Example County?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-water_heater_repair-SERVICE-CHATGPT",
+      "intent_id": "INT-water_heater_repair-SERVICE",
+      "service_id": "water_heater_repair",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides water heater repair in Example County?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-sewer_repair-SERVICE-GOOGLE_AI_MODE",
+      "intent_id": "INT-sewer_repair-SERVICE",
+      "service_id": "sewer_repair",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides sewer repair in Example County?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-sewer_repair-SERVICE-CHATGPT",
+      "intent_id": "INT-sewer_repair-SERVICE",
+      "service_id": "sewer_repair",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides sewer repair in Example County?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-repiping-SERVICE-GOOGLE_AI_MODE",
+      "intent_id": "INT-repiping-SERVICE",
+      "service_id": "repiping",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides repiping in Example County?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-repiping-SERVICE-CHATGPT",
+      "intent_id": "INT-repiping-SERVICE",
+      "service_id": "repiping",
+      "template_id": "TPL-SERVICE-V1",
+      "text": "Who provides repiping in Example County?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-emergency_plumbing-EMERGENCY-GOOGLE_AI_MODE",
+      "intent_id": "INT-emergency_plumbing-EMERGENCY",
+      "service_id": "emergency_plumbing",
+      "template_id": "TPL-EMERGENCY-V1",
+      "text": "Who can help with an emergency plumbing problem in Example County today?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-emergency_plumbing-EMERGENCY-CHATGPT",
+      "intent_id": "INT-emergency_plumbing-EMERGENCY",
+      "service_id": "emergency_plumbing",
+      "template_id": "TPL-EMERGENCY-V1",
+      "text": "Who can help with an emergency plumbing problem in Example County today?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-general_plumbing-CATEGORY-GOOGLE_AI_MODE",
+      "intent_id": "INT-general_plumbing-CATEGORY",
+      "service_id": "general_plumbing",
+      "template_id": "TPL-CATEGORY-V1",
+      "text": "Which plumbing companies should I consider in Example County?",
+      "platform": "google_ai_mode",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    },
+    {
+      "id": "P-INT-general_plumbing-CATEGORY-CHATGPT",
+      "intent_id": "INT-general_plumbing-CATEGORY",
+      "service_id": "general_plumbing",
+      "template_id": "TPL-CATEGORY-V1",
+      "text": "Which plumbing companies should I consider in Example County?",
+      "platform": "chatgpt",
+      "language": "en",
+      "repeat_default": 3,
+      "role": "core"
+    }
+  ],
+  "demand_model": {
+    "formula": "cluster_weight = 1 / core_service_clusters; within-cluster share is proportional to sqrt(max(search_volume,1)), water-filled so no intent exceeds 50% of its cluster; query weight equals its intent weight.",
+    "service_cluster_weighting": "equal_cluster_weight",
+    "demand_signal": "search_volume_sqrt_bounded"
+  },
+  "quality_gates": {
+    "non_branded_core_share": 0.9375,
+    "min_services": 3,
+    "min_core_queries": 12,
+    "min_core_prompts": 4
+  }
+}

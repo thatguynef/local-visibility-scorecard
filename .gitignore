@@ -1,0 +1,63 @@
+# macOS / editor
+.DS_Store
+*.log
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.venv-docs/
+
+# Node
+node_modules/
+npm-debug.log*
+coverage/
+.nyc_output/
+
+# Documentation build output
+site/
+
+# Local secrets and credential material
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+*.p12
+cookies.txt
+browser-profile/
+*.har
+
+# Raw evidence and private client work
+.audit/
+audit-screens/
+private-fixtures/
+raw-api/
+.cache/
+reports/*
+!reports/README.md
+
+# Eval runs may contain client evidence; only the README is public
+evals/*
+!evals/README.md
+
+# Client-specific local configuration; safe examples stay tracked
+config/*.json
+!config/market.example.json
+!config/pricing.example.json
+
+# Browser/session artifacts and runtime temp
+playwright-report/
+test-results/
+*.tmp
+*.temp
+*.sqlite
+*.sqlite3

@@ -1,0 +1,1833 @@
+{
+  "categories": [
+    {
+      "checks": [
+        "LV-INT-01",
+        "LV-INT-02",
+        "LV-INT-03",
+        "LV-INT-04",
+        "LV-INT-05",
+        "LV-INT-06",
+        "LV-INT-07"
+      ],
+      "id": "A",
+      "max": 15,
+      "name": "Intent & Demand Coverage",
+      "question": "Across the commercially meaningful things local customers search for, how broadly is this business visible?"
+    },
+    {
+      "checks": [
+        "LV-MAP-01",
+        "LV-MAP-02",
+        "LV-MAP-03",
+        "LV-MAP-04",
+        "LV-MAP-05",
+        "LV-MAP-06",
+        "LV-MAP-07",
+        "LV-MAP-08",
+        "LV-MAP-09",
+        "LV-MAP-10"
+      ],
+      "id": "B",
+      "max": 25,
+      "name": "Maps & Local Pack Visibility",
+      "question": "How consistently does the business appear prominently in Google's local-business results throughout the target market?"
+    },
+    {
+      "checks": [
+        "LV-ORG-01",
+        "LV-ORG-02",
+        "LV-ORG-03",
+        "LV-ORG-04",
+        "LV-ORG-05",
+        "LV-ORG-06",
+        "LV-ORG-07"
+      ],
+      "id": "C",
+      "max": 15,
+      "name": "Organic Search Visibility",
+      "question": "How well does the business appear in ordinary Google search results for commercially relevant local intent?"
+    },
+    {
+      "checks": [
+        "LV-AI-01",
+        "LV-AI-02",
+        "LV-AI-03",
+        "LV-AI-04",
+        "LV-AI-05",
+        "LV-AI-06",
+        "LV-AI-07",
+        "LV-AI-08",
+        "LV-AI-09",
+        "LV-AI-10"
+      ],
+      "id": "D",
+      "max": 20,
+      "name": "AI & Generative Visibility",
+      "question": "When prospective customers ask AI systems for local service recommendations, how often and how credibly does the business appear?"
+    },
+    {
+      "checks": [
+        "LV-CMP-01",
+        "LV-CMP-02",
+        "LV-CMP-03",
+        "LV-CMP-04",
+        "LV-CMP-05",
+        "LV-CMP-06",
+        "LV-CMP-07"
+      ],
+      "id": "E",
+      "max": 10,
+      "name": "Competitive Share of Visibility",
+      "question": "Relative to the actual businesses competing for the same local demand, what share of discovery does the business earn?"
+    },
+    {
+      "checks": [
+        "LV-AUT-01",
+        "LV-AUT-02",
+        "LV-AUT-03",
+        "LV-AUT-04",
+        "LV-AUT-05",
+        "LV-AUT-06"
+      ],
+      "id": "F",
+      "max": 10,
+      "name": "Authority & Entity Footprint",
+      "question": "How strongly is the business corroborated across external sources that support discovery and recommendation?"
+    },
+    {
+      "checks": [
+        "LV-RES-01",
+        "LV-RES-02",
+        "LV-RES-03",
+        "LV-RES-04",
+        "LV-RES-05"
+      ],
+      "id": "G",
+      "max": 5,
+      "name": "Visibility Resilience",
+      "question": "Is discoverability reasonably diversified, or does it depend on one fragile source of visibility?"
+    }
+  ],
+  "checks": [
+    {
+      "applicability": "required",
+      "category": "A",
+      "categoryName": "Intent & Demand Coverage",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "id": "LV-INT-01",
+      "journeyStage": "search",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Core service clusters with any qualified visibility"
+    },
+    {
+      "applicability": "required",
+      "category": "A",
+      "categoryName": "Intent & Demand Coverage",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "id": "LV-INT-02",
+      "journeyStage": "search",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "critical",
+      "title": "Demand-weighted non-branded coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "A",
+      "categoryName": "Intent & Demand Coverage",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "maps_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "id": "LV-INT-03",
+      "journeyStage": "search",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "High-commercial-intent coverage"
+    },
+    {
+      "applicability": "conditional",
+      "category": "A",
+      "categoryName": "Intent & Demand Coverage",
+      "condition": "emergency_service",
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "id": "LV-INT-04",
+      "journeyStage": "search",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Emergency or urgent intent coverage"
+    },
+    {
+      "applicability": "conditional",
+      "category": "A",
+      "categoryName": "Intent & Demand Coverage",
+      "condition": "city_modified_demand",
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-INT-05",
+      "journeyStage": "search",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Service + city intent coverage"
+    },
+    {
+      "applicability": "conditional",
+      "category": "A",
+      "categoryName": "Intent & Demand Coverage",
+      "condition": "near_me_demand",
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-INT-06",
+      "journeyStage": "search",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Near-me intent coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "A",
+      "categoryName": "Intent & Demand Coverage",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "id": "LV-INT-07",
+      "journeyStage": "search",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Problem and symptom intent coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-01",
+      "journeyStage": "discover",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "critical",
+      "title": "Demand-weighted Local Pack Top-3 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-02",
+      "journeyStage": "discover",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Local Pack Top-10 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-03",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Local Pack Top-20 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "local_pack_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-04",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Average visible Local Pack position"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-05",
+      "journeyStage": "discover",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "critical",
+      "title": "Google Maps Top-3 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-06",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Google Maps Top-10 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-07",
+      "journeyStage": "discover",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Geo-grid consistency"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-08",
+      "journeyStage": "discover",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Service-specific Maps coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-MAP-09",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Geographic gap severity"
+    },
+    {
+      "applicability": "conditional",
+      "category": "B",
+      "categoryName": "Maps & Local Pack Visibility",
+      "condition": "local_finder_configured",
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "local_finder_observation",
+        "metrics"
+      ],
+      "id": "LV-MAP-10",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Local Finder coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "C",
+      "categoryName": "Organic Search Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-ORG-01",
+      "journeyStage": "discover",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Demand-weighted organic Top-3 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "C",
+      "categoryName": "Organic Search Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-ORG-02",
+      "journeyStage": "discover",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Organic Top-10 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "C",
+      "categoryName": "Organic Search Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-ORG-03",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Organic Top-20 coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "C",
+      "categoryName": "Organic Search Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-ORG-04",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Demand-weighted ranking coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "C",
+      "categoryName": "Organic Search Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "model_judgment",
+      "evidenceType": [
+        "organic_observation",
+        "public_serp"
+      ],
+      "id": "LV-ORG-05",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Ranking URL relevance to intent"
+    },
+    {
+      "applicability": "conditional",
+      "category": "C",
+      "categoryName": "Organic Search Visibility",
+      "condition": "city_modified_demand",
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-ORG-06",
+      "journeyStage": "discover",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "City-modified organic coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "C",
+      "categoryName": "Organic Search Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "metrics"
+      ],
+      "id": "LV-ORG-07",
+      "journeyStage": "discover",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Service-cluster organic coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "id": "LV-AI-01",
+      "journeyStage": "ask",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "critical",
+      "title": "AI mention coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "id": "LV-AI-02",
+      "journeyStage": "ask",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "critical",
+      "title": "AI recommendation coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "id": "LV-AI-03",
+      "journeyStage": "ask",
+      "max": 3,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "AI citation and source coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "model_judgment",
+      "evidenceType": [
+        "ai_observation"
+      ],
+      "id": "LV-AI-04",
+      "journeyStage": "ask",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Service relevance in AI answers"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "model_judgment",
+      "evidenceType": [
+        "ai_observation"
+      ],
+      "id": "LV-AI-05",
+      "journeyStage": "ask",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Location relevance in AI answers"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "model_judgment",
+      "evidenceType": [
+        "ai_observation"
+      ],
+      "id": "LV-AI-06",
+      "journeyStage": "ask",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Entity accuracy in AI answers"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "id": "LV-AI-07",
+      "journeyStage": "ask",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Competitive share of AI answers"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics",
+        "query_universe"
+      ],
+      "id": "LV-AI-08",
+      "journeyStage": "ask",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Prompt-intent coverage"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_observation",
+        "ai_metrics"
+      ],
+      "id": "LV-AI-09",
+      "journeyStage": "ask",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "AI repeat stability"
+    },
+    {
+      "applicability": "required",
+      "category": "D",
+      "categoryName": "AI & Generative Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_surface",
+        "ai_metrics"
+      ],
+      "id": "LV-AI-10",
+      "journeyStage": "ask",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Validated AI surface breadth"
+    },
+    {
+      "applicability": "required",
+      "category": "E",
+      "categoryName": "Competitive Share of Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "id": "LV-CMP-01",
+      "journeyStage": "compare",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "marketing_intelligence",
+      "severity": "high",
+      "title": "Business-competitor share of Top-3"
+    },
+    {
+      "applicability": "required",
+      "category": "E",
+      "categoryName": "Competitive Share of Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "id": "LV-CMP-02",
+      "journeyStage": "compare",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "marketing_intelligence",
+      "severity": "high",
+      "title": "Business-competitor share of Top-10"
+    },
+    {
+      "applicability": "required",
+      "category": "E",
+      "categoryName": "Competitive Share of Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "id": "LV-CMP-03",
+      "journeyStage": "compare",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "marketing_intelligence",
+      "severity": "medium",
+      "title": "Maps share of visibility"
+    },
+    {
+      "applicability": "required",
+      "category": "E",
+      "categoryName": "Competitive Share of Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "id": "LV-CMP-04",
+      "journeyStage": "compare",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "marketing_intelligence",
+      "severity": "medium",
+      "title": "Organic share of visibility"
+    },
+    {
+      "applicability": "required",
+      "category": "E",
+      "categoryName": "Competitive Share of Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "ai_observation",
+        "competitor_cohort",
+        "ai_metrics"
+      ],
+      "id": "LV-CMP-05",
+      "journeyStage": "compare",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "marketing_intelligence",
+      "severity": "medium",
+      "title": "AI recommendation share"
+    },
+    {
+      "applicability": "required",
+      "category": "E",
+      "categoryName": "Competitive Share of Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "id": "LV-CMP-06",
+      "journeyStage": "compare",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "marketing_intelligence",
+      "severity": "high",
+      "title": "Service-specific competitor gap"
+    },
+    {
+      "applicability": "required",
+      "category": "E",
+      "categoryName": "Competitive Share of Visibility",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "grid_summary",
+        "competitor_cohort",
+        "metrics"
+      ],
+      "id": "LV-CMP-07",
+      "journeyStage": "compare",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "marketing_intelligence",
+      "severity": "medium",
+      "title": "Geographic competitor gap"
+    },
+    {
+      "applicability": "required",
+      "category": "F",
+      "categoryName": "Authority & Entity Footprint",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "backlink_observation",
+        "authority_metrics"
+      ],
+      "id": "LV-AUT-01",
+      "journeyStage": "compare",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Relevant referring domains"
+    },
+    {
+      "applicability": "required",
+      "category": "F",
+      "categoryName": "Authority & Entity Footprint",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "model_judgment",
+      "evidenceType": [
+        "backlink_observation",
+        "authority_metrics"
+      ],
+      "id": "LV-AUT-02",
+      "journeyStage": "compare",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "Local source relevance"
+    },
+    {
+      "applicability": "required",
+      "category": "F",
+      "categoryName": "Authority & Entity Footprint",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "backlink_observation",
+        "authority_metrics"
+      ],
+      "id": "LV-AUT-03",
+      "journeyStage": "compare",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Industry, manufacturer, and trade sources"
+    },
+    {
+      "applicability": "required",
+      "category": "F",
+      "categoryName": "Authority & Entity Footprint",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "listing_observation",
+        "authority_metrics"
+      ],
+      "id": "LV-AUT-04",
+      "journeyStage": "compare",
+      "max": 2,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "high",
+      "title": "External listing and entity consistency"
+    },
+    {
+      "applicability": "required",
+      "category": "F",
+      "categoryName": "Authority & Entity Footprint",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "backlink_observation",
+        "competitor_cohort",
+        "authority_metrics"
+      ],
+      "id": "LV-AUT-05",
+      "journeyStage": "compare",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Competitor authority gap"
+    },
+    {
+      "applicability": "required",
+      "category": "F",
+      "categoryName": "Authority & Entity Footprint",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "backlink_observation",
+        "ai_observation",
+        "authority_metrics"
+      ],
+      "id": "LV-AUT-06",
+      "journeyStage": "compare",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Authority overlap with AI citations"
+    },
+    {
+      "applicability": "required",
+      "category": "G",
+      "categoryName": "Visibility Resilience",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "maps_observation",
+        "organic_observation",
+        "ai_observation",
+        "metrics"
+      ],
+      "id": "LV-RES-01",
+      "journeyStage": "resilience",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Surface concentration"
+    },
+    {
+      "applicability": "required",
+      "category": "G",
+      "categoryName": "Visibility Resilience",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "metrics"
+      ],
+      "id": "LV-RES-02",
+      "journeyStage": "resilience",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Service concentration"
+    },
+    {
+      "applicability": "required",
+      "category": "G",
+      "categoryName": "Visibility Resilience",
+      "condition": null,
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "grid_summary",
+        "metrics"
+      ],
+      "id": "LV-RES-03",
+      "journeyStage": "resilience",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Geographic concentration"
+    },
+    {
+      "applicability": "conditional",
+      "category": "G",
+      "categoryName": "Visibility Resilience",
+      "condition": "branded_diagnostics_enabled",
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "organic_observation",
+        "branded_observation",
+        "metrics"
+      ],
+      "id": "LV-RES-04",
+      "journeyStage": "resilience",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "medium",
+      "title": "Branded versus non-branded dependence"
+    },
+    {
+      "applicability": "conditional",
+      "category": "G",
+      "categoryName": "Visibility Resilience",
+      "condition": "historical_runs_available",
+      "connectedMode": "unchanged; authorized diagnostics are reported separately",
+      "evaluation": "deterministic",
+      "evidenceType": [
+        "historical_run",
+        "metrics"
+      ],
+      "id": "LV-RES-05",
+      "journeyStage": "resilience",
+      "max": 1,
+      "ownerData": false,
+      "publicMode": "scored",
+      "serviceMapping": "market_intelligence",
+      "severity": "low",
+      "title": "Reproducible visibility trend"
+    }
+  ],
+  "crossScorecard": [
+    {
+      "gbp": "explanatory only",
+      "question": "Local Pack rank",
+      "visibility": "SCORE",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "explanatory only",
+      "question": "Google Maps rank",
+      "visibility": "SCORE",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Geo-grid visibility",
+      "visibility": "SCORE",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Organic rank and ranking URL",
+      "visibility": "SCORE",
+      "website": "explanatory only"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "AI mention, recommendation, and citation",
+      "visibility": "SCORE",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Competitor share of visibility",
+      "visibility": "SCORE",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Relevant referring domains and external corroboration",
+      "visibility": "SCORE",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "SCORE",
+      "question": "GBP category quality",
+      "visibility": "explanatory only",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "SCORE",
+      "question": "GBP services, hours, attributes, photos",
+      "visibility": "explanatory only",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "SCORE",
+      "question": "GBP reviews and owner responses",
+      "visibility": "\u2014",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "SCORE",
+      "question": "GBP phone, website, booking, or messaging action",
+      "visibility": "\u2014",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "SCORE",
+      "question": "GBP-to-website handoff",
+      "visibility": "\u2014",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Page speed and mobile UX",
+      "visibility": "\u2014",
+      "website": "SCORE"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Website forms, CTA usability, booking flow",
+      "visibility": "\u2014",
+      "website": "SCORE"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "On-site schema and technical implementation",
+      "visibility": "\u2014",
+      "website": "SCORE"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Website conversion tracking",
+      "visibility": "\u2014",
+      "website": "SCORE"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Review widget on website",
+      "visibility": "\u2014",
+      "website": "SCORE"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Paid search or Local Services Ads presence",
+      "visibility": "diagnostic, never scored",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "\u2014",
+      "question": "Branded search visibility",
+      "visibility": "diagnostic, never scored",
+      "website": "\u2014"
+    },
+    {
+      "gbp": "OWNER DATA REQUIRED",
+      "question": "Search Console clicks, calls, leads, revenue",
+      "visibility": "OWNER DATA REQUIRED",
+      "website": "OWNER DATA REQUIRED"
+    }
+  ],
+  "facts": [
+    {
+      "description": "Restates business.resolution.resolved.",
+      "key": "target_resolved",
+      "type": "boolean"
+    },
+    {
+      "description": "Restates query_universe.locked.",
+      "key": "query_universe_locked",
+      "type": "boolean"
+    },
+    {
+      "description": "True when the target has at least one qualified top-20 or AI mention on any required core non-branded surface.",
+      "key": "non_branded_discovery_present",
+      "type": "boolean"
+    },
+    {
+      "description": "True when at least one Maps or Local Pack observation exists.",
+      "key": "maps_observations_present",
+      "type": "boolean"
+    },
+    {
+      "description": "True when at least one organic observation exists.",
+      "key": "organic_observations_present",
+      "type": "boolean"
+    },
+    {
+      "description": "True when at least one validated AI observation exists.",
+      "key": "ai_observations_present",
+      "type": "boolean"
+    },
+    {
+      "description": "True when at least one AI surface is marked validated.",
+      "key": "ai_surfaces_validated",
+      "type": "boolean"
+    },
+    {
+      "description": "Restates competitors.locked.",
+      "key": "competitor_cohort_locked",
+      "type": "boolean"
+    },
+    {
+      "description": "True when every required validity gate passes.",
+      "key": "sufficient_valid_evidence",
+      "type": "boolean"
+    }
+  ],
+  "framework": "local-discovery",
+  "generated": true,
+  "journey": [
+    {
+      "applicableMax": 15,
+      "coverageStatus": "scored",
+      "customerQuestion": "When a local customer searches for the service, does the business appear across the demand it sells?",
+      "id": "search",
+      "label": "Search",
+      "note": "Scored by the public visibility rubric.",
+      "order": 1,
+      "ownerData": [
+        "OD-LV-GSC-CLICKS",
+        "OD-LV-GSC-CTR",
+        "OD-LV-PRIORITY-SERVICES"
+      ],
+      "scoredChecks": [
+        "LV-INT-01",
+        "LV-INT-02",
+        "LV-INT-03",
+        "LV-INT-04",
+        "LV-INT-05",
+        "LV-INT-06",
+        "LV-INT-07"
+      ]
+    },
+    {
+      "applicableMax": 40,
+      "coverageStatus": "scored",
+      "customerQuestion": "Does the business appear in Maps, the Local Pack, and ordinary organic results throughout the market?",
+      "id": "discover",
+      "label": "Discover",
+      "note": "Scored by the public visibility rubric.",
+      "order": 2,
+      "ownerData": [],
+      "scoredChecks": [
+        "LV-MAP-01",
+        "LV-MAP-02",
+        "LV-MAP-03",
+        "LV-MAP-04",
+        "LV-MAP-05",
+        "LV-MAP-06",
+        "LV-MAP-07",
+        "LV-MAP-08",
+        "LV-MAP-09",
+        "LV-MAP-10",
+        "LV-ORG-01",
+        "LV-ORG-02",
+        "LV-ORG-03",
+        "LV-ORG-04",
+        "LV-ORG-05",
+        "LV-ORG-06",
+        "LV-ORG-07"
+      ]
+    },
+    {
+      "applicableMax": 20,
+      "coverageStatus": "scored",
+      "customerQuestion": "When a customer asks an AI system for a recommendation, is the business mentioned, recommended, and cited?",
+      "id": "ask",
+      "label": "Ask",
+      "note": "Scored by the public visibility rubric.",
+      "order": 3,
+      "ownerData": [
+        "OD-LV-AI-REFERRALS",
+        "OD-LV-AI-LEADS"
+      ],
+      "scoredChecks": [
+        "LV-AI-01",
+        "LV-AI-02",
+        "LV-AI-03",
+        "LV-AI-04",
+        "LV-AI-05",
+        "LV-AI-06",
+        "LV-AI-07",
+        "LV-AI-08",
+        "LV-AI-09",
+        "LV-AI-10"
+      ]
+    },
+    {
+      "applicableMax": 20,
+      "coverageStatus": "scored",
+      "customerQuestion": "How does the business's share of discovery compare with real local competitors and credible external sources?",
+      "id": "compare",
+      "label": "Compare",
+      "note": "Scored by the public visibility rubric.",
+      "order": 4,
+      "ownerData": [
+        "OD-LV-ORGANIC-LEADS",
+        "OD-LV-ORGANIC-REVENUE"
+      ],
+      "scoredChecks": [
+        "LV-CMP-01",
+        "LV-CMP-02",
+        "LV-CMP-03",
+        "LV-CMP-04",
+        "LV-CMP-05",
+        "LV-CMP-06",
+        "LV-CMP-07",
+        "LV-AUT-01",
+        "LV-AUT-02",
+        "LV-AUT-03",
+        "LV-AUT-04",
+        "LV-AUT-05",
+        "LV-AUT-06"
+      ]
+    },
+    {
+      "applicableMax": 5,
+      "coverageStatus": "scored",
+      "customerQuestion": "Would the business still be discoverable if one surface, service, or area weakened?",
+      "id": "resilience",
+      "label": "Resilience",
+      "note": "Scored by the public visibility rubric.",
+      "order": 5,
+      "ownerData": [
+        "OD-LV-LOCAL-SEARCH-REVENUE"
+      ],
+      "scoredChecks": [
+        "LV-RES-01",
+        "LV-RES-02",
+        "LV-RES-03",
+        "LV-RES-04",
+        "LV-RES-05"
+      ]
+    },
+    {
+      "applicableMax": 0,
+      "coverageStatus": "observed_unscored",
+      "customerQuestion": "When the customer chooses the business, do the Google Business Profile and owned website create trust and convert?",
+      "id": "handoff",
+      "label": "Handoff",
+      "note": "Handoff is diagnosed by GBP and Website Scorecards; Local Visibility stops at discovery and comparison.",
+      "order": 6,
+      "ownerData": [],
+      "scoredChecks": []
+    },
+    {
+      "applicableMax": 0,
+      "coverageStatus": "owner_data_required",
+      "customerQuestion": "Can discovery-origin demand be tied to qualified leads, jobs, and revenue?",
+      "id": "measure",
+      "label": "Measure",
+      "note": "Owner-data stage is diagnosed, never scored.",
+      "order": 7,
+      "ownerData": [
+        "OD-LV-PAID-ROI"
+      ],
+      "scoredChecks": []
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "paid_search",
+      "label": "Paid search coverage",
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "why": "Paid search can cover high-intent demand that organic and Maps visibility do not reach, but its absence is never a score penalty."
+    },
+    {
+      "id": "local_services_ads",
+      "label": "Local Services Ads",
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "why": "Local Services Ads can place a home-service business above the Local Pack for urgent demand."
+    },
+    {
+      "id": "secondary_search",
+      "label": "Bing and secondary search coverage",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "Secondary engines can be a low-cost incremental discovery surface for some local trades."
+    },
+    {
+      "id": "apple_maps",
+      "label": "Apple Maps presence",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "iPhone users may discover a local business outside Google."
+    },
+    {
+      "id": "bing_maps",
+      "label": "Bing Maps presence",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "Bing Maps and Bing local results can corroborate the same entity."
+    },
+    {
+      "id": "nextdoor",
+      "label": "Nextdoor and neighborhood presence",
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "why": "Neighborhood recommendations can matter for service-area businesses."
+    },
+    {
+      "id": "yelp_optimization",
+      "label": "Yelp and marketplace profile",
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "why": "Some markets and trades see meaningful discovery through marketplaces even when they are not the primary surface."
+    },
+    {
+      "id": "youtube_visibility",
+      "label": "YouTube and video discovery",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "Video can occupy SERP features and corroborate the work a business claims to do."
+    },
+    {
+      "id": "local_sponsorship",
+      "label": "Local sponsorship and community presence",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "Local sponsorships can create relevant local citations and entity corroboration."
+    },
+    {
+      "id": "manufacturer_directory",
+      "label": "Manufacturer or dealer directory",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "A relevant manufacturer or dealer listing can be a strong, trade-specific corroborating source."
+    },
+    {
+      "id": "pr_local_media",
+      "label": "Local media and PR",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "Credible local publications can strengthen the entity footprint and AI citation ecosystem."
+    },
+    {
+      "id": "ai_citation_source",
+      "label": "AI citation-source development",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "AI answers cite sources. Relevant, citable content and third-party corroboration can improve the chance of being referenced."
+    },
+    {
+      "id": "new_service_area",
+      "label": "New service-area market",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "The audit may reveal a geographic visibility gap that is better addressed by a deliberate market decision than by more content."
+    },
+    {
+      "id": "content_expansion",
+      "label": "Service and location content expansion",
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "why": "Organic and AI visibility can be limited by the absence of pages that match the tracked intent."
+    }
+  ],
+  "ownerData": [
+    {
+      "id": "OD-LV-GSC-CLICKS",
+      "journeyStage": "search",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "How many non-branded clicks did the tracked service and city query clusters receive in the last 90 days?",
+        "Which clusters receive impressions but almost no clicks?"
+      ],
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "title": "Search Console clicks by query cluster"
+    },
+    {
+      "id": "OD-LV-GSC-CTR",
+      "journeyStage": "search",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "What are the impressions, clicks, CTR, and average position for each core service cluster?",
+        "Does the business appear for the query but lose the click to a directory or a competitor?"
+      ],
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "title": "Search Console CTR and average position"
+    },
+    {
+      "id": "OD-LV-PRIORITY-SERVICES",
+      "journeyStage": "search",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "Which service lines produce the highest gross profit per job?",
+        "Which services should the business grow, maintain, or stop selling?"
+      ],
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "title": "Priority services by gross profit"
+    },
+    {
+      "id": "OD-LV-ORGANIC-LEADS",
+      "journeyStage": "compare",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "How many qualified leads came from non-branded organic search last quarter?",
+        "What percentage became booked jobs?"
+      ],
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "title": "Qualified leads from non-branded organic search"
+    },
+    {
+      "id": "OD-LV-ORGANIC-REVENUE",
+      "journeyStage": "compare",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "What revenue is attributable to non-branded organic search?",
+        "Which service clusters produce the most revenue per organic lead?"
+      ],
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "title": "Revenue from organic discovery"
+    },
+    {
+      "id": "OD-LV-AI-REFERRALS",
+      "journeyStage": "ask",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "Does analytics show referrals from AI surfaces such as Google AI Mode, ChatGPT, Gemini, Perplexity, or Claude?",
+        "Which prompts or landing pages are associated with those referrals?"
+      ],
+      "scored": false,
+      "serviceMapping": "market_intelligence",
+      "title": "AI referral traffic"
+    },
+    {
+      "id": "OD-LV-AI-LEADS",
+      "journeyStage": "ask",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "Have AI referrals produced qualified leads or booked jobs?",
+        "Do customers mention an AI answer when they call or submit a request?"
+      ],
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "title": "AI-origin leads and jobs"
+    },
+    {
+      "id": "OD-LV-LOCAL-SEARCH-REVENUE",
+      "journeyStage": "resilience",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "What share of revenue comes from the top service and the top geographic area?",
+        "Which service or area would hurt most if visibility declined?"
+      ],
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "title": "Revenue concentration by service and area"
+    },
+    {
+      "id": "OD-LV-PAID-ROI",
+      "journeyStage": "measure",
+      "publicMode": "owner_data_required",
+      "questions": [
+        "What is the cost per qualified lead for Search Ads and Local Services Ads?",
+        "Does paid search cover demand the business cannot earn organically?"
+      ],
+      "scored": false,
+      "serviceMapping": "marketing_intelligence",
+      "title": "Paid discovery return"
+    }
+  ],
+  "publicMode": {
+    "aiSourceSeparation": "consumer/search surfaces and model/API surfaces are never pooled",
+    "auditMode": "public",
+    "credentials": "DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD via environment only",
+    "gridDefault": "7x7 / 49 points",
+    "implementationProvider": "DataForSEO is an implementation provider, not the methodology.",
+    "minimumValidAiSurfaces": 1,
+    "mutation": "none",
+    "ownerDataInScore": false,
+    "provider": "dataforseo"
+  },
+  "rubric_version": "1.0.0",
+  "schema_version": "1.0",
+  "serviceMappings": [
+    {
+      "description": "Recover revenue from open estimates, unsold opportunities, and conversion leaks.",
+      "id": "revenue_recovery",
+      "label": "Revenue Recovery"
+    },
+    {
+      "description": "Improve response time, routing, booking, and lead handling.",
+      "id": "speed_to_lead",
+      "label": "Speed-to-Lead"
+    },
+    {
+      "description": "Bring back inactive customers and past opportunities.",
+      "id": "customer_reactivation",
+      "label": "Customer Reactivation"
+    },
+    {
+      "description": "Improve local visibility, service-area clarity, and market positioning.",
+      "id": "market_intelligence",
+      "label": "Market Intelligence"
+    },
+    {
+      "description": "Connect lead sources, measurement, and channel profitability.",
+      "id": "marketing_intelligence",
+      "label": "Marketing Intelligence"
+    },
+    {
+      "description": "Reduce waste from slow, broken, or unusable digital experiences.",
+      "id": "cost_compression",
+      "label": "Cost Compression"
+    }
+  ],
+  "source": "references/rubric.json",
+  "statusDefinitions": {
+    "conditional": "Scored only when its configured condition applies.",
+    "diagnostic": "Observed and reported, but not a universal scored penalty.",
+    "not_applicable": "Does not reasonably apply to this business, category, geography, configuration, or audit mode.",
+    "observed_unscored": "Reported for context only; owned by a sibling scorecard.",
+    "owner_data_required": "Requires Search Console, analytics, CRM, call, booking, or financial data; never reduces the public score.",
+    "scored": "Contributes to the public score."
+  },
+  "total": 100,
+  "validityGates": [
+    {
+      "id": "schema_valid",
+      "label": "Artifact schema is valid",
+      "threshold": "The audit validates against the V1 schema and its schema_version is known."
+    },
+    {
+      "id": "target_resolved",
+      "label": "Target business resolved",
+      "threshold": "business.resolution.resolved is true and match confidence is at least 0.80."
+    },
+    {
+      "id": "query_universe_locked",
+      "label": "Query universe locked",
+      "threshold": "query_universe.locked is true, a hash is present, and the hash matches the universe content."
+    },
+    {
+      "id": "market_match",
+      "label": "Market configuration matches the universe",
+      "threshold": "Trade, market name, language, and device match between the audit and the query universe."
+    },
+    {
+      "id": "core_query_coverage",
+      "label": "Core query coverage",
+      "threshold": "At least 80% of planned core queries are observed on each required core surface."
+    },
+    {
+      "id": "grid_coverage",
+      "label": "Geo-grid coverage",
+      "threshold": "At least 80% of planned grid points are observed for each configured Maps surface."
+    },
+    {
+      "id": "ai_surface_availability",
+      "label": "Validated AI surface available",
+      "threshold": "At least one validated AI surface has observations."
+    },
+    {
+      "id": "ai_repeat_completeness",
+      "label": "AI repeat completeness",
+      "threshold": "At least 80% of planned prompt-platform-repeat observations are present."
+    },
+    {
+      "id": "competitor_cohort_locked",
+      "label": "Competitor cohort locked",
+      "threshold": "competitors.locked is true and at least two business competitors are in the locked cohort."
+    },
+    {
+      "id": "authority_data_present",
+      "label": "Authority data present",
+      "threshold": "At least one referring-domain or external listing observation is present."
+    },
+    {
+      "id": "provider_error_rate",
+      "label": "Provider error rate",
+      "threshold": "The recorded provider error rate is at most 0.10."
+    },
+    {
+      "id": "critical_source_outage",
+      "label": "No critical source outage",
+      "threshold": "No required core source is recorded as a critical outage."
+    }
+  ]
+}
