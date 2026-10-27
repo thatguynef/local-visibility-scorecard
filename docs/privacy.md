@@ -47,8 +47,12 @@ Supply DataForSEO credentials only through environment variables or a local secr
 ```sh
 export DATAFORSEO_LOGIN="..."
 export DATAFORSEO_PASSWORD="..."
+# Or, instead of the pair:
+# export DATAFORSEO_BASIC_AUTH="Basic <base64-login-password>"
 npm run audit -- --config config/market.example.json --plan
 ```
+
+A pre-encoded `DATAFORSEO_BASIC_AUTH` value is still a credential. Base64 does not protect it. Keep it out of tracked files, screenshots, issues, and shell history where possible.
 
 The collector never loads `.env` automatically. `.env.example` contains variable names only. Never put a real value in a tracked example file.
 

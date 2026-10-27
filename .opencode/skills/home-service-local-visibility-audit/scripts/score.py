@@ -30,7 +30,7 @@ EVIDENCE_STATES = {"verified", "strong_signal", "owner_data_required", "not_appl
 SCORED_CONFIDENCE = {"verified", "strong_signal"}
 PRIORITY = {"critical": 0, "high": 1, "medium": 2, "low": 3}
 FORBIDDEN_KEYS = re.compile(
-    r"^(?:api[_-]?key|apikey|authorization|access[_-]?token|refresh[_-]?token|client[_-]?secret|password|cookie|set-cookie|dataforseo_login|dataforseo_password)$",
+    r"^(?:api[_-]?key|apikey|authorization|access[_-]?token|refresh[_-]?token|client[_-]?secret|password|cookie|set-cookie|dataforseo_login|dataforseo_password|dataforseo_basic_auth)$",
     re.I,
 )
 SECRET_VALUE = re.compile(

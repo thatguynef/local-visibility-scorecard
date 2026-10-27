@@ -159,7 +159,7 @@ const secretPatterns = [
   {
     name: "standalone Basic credential value",
     hard: true,
-    re: /(?:^|[\s"'`])Basic\s+([A-Za-z0-9+/]{20,}={0,2})(?:$|[\s"'`])/m,
+    re: /(?:^|[\s"'`])Basic\s+([A-Za-z0-9+/=_-]{20,})(?:$|[\s"'`])/m,
     allow: (value) => /^(?:your|example|placeholder|replace|changeme|redacted|dummy|fake|test|synthetic|xxx+|<)/i.test(value),
   },
   {
@@ -177,6 +177,14 @@ const secretPatterns = [
     allow: (value) =>
       /^(?:your|example|placeholder|replace|changeme|redacted|dummy|fake|test|synthetic|none|null|undefined|xxx+|<)/i.test(value) ||
       /^(?:process\.env|os\.environ|env\.|import\.meta|globalThis|window\.|Deno\.env)/.test(value),
+  },
+  {
+    name: "DataForSEO Basic Auth value",
+    hard: true,
+    re: /\bDATAFORSEO_BASIC_AUTH\b\s*[:=]\s*["']?(?:Basic\s+)?([A-Za-z0-9+/=_-]{16,})["']?/i,
+    allow: (value) =>
+      /^(?:your|example|placeholder|replace|changeme|redacted|dummy|fake|test|synthetic|none|null|undefined|xxx+|<)/i.test(value) ||
+      /\$\{/.test(value),
   },
   {
     name: "literal credentials encoded with base64",

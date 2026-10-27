@@ -22,7 +22,7 @@ Include:
 
 In scope:
 
-- credential exposure in the repository or Git history, including DataForSEO login, password, and Basic Authorization values,
+- credential exposure in the repository or Git history, including DataForSEO login, password, pre-encoded `DATAFORSEO_BASIC_AUTH` values, and Basic Authorization values,
 - customer PII, real audit evidence, geo-grid coordinates for a real client, or private client data in tracked files,
 - path traversal or unsafe file handling in the scripts,
 - command injection or unsafe shell interpolation,

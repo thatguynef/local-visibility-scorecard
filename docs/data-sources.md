@@ -52,12 +52,20 @@ The rest of the pipeline consumes normalized structures, not raw DataForSEO resp
 
 Credentials come from the environment only:
 
+Option A — separate credentials:
+
 ```sh
 export DATAFORSEO_LOGIN="..."
 export DATAFORSEO_PASSWORD="..."
 ```
 
-The application never loads `.env` automatically. It never writes the login, password, or Basic Authorization header to an audit artifact, cache key, URL, log, report, or exception.
+Option B — a pre-encoded Base64 `login:password` value:
+
+```sh
+export DATAFORSEO_BASIC_AUTH="Basic <base64-login-password>"
+```
+
+The client accepts the bare Base64 value or a full `Basic ...` header, validates that it decodes to `login:password`, and keeps it in memory. The application never loads `.env` automatically. It never writes the login, password, or Basic Authorization header to an audit artifact, cache key, URL, log, report, or exception.
 
 ## Request safety
 

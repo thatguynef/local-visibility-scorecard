@@ -8,6 +8,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { buildUniverse } from "./lib/universe.mjs";
+import { authorizationHeader, credentialsPresent, normalizeBasicToken, redactSecrets } from "./providers/dataforseo/auth.mjs";
 
 const HERE = import.meta.dirname;
 const ROOT = path.resolve(HERE, "..", "..", "..", "..");
@@ -86,6 +87,18 @@ test("query universe is deterministic, locked, and reproducible", () => {
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test("DataForSEO accepts a pre-encoded Basic Auth value without exposing it", () => {
+  const token = Buffer.from("synthetic-login:synthetic-password").toString("base64");
+  assert.equal(credentialsPresent({ DATAFORSEO_BASIC_AUTH: token }), true);
+  assert.equal(authorizationHeader({ DATAFORSEO_BASIC_AUTH: token }), `Basic ${token}`);
+  assert.equal(normalizeBasicToken(`Basic ${token}`), token);
+  const redacted = redactSecrets(`Authorization: Basic ${token}`, { DATAFORSEO_BASIC_AUTH: token });
+  assert.ok(!redacted.includes(token));
+  assert.match(redacted, /Basic \[redacted\]/);
+  assert.throws(() => authorizationHeader({ DATAFORSEO_BASIC_AUTH: "not-base64" }));
+  assert.throws(() => authorizationHeader({}));
 });
 
 test("fixture collector needs no credentials and emits a pending worksheet", () => {
@@ -252,7 +265,7 @@ test("privacy scanner fails on synthetic DataForSEO credentials and never prints
   try {
     const password = "syntheticDataForSeoPassword123";
     const basic = Buffer.from("synthetic-login:synthetic-password").toString("base64");
-    fs.writeFileSync(path.join(dir, "leak.md"), `DATAFORSEO_PASSWORD=${password}\nAuthorization: Basic ${basic}\n`, "utf8");
+    fs.writeFileSync(path.join(dir, "leak.md"), `DATAFORSEO_PASSWORD=${password}\nDATAFORSEO_BASIC_AUTH=${basic}\nAuthorization: Basic ${basic}\n`, "utf8");
     const result = run(process.execPath, [PRIVACY, "--dir", dir]);
     assert.equal(result.status, 1);
     assert.match(result.stderr, /DataForSEO|authorization/i);

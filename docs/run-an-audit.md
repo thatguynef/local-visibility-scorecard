@@ -116,6 +116,14 @@ export DATAFORSEO_LOGIN="..."
 export DATAFORSEO_PASSWORD="..."
 ```
 
+Or use a pre-encoded Base64 `login:password` value:
+
+```sh
+export DATAFORSEO_BASIC_AUTH="Basic <base64-login-password>"
+```
+
+The client accepts either the bare Base64 value or a full `Basic ...` header and validates that it decodes to `login:password`. Base64 is not encryption; treat it as a credential.
+
 The application never reads `.env` automatically. Never put a real value in a tracked file.
 
 ### 2. Plan the run

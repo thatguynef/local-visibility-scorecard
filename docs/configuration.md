@@ -128,10 +128,22 @@ The grid geometry, method, version, and hash are recorded in the audit.
 
 ## Environment
 
+Option A — separate credentials (recommended):
+
 ```sh
 export DATAFORSEO_LOGIN="..."
 export DATAFORSEO_PASSWORD="..."
 ```
+
+Option B — a pre-encoded Base64 `login:password` value:
+
+```sh
+export DATAFORSEO_BASIC_AUTH="$(printf '%s:%s' "$DATAFORSEO_LOGIN" "$DATAFORSEO_PASSWORD" | base64)"
+```
+
+`DATAFORSEO_BASIC_AUTH` accepts either the bare Base64 value or a full `Basic <value>` header. The client validates that it decodes to `login:password`. Base64 is an encoding, not encryption: treat the token as a credential.
+
+Do not paste the value into a tracked file, issue, chat, screenshot, or shell history if you can avoid it.
 
 Optional local controls:
 

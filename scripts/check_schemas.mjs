@@ -218,7 +218,7 @@ if (rawAudit) {
 }
 
 // A credential can be hidden inside an otherwise schema-valid string field.
-const forbiddenKeys = /^(?:api[_-]?key|apikey|authorization|access[_-]?token|refresh[_-]?token|client[_-]?secret|password|cookie|set-cookie|dataforseo_login|dataforseo_password)$/i;
+const forbiddenKeys = /^(?:api[_-]?key|apikey|authorization|access[_-]?token|refresh[_-]?token|client[_-]?secret|password|cookie|set-cookie|dataforseo_login|dataforseo_password|dataforseo_basic_auth)$/i;
 function scanKeys(value, pointer = "$") {
   if (!value || typeof value !== "object") return;
   if (Array.isArray(value)) {

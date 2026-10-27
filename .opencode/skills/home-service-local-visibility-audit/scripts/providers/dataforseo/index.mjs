@@ -9,6 +9,7 @@ export {
   assertCredentials,
   authorizationHeader,
   credentialsPresent,
+  normalizeBasicToken,
   redactSecrets,
 } from "./auth.mjs";
 export {

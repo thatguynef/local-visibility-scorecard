@@ -121,7 +121,7 @@ It shows core keywords, grid points, Maps tasks, organic tasks, AI prompt tasks,
 
 ## Privacy and security
 
-This is a public repository. Raw evidence, client reports, `.env` files, DataForSEO credentials, Basic Authorization values, raw API responses, geo-grid coordinates, prompts, and connected-account data stay local.
+This is a public repository. Raw evidence, client reports, `.env` files, DataForSEO credentials (`DATAFORSEO_LOGIN` + `DATAFORSEO_PASSWORD`, or a pre-encoded `DATAFORSEO_BASIC_AUTH`), Basic Authorization values, raw API responses, geo-grid coordinates, prompts, and connected-account data stay local.
 
 ```sh
 npm run check:privacy
