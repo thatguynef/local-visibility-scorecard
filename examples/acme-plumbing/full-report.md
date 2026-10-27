@@ -29,7 +29,7 @@
 
 **What is happening:** Only a small share of emergency query-grid observations place the business in the top 10, and no validated AI surface recommends it for emergency prompts.
 
-**Evidence:** Emergency intent coverage is 14.3%; emergency AI recommendation coverage is 0%.
+**Evidence:** Emergency intent coverage is 16.3%; emergency AI recommendation coverage is 0%.
 
 **Why it matters:** Urgent demand is the highest-intent demand a plumbing business sells. A customer with a burst pipe does not browse.
 
@@ -138,7 +138,7 @@ Consumer/search surfaces and model/API surfaces are shown separately and are nev
 | LV-INT-01 | Search | 2/3 | VERIFIED | Core service clusters with qualified visibility: 66.7%. | Prioritize the service clusters with no qualified visibility. Confirm the business actually sells them before treating the gap as a defect. |
 | LV-INT-02 | Search | 2/3 | VERIFIED | Demand-weighted non-branded coverage: 54.7%. | Rebuild the content and entity strategy around the uncovered demand, starting with the highest-weight clusters. Do not optimize a head term at the expense of every other service. |
 | LV-INT-03 | Search | 1/2 | VERIFIED | High-commercial-intent coverage: 51.2%. | Focus the next content and profile work on the commercial intents that are absent. |
-| LV-INT-04 | Search | 0/2 | VERIFIED | Emergency intent coverage is 14.3%; no validated AI surface recommends the business for emergency prompts. | Decide whether emergency work is a real service line, then build or remove the urgent path. |
+| LV-INT-04 | Search | 0/2 | VERIFIED | Emergency intent coverage is 16.3%; no validated AI surface recommends the business for emergency prompts. | Decide whether emergency work is a real service line, then build or remove the urgent path. |
 | LV-INT-05 | Search | 1/2 | VERIFIED | Service + city intent coverage: 45.6%. | Create or improve the location-specific service pages and confirm the market is actually served. |
 | LV-INT-06 | Search | 1/1 | VERIFIED | Near-me intent coverage: 59.6%. | — |
 | LV-INT-07 | Search | 1/2 | VERIFIED | Problem and symptom intent coverage: 29.4%. | Map content to the symptoms the business actually solves. Do not publish generic DIY content that cannot produce a service lead. |

@@ -19,7 +19,7 @@
 
 **What is happening:** Only a small share of emergency query-grid observations place the business in the top 10, and no validated AI surface recommends it for emergency prompts.
 
-**Evidence:** Emergency intent coverage is 14.3%; emergency AI recommendation coverage is 0%.
+**Evidence:** Emergency intent coverage is 16.3%; emergency AI recommendation coverage is 0%.
 
 **Why it matters:** Urgent demand is the highest-intent demand a plumbing business sells. A customer with a burst pipe does not browse.
 

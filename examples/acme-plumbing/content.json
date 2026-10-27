@@ -12,7 +12,7 @@
       "checkId": "LV-INT-04",
       "confidence": "verified",
       "what": "Only a small share of emergency query-grid observations place the business in the top 10, and no validated AI surface recommends it for emergency prompts.",
-      "evidence": "Emergency intent coverage is 14.3%; emergency AI recommendation coverage is 0%.",
+      "evidence": "Emergency intent coverage is 16.3%; emergency AI recommendation coverage is 0%.",
       "why": "Urgent demand is the highest-intent demand a plumbing business sells. A customer with a burst pipe does not browse.",
       "fix": "Decide whether emergency work is a real service line. If it is, build a dedicated urgent path and make the operational capacity visible; if it is not, stop presenting it as one."
     },
@@ -177,7 +177,7 @@
   "findings": [
     {
       "id": "LV-INT-04",
-      "observed": "Emergency intent coverage is 14.3%; no validated AI surface recommends the business for emergency prompts.",
+      "observed": "Emergency intent coverage is 16.3%; no validated AI surface recommends the business for emergency prompts.",
       "fix": "Decide whether emergency work is a real service line, then build or remove the urgent path."
     },
     {
