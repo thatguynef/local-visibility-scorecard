@@ -44,7 +44,7 @@
     "check:privacy": "node scripts/privacy_scan.mjs",
     "check:assets": "node scripts/check_assets.mjs",
     "check:links": "node scripts/check_links.mjs",
-    "render:assets": "node scripts/render_docs_assets.mjs",
+    "render:assets": "node scripts/render_docs_assets.mjs && node scripts/rasterize_assets.mjs",
     "docs:build": "node scripts/docs_build.mjs build --strict",
     "docs:serve": "node scripts/docs_build.mjs serve",
     "check": "npm test && npm run check:rubric && npm run check:generated && npm run check:schemas && npm run check:links && npm run check:assets && npm run check:privacy",

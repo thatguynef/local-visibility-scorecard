@@ -39,12 +39,13 @@ const banner = svg(1200, 320, "Local Visibility Scorecard — find where local c
   <rect width="1200" height="320" fill="url(#grid)"/>
   <rect width="1200" height="320" fill="url(#glow)"/>
   <g transform="translate(64 56)">
-    <circle cx="18" cy="18" r="24" fill="none" stroke="${C.red}" stroke-opacity="0.35"/>
-    <circle cx="18" cy="18" r="15" fill="none" stroke="${C.red}" stroke-opacity="0.55"/>
-    <path d="M18 2C10.3 2 4 8.3 4 16c0 10.5 14 24 14 24s14-13.5 14-24C32 8.3 25.7 2 18 2Z" fill="${C.red}"/>
-    <circle cx="18" cy="16" r="5" fill="${C.ink}"/>
+    <rect width="44" height="44" rx="10" fill="${C.card}" stroke="#2A2A2E"/>
+    <path d="M12 30 A 12 12 0 0 1 32 30" fill="none" stroke="${C.red}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M12 30 A 12 12 0 0 1 18 20" fill="none" stroke="${C.paper}" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="22" cy="30" r="2.5" fill="${C.paper}"/>
+    <path d="M22 30 L28 23" stroke="${C.paper}" stroke-width="2.5" stroke-linecap="round"/>
   </g>
-  <text x="120" y="92" fill="${C.soft}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
+  <text x="126" y="94" fill="${C.soft}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
   <text x="64" y="166" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="46" font-weight="700" letter-spacing="-1.8">Find where local customers can —</text>
   <text x="64" y="218" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="46" font-weight="700" letter-spacing="-1.8">and cannot — discover your business.</text>
   <text x="64" y="270" fill="${C.muted}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18">Search · Maps · AI answers · Competitors · Authority</text>
@@ -135,29 +136,33 @@ const preview = svg(1200, 820, "Synthetic Acme Plumbing local visibility report 
   <text x="76" y="752" fill="${C.muted}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="12">Synthetic example. Not a real business. Public Mode · evidence first · owner data separate.</text>
 `);
 
-const social = svg(1280, 640, "Local Visibility Scorecard — evidence-based diagnosis across Search, Maps, and AI answers", `
-  <rect width="1280" height="640" fill="${C.ink}"/>
-  <rect width="1280" height="640" fill="url(#grid)"/>
-  <rect width="1280" height="640" fill="url(#glow)"/>
-  <text x="80" y="132" fill="${C.soft}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
-  <text x="80" y="252" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">Can local customers</text>
-  <text x="80" y="324" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">discover your business?</text>
-  <text x="80" y="400" fill="${C.muted}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="22">Search · Maps · AI answers · competitors · authority</text>
-  <rect x="80" y="452" width="370" height="56" rx="8" fill="${C.red}"/>
-  <text x="265" y="487" text-anchor="middle" fill="${C.ink}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700">Measure discovery</text>
-  <text x="80" y="582" fill="${C.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2">SYNTHETIC EXAMPLES · PUBLIC MODE · NO CREDENTIALS IN ARTIFACTS</text>
+const social = svg(1200, 630, "Local Visibility Scorecard — evidence-based diagnosis across Search, Maps, and AI answers", `
+  <rect width="1200" height="630" fill="${C.ink}"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <text x="72" y="120" fill="${C.soft}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
+  <text x="72" y="240" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="64" font-weight="700" letter-spacing="-2">Can local customers</text>
+  <text x="72" y="316" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="64" font-weight="700" letter-spacing="-2">discover your business?</text>
+  <text x="72" y="392" fill="${C.muted}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="22">100 points · 7 categories · evidence states · discovery first</text>
+  <rect x="72" y="440" width="310" height="54" rx="8" fill="${C.red}"/>
+  <text x="227" y="474" text-anchor="middle" fill="${C.ink}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700">Measure discovery</text>
+  <text x="72" y="552" fill="${C.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2">SYNTHETIC EXAMPLES · PUBLIC MODE · NO CREDENTIALS IN ARTIFACTS</text>
 `);
 
 const logo = svg(64, 64, "Local Visibility Scorecard", `
-  <rect width="64" height="64" rx="14" fill="${C.ink}"/>
-  <circle cx="32" cy="30" r="20" fill="none" stroke="${C.red}" stroke-opacity="0.3"/>
-  <path d="M32 12c-8 0-14 6-14 14 0 10.5 14 26 14 26s14-15.5 14-26c0-8-6-14-14-14Z" fill="${C.red}"/>
-  <circle cx="32" cy="26" r="5" fill="${C.ink}"/>
+  <rect width="64" height="64" rx="15" fill="${C.ink}"/>
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="14.25" fill="none" stroke="#2A2A2E" stroke-width="1.5"/>
+  <path d="M17 42 A 15 15 0 0 1 47 42" fill="none" stroke="#2A2A2E" stroke-width="6" stroke-linecap="round"/>
+  <path d="M17 42 A 15 15 0 0 1 39.5 29" fill="none" stroke="${C.red}" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="32" cy="42" r="3" fill="${C.paper}"/>
+  <path d="M32 42 L39 33" stroke="${C.paper}" stroke-width="3" stroke-linecap="round"/>
 `);
 const favicon = svg(32, 32, "Local Visibility Scorecard", `
-  <rect width="32" height="32" rx="8" fill="${C.ink}"/>
-  <path d="M16 5c-4.4 0-8 3.6-8 8 0 5.8 8 14 8 14s8-8.2 8-14c0-4.4-3.6-8-8-8Z" fill="${C.red}"/>
-  <circle cx="16" cy="13" r="2.8" fill="${C.ink}"/>
+  <rect width="32" height="32" rx="7" fill="${C.red}"/>
+  <path d="M8.5 21 A 7.5 7.5 0 0 1 23.5 21" fill="none" stroke="${C.ink}" stroke-opacity="0.28" stroke-width="3" stroke-linecap="round"/>
+  <path d="M8.5 21 A 7.5 7.5 0 0 1 19.75 14.5" fill="none" stroke="${C.paper}" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="16" cy="21" r="1.5" fill="${C.paper}"/>
+  <path d="M16 21 L19.5 16.5" stroke="${C.paper}" stroke-width="1.5" stroke-linecap="round"/>
 `);
 
 const sanitizeSvg = (content) =>
@@ -169,8 +174,6 @@ const sanitizeSvg = (content) =>
 const files = {
   "banner.svg": banner,
   "journey.svg": journey,
-  "scorecard-preview.svg": preview,
-  "social-preview.svg": social,
   "logo.svg": logo,
   "favicon.svg": favicon,
 };

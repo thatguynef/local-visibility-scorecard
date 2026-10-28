@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap");
+
 /* ---------------------------------------------------------------- tokens */
 
 :root {
@@ -297,6 +299,28 @@
 .md-typeset .admonition,
 .md-typeset details {
   border-radius: 8px;
+  border-left-width: 3px;
+}
+
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-color: #ff3b3b;
+}
+
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset details.note > summary {
+  background-color: rgba(255, 59, 59, 0.1);
+  border-color: #ff3b3b;
+}
+
+.md-typeset blockquote {
+  border-left: 3px solid #ff3b3b;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .mermaid {
+  margin: 1.2rem 0;
+  text-align: center;
 }
 
 .md-typeset .admonition-title,

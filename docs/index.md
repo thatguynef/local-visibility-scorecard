@@ -116,7 +116,37 @@ RAD
 Remediation and operations live elsewhere.
 ```
 
-Local Visibility stops at discovery and comparison. [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses the profile. [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses the owned site. The boundaries are explicit in [The Scorecard Family](scorecard-family.md).
+Three independent diagnostics, used in journey order:
+
+<div class="grid cards" markdown>
+
+-   :material-map-search:{ .lg .middle } **Local Visibility Scorecard** · you are here
+
+    ---
+
+    Can prospective customers discover the business across Search, Maps, AI answers, competitors, and external authority?
+
+    [Open the Local Visibility Scorecard →](https://thatguynef.github.io/local-visibility-scorecard/)
+
+-   :material-storefront:{ .lg .middle } **[GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)**
+
+    ---
+
+    Does the Google Business Profile create trust and enable action — before the customer reaches the website?
+
+    [Open the GBP Scorecard →](https://thatguynef.github.io/gbp-scorecard/)
+
+-   :material-web:{ .lg .middle } **[Website Scorecard](https://thatguynef.github.io/website-scorecard/)**
+
+    ---
+
+    Can the owned website turn that demand into a lead, booking, or estimate?
+
+    [Open the Website Scorecard →](https://thatguynef.github.io/website-scorecard/)
+
+</div>
+
+The boundaries, shared evidence states, and no-duplicate-scoring matrix are in [The Scorecard Family](scorecard-family.md).
 
 > [!NOTE]
 > Every public example is synthetic or sanitized. The repository never ships real client screenshots, reports, customer data, geo-grid coordinates, or connected-account data. The scorecard diagnoses; remediation is a separate system.

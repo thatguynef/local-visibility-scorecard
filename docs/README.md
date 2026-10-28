@@ -1,5 +1,17 @@
 # Documentation index
 
+## Part of the scorecard family
+
+This is the discovery layer of a three-part diagnostic. Each score is independently meaningful, and none rewrites another.
+
+| Scorecard | Question it answers | Live site |
+|---|---|---|
+| **Local Visibility** (this repository) | Can prospective customers discover the business across Search, Maps, AI answers, competitors, and external authority? | [Open Local Visibility](https://thatguynef.github.io/local-visibility-scorecard/) |
+| **GBP Scorecard** | Does the Google Business Profile create trust and enable action? | [Open GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) |
+| **Website Scorecard** | Can the owned website convert that demand? | [Open Website Scorecard](https://thatguynef.github.io/website-scorecard/) |
+
+Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and shared conventions.
+
 Start with:
 
 - [Home](index.md)

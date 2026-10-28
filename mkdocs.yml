@@ -1,6 +1,7 @@
 site_name: Local Visibility Scorecard
 site_description: Evidence-based local visibility scorecard across Search, Maps, AI answers, competitors, and external authority.
 site_url: https://thatguynef.github.io/local-visibility-scorecard/
+site_author: Radical Red Rocket
 repo_url: https://github.com/thatguynef/local-visibility-scorecard
 repo_name: thatguynef/local-visibility-scorecard
 edit_uri: edit/main/docs/
@@ -55,6 +56,7 @@ nav:
   - Scoring: scoring.md
   - Evidence: evidence.md
   - Coverage: coverage-completeness.md
+  - Scorecard family: scorecard-family.md
   - Guides:
       - Query universe: query-universe.md
       - Geo-grid methodology: geo-grid.md
@@ -68,7 +70,6 @@ nav:
       - Development: development.md
       - Model evaluation: eval.md
   - Project:
-      - Scorecard family: scorecard-family.md
       - Website Scorecard: https://thatguynef.github.io/website-scorecard/
       - GBP Scorecard: https://thatguynef.github.io/gbp-scorecard/
       - Style guide: style-guide.md
@@ -118,3 +119,16 @@ extra_javascript:
 
 extra:
   generator: false
+  social:
+    - icon: material/github
+      link: https://github.com/thatguynef/local-visibility-scorecard
+      name: Local Visibility Scorecard on GitHub
+    - icon: material/map-search
+      link: https://thatguynef.github.io/local-visibility-scorecard/
+      name: Local Visibility Scorecard
+    - icon: material/storefront
+      link: https://thatguynef.github.io/gbp-scorecard/
+      name: GBP Scorecard
+    - icon: material/web
+      link: https://thatguynef.github.io/website-scorecard/
+      name: Website Scorecard
