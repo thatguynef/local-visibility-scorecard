@@ -23,6 +23,7 @@ const UNIVERSE = path.join(HERE, "build_universe.mjs");
 const SCORE = path.join(HERE, "score.py");
 const RENDER = path.join(HERE, "render.mjs");
 const VERIFY = path.join(HERE, "verify.mjs");
+const EVAL = path.join(HERE, "eval.mjs");
 const JUDGE = path.join(HERE, "apply_judgment.mjs");
 const PRIVACY = path.join(ROOT, "scripts", "privacy_scan.mjs");
 const SCHEMAS = path.join(ROOT, "scripts", "check_schemas.mjs");
@@ -190,6 +191,25 @@ test("renderer produces the one-pager and full report from structured scores", (
     assert.match(fullText, /AI visibility/);
     assert.equal([...fullText.matchAll(/^\| LV-/gm)].length, 52);
     assert.ok(oneText.split(/\s+/).filter(Boolean).length <= 1200);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("offline judgment eval harness runs against the synthetic snapshot", () => {
+  const dir = temp("eval");
+  try {
+    const out = path.join(dir, "result.json");
+    const result = run(process.execPath, [EVAL, "--snapshot", EXAMPLE, "--mock", "--out", out]);
+    assert.equal(result.status, 0, result.stderr + result.stdout);
+    const data = JSON.parse(fs.readFileSync(out, "utf8"));
+    assert.equal(data.mode, "mock");
+    assert.equal(data.sampled_checks.length, 5);
+    assert.ok(data.metrics.reviewed_responses > 0);
+    assert.equal(data.metrics.hallucinated_check_ids, 0);
+    assert.equal(data.metrics.unsupported_claim_rate, 0);
+    assert.ok(data.metrics.evidence_citation_rate >= 0);
+    assert.ok(Array.isArray(data.metrics.unstable_checks));
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }

@@ -10,6 +10,8 @@ npm run eval -- --snapshot examples/acme-plumbing --mock
 
 The mock uses the fixture's judgment checks as a baseline and creates a second response set with one deliberate disagreement. This proves the harness can detect disagreement. It is not a quality measurement.
 
+The same mock run is exercised by `npm test`, so CI catches a broken eval path without calling a model.
+
 ## Pre-collected responses
 
 ```sh

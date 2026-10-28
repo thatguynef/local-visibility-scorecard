@@ -12,7 +12,7 @@ No runtime npm dependencies. Node and Python standard libraries are used directl
 
 ```sh
 npm run doctor          # toolchain check
-npm test                # Python unit tests + Node pipeline tests
+npm test                # Python unit tests + Node pipeline tests + offline mock eval
 npm run check:rubric    # canonical rubric validation
 npm run check:generated # generated artifacts are current
 npm run check:schemas   # JSON Schemas + example artifacts
