@@ -226,6 +226,43 @@ test("DataForSEO task-level failures are not treated as empty SERPs", async () =
   assert.equal(client.errors.length, 1);
 });
 
+test("DataForSEO no-search-results is an empty observation, not an outage", async () => {
+  let calls = 0;
+  const fetchImpl = async () => {
+    calls += 1;
+    return new Response(
+      JSON.stringify({
+        status_code: 20000,
+        status_message: "Ok.",
+        tasks_error: 1,
+        cost: 0.002,
+        tasks: [
+          {
+            id: "synthetic-empty-task",
+            status_code: 40102,
+            status_message: "No Search Results.",
+            result: null,
+            cost: 0.002,
+          },
+        ],
+      }),
+      { status: 200, headers: { "content-type": "application/json" } },
+    );
+  };
+  const client = new DataForSeoClient({
+    env: { DATAFORSEO_LOGIN: "synthetic-login", DATAFORSEO_PASSWORD: "synthetic-password" },
+    fetchImpl,
+    useCache: false,
+    maxRetries: 0,
+  });
+  const result = await client.request("/v3/serp/google/maps/live/advanced", [{ keyword: "plumber" }], { taskType: "test" });
+  assert.equal(result.empty, true);
+  assert.deepEqual(result.result, []);
+  assert.equal(client.errors.length, 0);
+  assert.equal(client.taskCount, 1);
+  assert.equal(calls, 1);
+});
+
 test("a partial name is not treated as a confirmed target match", () => {
   const target = makeTarget({ name: "Acme Plumbing", domain: "acme-plumbing.example" });
   const exact = matchEntity({ name: "Acme Plumbing", domain: "" }, target);

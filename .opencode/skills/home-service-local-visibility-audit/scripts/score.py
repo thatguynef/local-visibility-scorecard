@@ -107,13 +107,39 @@ def hash_universe(universe: dict) -> str:
     return "sha256:" + hashlib.sha256(canonical_json(payload).encode("utf-8")).hexdigest()
 
 
-def applicability(item: dict, config: dict) -> tuple[bool, str]:
+def requirement_met(requirement: str, audit: dict) -> bool:
+    core_intents = {
+        query.get("intent_id")
+        for query in (audit.get("query_universe", {}) or {}).get("queries", [])
+        if query.get("role") == "core" and query.get("brand") == "non_brand"
+    }
+    if requirement == "organic_target_observations":
+        return any(
+            not observation.get("not_collected")
+            and observation.get("target_found") is True
+            and observation.get("intent_id") in core_intents
+            for observation in (audit.get("organic", {}) or {}).get("observations", [])
+        )
+    if requirement == "ai_target_observations":
+        return any(
+            not observation.get("not_collected") and observation.get("target_mentioned") is True
+            for observation in (audit.get("ai", {}) or {}).get("observations", [])
+        )
+    if requirement == "listing_observations":
+        return bool((audit.get("authority", {}) or {}).get("listings"))
+    return True
+
+
+def applicability(item: dict, config: dict, audit: dict | None = None) -> tuple[bool, str]:
     if item.get("applicability") == "conditional":
         condition = item.get("condition")
         if not condition:
             return False, "conditional check has no condition"
         if not bool(config.get(condition, False)):
             return False, f"condition not enabled: {condition}"
+    requires = item.get("requires")
+    if requires and audit is not None and not requirement_met(requires, audit):
+        return False, f"not observable: {requires}"
     return True, ""
 
 
@@ -573,7 +599,7 @@ def validate(audit: dict, rubric: dict) -> tuple[list[str], list[str]]:
         if not isinstance(check, dict):
             errors.append(f"{cid}: check must be an object")
             continue
-        applies, reason = applicability(item, config)
+        applies, reason = applicability(item, config, audit)
         declared = check.get("applicable")
         if not isinstance(declared, bool):
             errors.append(f"{cid}: applicable must be a boolean")
@@ -671,7 +697,7 @@ def compute(audit: dict, rubric: dict) -> dict:
         earned = 0
         na_items = []
         for item in cat_items:
-            applies, reason = applicability(item, config)
+            applies, reason = applicability(item, config, audit)
             check = checks.get(item["id"]) or {}
             if not applies:
                 na_items.append(item["id"])
@@ -764,7 +790,7 @@ def compute(audit: dict, rubric: dict) -> dict:
     journey = []
     for stage in sorted(rubric.get("journey", []), key=lambda s: s["order"]):
         stage_items = [item for item in items if item["id"] in stage.get("checks", [])]
-        applicable = [item for item in stage_items if applicability(item, config)[0]]
+        applicable = [item for item in stage_items if applicability(item, config, audit)[0]]
         stage_max = sum(item["max"] for item in applicable)
         stage_earned = sum((checks.get(item["id"]) or {}).get("score") or 0 for item in applicable)
         if not applicable:

@@ -54,6 +54,11 @@ FACT_KEYS = {
     "competitor_cohort_locked",
     "sufficient_valid_evidence",
 }
+REQUIREMENTS = {
+    "organic_target_observations",
+    "ai_target_observations",
+    "listing_observations",
+}
 SERVICE_MAPPINGS = {
     "revenue_recovery",
     "speed_to_lead",
@@ -186,8 +191,8 @@ def validate(rubric: dict) -> list[str]:
             errors.append(f"{cid}: evidenceType must be a non-empty array")
         if item.get("radModule") not in SERVICE_MAPPINGS:
             errors.append(f"{cid}: radModule must be a family service mapping")
-        if item.get("requires") is not None:
-            errors.append(f"{cid}: requires is not used in the Local Visibility rubric")
+        if item.get("requires") is not None and item.get("requires") not in REQUIREMENTS:
+            errors.append(f"{cid}: unknown observation requirement {item.get('requires')}")
 
     for cat in categories:
         if by_cat[cat["id"]] != cat["max"]:

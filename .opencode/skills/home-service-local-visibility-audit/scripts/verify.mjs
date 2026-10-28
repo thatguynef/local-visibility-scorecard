@@ -105,9 +105,38 @@ function configOf(filled) {
   return { ...(filled.configuration || {}) };
 }
 
-function isApplicable(item, config) {
+function requirementMet(requirement, filled) {
+  const coreIntents = new Set(
+    (filled.query_universe?.queries || [])
+      .filter((query) => query.role === "core" && query.brand === "non_brand")
+      .map((query) => query.intent_id),
+  );
+  if (requirement === "organic_target_observations") {
+    return (filled.organic?.observations || []).some(
+      (observation) =>
+        !observation.not_collected &&
+        observation.target_found === true &&
+        coreIntents.has(observation.intent_id),
+    );
+  }
+  if (requirement === "ai_target_observations") {
+    return (filled.ai?.observations || []).some(
+      (observation) => !observation.not_collected && observation.target_mentioned === true,
+    );
+  }
+  if (requirement === "listing_observations") {
+    return (filled.authority?.listings || []).length > 0;
+  }
+  return true;
+}
+
+function isApplicable(item, filled) {
+  const config = configOf(filled);
   if (item.applicability === "conditional" && !config[item.condition]) {
     return { applicable: false, reason: `condition not enabled: ${item.condition}` };
+  }
+  if (item.requires && !requirementMet(item.requires, filled)) {
+    return { applicable: false, reason: `not observable: ${item.requires}` };
   }
   return { applicable: true, reason: "" };
 }
@@ -140,7 +169,7 @@ function computeScores(filled, rubric) {
     let applicableMax = 0;
     let earned = 0;
     for (const item of rubric.items.filter((entry) => entry.cat === category.id)) {
-      const applies = isApplicable(item, config).applicable;
+      const applies = isApplicable(item, filled).applicable;
       if (!applies) continue;
       applicableMax += item.max;
       earned += checks[item.id]?.score || 0;
@@ -235,7 +264,7 @@ function makeChecker(data) {
       applicableOk = false;
       continue;
     }
-    const expectedApplicability = isApplicable(item, math.config);
+    const expectedApplicability = isApplicable(item, filled);
     if (check.applicable !== expectedApplicability.applicable) applicableOk = false;
     if (!expectedApplicability.applicable) {
       if (check.score !== null || check.confidence !== "not_applicable") applicableOk = false;
@@ -509,12 +538,17 @@ function makeChecker(data) {
   }
   deterministicOk ? pass("I35") : addHard("I35", "a deterministic check score does not match the normalized observations");
 
-  // I36 validity gates
+  // I36 validity gates. Compare gate identity and pass/fail state, not the
+  // human-readable detail string, which may improve without invalidating an
+  // otherwise reproducible historical audit.
+  const gateState = (gates) =>
+    JSON.stringify((gates || []).map((gate) => ({ id: gate.id, passed: gate.passed })).sort((a, b) => a.id.localeCompare(b.id)));
+  const expectedGates = gateState(recomputedValidity.gates);
   const validityOk =
-    deepEqual(scores.validity?.gates, recomputedValidity.gates) &&
+    gateState(scores.validity?.gates) === expectedGates &&
     scores.validity?.passed === recomputedValidity.passed &&
     recomputedValidity.passed === true &&
-    deepEqual(filled.validity?.gates, recomputedValidity.gates);
+    gateState(filled.validity?.gates) === expectedGates;
   validityOk ? pass("I36") : addHard("I36", "validity gates are missing, inconsistent, or failed");
 
   // I37 AI source-type separation and competitor cohort linkage

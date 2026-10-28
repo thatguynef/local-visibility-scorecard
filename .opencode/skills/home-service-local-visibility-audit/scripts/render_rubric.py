@@ -109,6 +109,8 @@ def render(rubric: dict) -> str:
             condition = ""
             if item.get("condition"):
                 condition = f" · condition: `{item['condition']}`"
+            if item.get("requires"):
+                condition += f" · requires: `{item['requires']}`"
             rad = f" · service mapping: `{item['serviceMapping']}`" if item.get("serviceMapping") else ""
             lines += [
                 f"#### {item['id']} — {item['title']} ({item['max']} points)",

@@ -168,6 +168,43 @@ class ScorerTests(unittest.TestCase):
         result2 = score.compute(audit, rubric)
         self.assertEqual(result2["display"], before)
 
+    def test_missing_ai_mentions_and_listings_are_structural_na(self):
+        audit, rubric = self.fresh()
+        for observation in audit["ai"]["observations"]:
+            observation["target_mentioned"] = False
+            observation["target_recommended"] = False
+            observation["target_cited"] = False
+        for cid in ["LV-AI-04", "LV-AI-05", "LV-AI-06"]:
+            audit["checks"][cid] = {
+                "applicable": False,
+                "score": None,
+                "confidence": "not_applicable",
+                "needs_review": False,
+                "na_reason": "not observable: ai_target_observations",
+                "evidence": [],
+                "evidence_refs": [],
+            }
+        audit["authority"]["listings"] = []
+        audit["checks"]["LV-AUT-04"] = {
+            "applicable": False,
+            "score": None,
+            "confidence": "not_applicable",
+            "needs_review": False,
+            "na_reason": "not observable: listing_observations",
+            "evidence": [],
+            "evidence_refs": [],
+        }
+        errors, insufficient = score.validate(audit, rubric)
+        self.assertEqual(errors, [])
+        self.assertEqual(insufficient, [])
+        result = score.compute(audit, rubric)
+        category_d = next(category for category in result["categories"] if category["id"] == "D")
+        category_f = next(category for category in result["categories"] if category["id"] == "F")
+        self.assertEqual(category_d["applicable_max"], 15)
+        self.assertEqual(category_f["applicable_max"], 8)
+        self.assertIn("LV-AI-04", category_d["na_checks"])
+        self.assertIn("LV-AUT-04", category_f["na_checks"])
+
     def test_ai_source_types_are_valid(self):
         audit, rubric = self.fresh()
         for surface in audit["ai"]["surfaces"]:

@@ -989,7 +989,11 @@ export function evaluateValidity(audit) {
   const organicIntentsPlanned = new Set(
     coreQueries.filter((query) => (query.surfaces || []).includes("google_organic")).map((query) => query.intent_id),
   );
-  const organicIntentObserved = new Set(organicObservations.map((observation) => observation.intent_id));
+  const organicIntentObserved = new Set(
+    organicObservations
+      .filter((observation) => organicIntentsPlanned.has(observation.intent_id))
+      .map((observation) => observation.intent_id),
+  );
   const organicCoverage = organicIntentsPlanned.size ? organicIntentObserved.size / organicIntentsPlanned.size : 0;
   const aiObservations = (audit.ai?.observations || []).filter((observation) => !observation.not_collected);
   const corePrompts = (universe.prompts || []).filter((prompt) => prompt.role === "core");
@@ -1052,9 +1056,38 @@ export function evaluateValidity(audit) {
   };
 }
 
-const checkApplicability = (item, config) => {
+function requirementMet(requirement, audit) {
+  const coreIntentIds = new Set(
+    (audit.query_universe?.queries || [])
+      .filter((query) => query.role === "core" && query.brand === "non_brand")
+      .map((query) => query.intent_id),
+  );
+  switch (requirement) {
+    case "organic_target_observations":
+      return (audit.organic?.observations || []).some(
+        (observation) =>
+          !observation.not_collected &&
+          observation.target_found === true &&
+          coreIntentIds.has(observation.intent_id),
+      );
+    case "ai_target_observations":
+      return (audit.ai?.observations || []).some(
+        (observation) => !observation.not_collected && observation.target_mentioned === true,
+      );
+    case "listing_observations":
+      return (audit.authority?.listings || []).length > 0;
+    default:
+      return true;
+  }
+}
+
+const checkApplicability = (item, audit) => {
+  const config = audit.configuration || {};
   if (item.applicability === "conditional" && !config[item.condition]) {
     return { applicable: false, reason: `condition not enabled: ${item.condition}` };
+  }
+  if (item.requires && !requirementMet(item.requires, audit)) {
+    return { applicable: false, reason: `not observable: ${item.requires}` };
   }
   return { applicable: true, reason: "" };
 };
@@ -1212,7 +1245,7 @@ export function deriveAudit(audit, rubric) {
   const validity = evaluateValidity(audit);
   const checks = {};
   for (const item of rubric.items) {
-    const applies = checkApplicability(item, audit.configuration || {});
+    const applies = checkApplicability(item, audit);
     if (!applies.applicable) {
       checks[item.id] = {
         applicable: false,

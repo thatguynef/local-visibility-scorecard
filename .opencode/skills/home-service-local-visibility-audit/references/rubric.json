@@ -1638,7 +1638,8 @@
       "principle": "A ranking for the wrong page can look like visibility while failing the customer.",
       "recommendedIntervention": "Map each commercial intent to a page that genuinely serves it. Do not score page speed, forms, or UX here; those belong to Website Scorecard.",
       "serviceMapping": "market_intelligence",
-      "radModule": "market_intelligence"
+      "radModule": "market_intelligence",
+      "requires": "organic_target_observations"
     },
     {
       "id": "LV-ORG-06",
@@ -1816,7 +1817,8 @@
       "principle": "AI answers can mention a business for the wrong service, which can create misleading visibility.",
       "recommendedIntervention": "If relevance is weak, investigate entity ambiguity and content-to-intent mismatch. Do not treat the mention as a win.",
       "serviceMapping": "market_intelligence",
-      "radModule": "market_intelligence"
+      "radModule": "market_intelligence",
+      "requires": "ai_target_observations"
     },
     {
       "id": "LV-AI-05",
@@ -1844,7 +1846,8 @@
       "principle": "A recommendation for a business outside the customer's market is not local visibility.",
       "recommendedIntervention": "Clarify the service area and entity location. Cross-reference GBP Scorecard for location configuration.",
       "serviceMapping": "market_intelligence",
-      "radModule": "market_intelligence"
+      "radModule": "market_intelligence",
+      "requires": "ai_target_observations"
     },
     {
       "id": "LV-AI-06",
@@ -1870,7 +1873,8 @@
       "principle": "An AI answer that confuses the business with another entity can harm trust and send the wrong customer.",
       "recommendedIntervention": "Correct the underlying entity footprint and cross-reference GBP Scorecard identity checks. Do not edit an AI answer directly.",
       "serviceMapping": "market_intelligence",
-      "radModule": "market_intelligence"
+      "radModule": "market_intelligence",
+      "requires": "ai_target_observations"
     },
     {
       "id": "LV-AI-07",
@@ -2305,7 +2309,8 @@
       "principle": "Inconsistent entity data weakens both local search and AI entity resolution.",
       "recommendedIntervention": "Correct the highest-authority inconsistent listings first. Cross-reference GBP Scorecard for the primary profile.",
       "serviceMapping": "market_intelligence",
-      "radModule": "market_intelligence"
+      "radModule": "market_intelligence",
+      "requires": "listing_observations"
     },
     {
       "id": "LV-AUT-05",

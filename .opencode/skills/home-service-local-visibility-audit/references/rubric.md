@@ -489,7 +489,7 @@ How well does the business appear in ordinary Google search results for commerci
 
 #### LV-ORG-05 — Ranking URL relevance to intent (2 points)
 
-**Stage:** discover · **Severity:** high · **Evaluation:** model_judgment · **Applicability:** required · service mapping: `market_intelligence`
+**Stage:** discover · **Severity:** high · **Evaluation:** model_judgment · **Applicability:** required · requires: `organic_target_observations` · service mapping: `market_intelligence`
 
 **Principle:** A ranking for the wrong page can look like visibility while failing the customer.
 
@@ -591,7 +591,7 @@ When prospective customers ask AI systems for local service recommendations, how
 
 #### LV-AI-04 — Service relevance in AI answers (2 points)
 
-**Stage:** ask · **Severity:** high · **Evaluation:** model_judgment · **Applicability:** required · service mapping: `market_intelligence`
+**Stage:** ask · **Severity:** high · **Evaluation:** model_judgment · **Applicability:** required · requires: `ai_target_observations` · service mapping: `market_intelligence`
 
 **Principle:** AI answers can mention a business for the wrong service, which can create misleading visibility.
 
@@ -607,7 +607,7 @@ When prospective customers ask AI systems for local service recommendations, how
 
 #### LV-AI-05 — Location relevance in AI answers (2 points)
 
-**Stage:** ask · **Severity:** high · **Evaluation:** model_judgment · **Applicability:** required · service mapping: `market_intelligence`
+**Stage:** ask · **Severity:** high · **Evaluation:** model_judgment · **Applicability:** required · requires: `ai_target_observations` · service mapping: `market_intelligence`
 
 **Principle:** A recommendation for a business outside the customer's market is not local visibility.
 
@@ -623,7 +623,7 @@ When prospective customers ask AI systems for local service recommendations, how
 
 #### LV-AI-06 — Entity accuracy in AI answers (1 points)
 
-**Stage:** ask · **Severity:** medium · **Evaluation:** model_judgment · **Applicability:** required · service mapping: `market_intelligence`
+**Stage:** ask · **Severity:** medium · **Evaluation:** model_judgment · **Applicability:** required · requires: `ai_target_observations` · service mapping: `market_intelligence`
 
 **Principle:** An AI answer that confuses the business with another entity can harm trust and send the wrong customer.
 
@@ -864,7 +864,7 @@ How strongly is the business corroborated across external sources that support d
 
 #### LV-AUT-04 — External listing and entity consistency (2 points)
 
-**Stage:** compare · **Severity:** high · **Evaluation:** deterministic · **Applicability:** required · service mapping: `market_intelligence`
+**Stage:** compare · **Severity:** high · **Evaluation:** deterministic · **Applicability:** required · requires: `listing_observations` · service mapping: `market_intelligence`
 
 **Principle:** Inconsistent entity data weakens both local search and AI entity resolution.
 

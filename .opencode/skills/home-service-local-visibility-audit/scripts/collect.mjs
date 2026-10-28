@@ -689,6 +689,7 @@ async function liveCollect() {
 
   const business = {
     ...config.business,
+    market: config.market.name,
     domain: target.domain,
     resolution,
   };

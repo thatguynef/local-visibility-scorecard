@@ -76,14 +76,19 @@ function classifyHttp(status) {
   return { kind: "provider", retryable: false };
 }
 
+function isEmptyResult(statusCode, message) {
+  return Number(statusCode) === 40102 || /no search results/i.test(String(message || ""));
+}
+
 function classifyProviderStatus(statusCode, message) {
   const text = String(message || "").toLowerCase();
   if (statusCode === 20000) return null;
-  if (statusCode === 40100 || statusCode === 40101 || statusCode === 40102) return { kind: "auth", retryable: false };
+  if (statusCode === 40100 || statusCode === 40101 || text.includes("invalid field")) {
+    return { kind: "bad_request", retryable: false };
+  }
   if (statusCode === 40200 || statusCode === 40201 || statusCode === 40202 || statusCode === 40203) return { kind: "quota", retryable: false };
-  if (statusCode === 40501 || statusCode === 40502 || statusCode === 40503) return { kind: "rate_limit", retryable: true };
+  if (statusCode === 40502 || statusCode === 40503 || text.includes("rate limit")) return { kind: "rate_limit", retryable: true };
   if (statusCode >= 50000) return { kind: "server", retryable: true };
-  if (text.includes("rate limit")) return { kind: "rate_limit", retryable: true };
   if (text.includes("authorization") || text.includes("credential")) return { kind: "auth", retryable: false };
   return { kind: "provider", retryable: false };
 }
@@ -274,6 +279,34 @@ export class DataForSeoClient {
           });
         }
         const taskEntry = Array.isArray(payload.tasks) ? payload.tasks[0] : null;
+        // "No Search Results" is a valid empty observation, not a provider
+        // outage. It must count as collected data so grid coverage is honest.
+        if (isEmptyResult(payload.status_code, payload.status_message) || isEmptyResult(taskEntry?.status_code, taskEntry?.status_message)) {
+          const cost = Number(payload.cost ?? taskEntry?.cost ?? 0) || 0;
+          this.#tasks += 1;
+          this.#cost += cost;
+          if (this.maxCostUsd !== null && this.#cost > this.maxCostUsd) {
+            this.#budgetExceeded = true;
+            throw new ProviderError(
+              `provider-reported cost $${this.#cost.toFixed(4)} exceeded the configured ceiling $${this.maxCostUsd.toFixed(2)}`,
+              { kind: "budget", endpoint },
+            );
+          }
+          const emptyResult = {
+            endpoint,
+            task_type: taskType,
+            task_id: taskEntry?.id || null,
+            status_code: 40102,
+            status_message: String(taskEntry?.status_message ?? payload.status_message ?? "No Search Results."),
+            cost,
+            result: [],
+            task,
+            cached: false,
+            empty: true,
+          };
+          if (cache) this.writeCache(key, emptyResult);
+          return { ...emptyResult, taskType };
+        }
         const providerIssue = classifyProviderStatus(Number(payload.status_code), payload.status_message);
         if (providerIssue) {
           const error = new ProviderError(
