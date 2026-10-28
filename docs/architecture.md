@@ -1,3 +1,7 @@
+---
+description: "How collection, review, scoring, rendering, and verification stay separate and independently runnable in the Local Visibility Scorecard."
+---
+
 # Architecture
 
 Local Visibility Scorecard keeps collection, judgment, scoring, rendering, and verification separate. Each stage is independently runnable.
@@ -155,3 +159,7 @@ scripts/
 ```
 
 See [Development](development.md) for commands and test structure.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

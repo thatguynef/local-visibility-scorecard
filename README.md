@@ -204,6 +204,8 @@ Respond · Book · Follow up · Measure
 
 Each score remains independently meaningful. RAD may later consume the machine-readable findings; it must never merge or rewrite the public scores. See [The Scorecard Family](docs/scorecard-family.md).
 
+Source repositories: [Local Visibility](https://github.com/thatguynef/local-visibility-scorecard) · [Website](https://github.com/thatguynef/website-scorecard) · [GBP](https://github.com/thatguynef/gbp-scorecard).
+
 ## Status
 
 V1 is a deterministic, fixture-first public-mode implementation. Connected mode, additional AI adapters, and RAD integration are future work. The diagnostic engine stays separate from remediation.

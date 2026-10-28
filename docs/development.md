@@ -1,3 +1,7 @@
+---
+description: "Developer commands, test structure, generated artifacts, schemas, determinism rules, and offline CI for the Local Visibility Scorecard."
+---
+
 # Development
 
 ## Requirements
@@ -140,3 +144,7 @@ CI runs offline. It must not:
 - mutate external services.
 
 See `.github/workflows/ci.yml`.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

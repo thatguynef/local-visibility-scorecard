@@ -1,3 +1,7 @@
+---
+description: "Privacy and public-repository safety rules for Local Visibility audits: credentials, raw SERPs, AI prompts, geo-grid data, client reports, and Git history."
+---
+
 # Privacy and Public-Repository Safety
 
 > **For:** anyone publishing audit work from this public repository.
@@ -155,3 +159,7 @@ History rewriting is destructive. This project will not do it automatically.
 ## If you are unsure
 
 Default to **not committing**. A missing example is cheaper than a privacy incident.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

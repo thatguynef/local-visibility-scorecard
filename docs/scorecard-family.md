@@ -1,3 +1,7 @@
+---
+description: "How the Local Visibility, GBP, and Website Scorecards fit together without duplicate scoring — the ownership matrix and RAD boundary."
+---
+
 # The Scorecard Family
 
 Local Visibility Scorecard is the third member of a coordinated family. It is designed to sit beside [GBP Scorecard](https://github.com/thatguynef/gbp-scorecard) and [Website Scorecard](https://github.com/thatguynef/website-scorecard) without copying their jobs.

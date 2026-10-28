@@ -4,7 +4,7 @@ site_url: https://thatguynef.github.io/local-visibility-scorecard/
 repo_url: https://github.com/thatguynef/local-visibility-scorecard
 repo_name: thatguynef/local-visibility-scorecard
 edit_uri: edit/main/docs/
-copyright: Local Visibility Scorecard · MIT · maintained alongside Radical Red Rocket
+copyright: 'Local Visibility Scorecard · MIT · Family: <a href="https://thatguynef.github.io/website-scorecard/">Website Scorecard</a> · <a href="https://thatguynef.github.io/gbp-scorecard/">GBP Scorecard</a>'
 
 theme:
   name: material
@@ -69,6 +69,8 @@ nav:
       - Model evaluation: eval.md
   - Project:
       - Scorecard family: scorecard-family.md
+      - Website Scorecard: https://thatguynef.github.io/website-scorecard/
+      - GBP Scorecard: https://thatguynef.github.io/gbp-scorecard/
       - Style guide: style-guide.md
       - Privacy: privacy.md
       - Release checklist: release-checklist.md

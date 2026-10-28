@@ -1,3 +1,7 @@
+---
+description: "Why discovery needs its own scorecard, separate from GBP profile trust and website conversion."
+---
+
 # Why this exists
 
 Most local SEO tools answer a question the business did not ask.
@@ -71,3 +75,9 @@ The recommendation mappings are metadata. The scorecard does not require RAD, a 
 - Publish a real client's query set, grid coordinates, prompts, or report.
 
 The goal is not more checks. The goal is a score another analyst can reproduce from the same evidence and explain to the business owner without hand-waving.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

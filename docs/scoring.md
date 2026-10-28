@@ -1,3 +1,7 @@
+---
+description: "How the Local Visibility Scorecard turns normalized observations into a 0–100 score, with N/A normalization, validity gates, and one hard cap."
+---
+
 # Scoring
 
 The score is a 0–100 summary of observable local discovery. It is deterministic: the same collected audit artifacts produce the same score.
@@ -184,3 +188,9 @@ Owner-data questions are reported separately. They never change the public score
 - It does not treat a directory as a local contractor competitor.
 
 Read [Evidence](evidence.md) for the evidence states and provenance rules.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

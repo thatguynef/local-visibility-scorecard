@@ -1,3 +1,7 @@
+---
+description: "Recommended GitHub settings for the Local Visibility Scorecard: Pages, branch protection, secret scanning, Dependabot, and releases."
+---
+
 # GitHub settings
 
 Recommended settings for `thatguynef/local-visibility-scorecard`.
@@ -52,3 +56,7 @@ Require, on `main`:
 
 - Use a public issue for a methodology question, a bug with a synthetic reproduction, or a documentation fix.
 - Do not use a public issue for a live credential, a real client report, or customer data. Use private vulnerability reporting or the maintainer's private channel.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

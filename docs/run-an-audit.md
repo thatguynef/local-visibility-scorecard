@@ -1,3 +1,7 @@
+---
+description: "Run a fixture or live Local Visibility Scorecard audit: collect, review, score, render, and verify, with cost controls and privacy rules."
+---
+
 # Run an audit
 
 Requirements: Node.js 22+, Python 3.10+, and git. There are no runtime npm dependencies.
@@ -191,3 +195,9 @@ Do not publish a real client report. Publication requires explicit client approv
 - Do not publish a real client's prompts, grid coordinates, or competitor set.
 - Do not edit a score after collection to reach a desired band.
 - Do not treat a provider outage as a low business score.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

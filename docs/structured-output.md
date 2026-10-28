@@ -1,3 +1,7 @@
+---
+description: "The versioned Local Visibility Scorecard artifacts: audit, filled audit, query universe, judgment, scores, verification, and downstream fields."
+---
+
 # Structured output
 
 Every artifact is versioned and carries enough provenance to answer: where did this come from, when was it collected, was it observed or provider-derived, and which audit mode produced it?
@@ -157,3 +161,7 @@ The machine-readable fix mapping lives in `rubric.json` under `fixes` and includ
 The collector may change over time because the external systems change. The scorer does not. Given the same `audit.filled.json` and rubric, the score is identical.
 
 The verifier recomputes the metrics, deterministic check scores, and validity gates from the normalized observations. A hand-edited score or metric fails verification.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

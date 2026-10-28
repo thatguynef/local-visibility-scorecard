@@ -1,3 +1,7 @@
+---
+description: "How the Local Visibility Scorecard locks services, intents, queries, AI prompts, demand weights, and a reproducible hash before collecting any ranking."
+---
+
 # Query universe
 
 The query universe is the set of search intents and AI prompts used to measure visibility. It is defined, reviewed, and locked **before** any ranking is collected.
@@ -178,3 +182,9 @@ Before locking a universe:
 - [ ] The hash is recorded in the run.
 
 If the universe changes after collection, the run is invalid. Start a new run.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

@@ -1,3 +1,7 @@
+---
+description: "A portable, human-readable collection checklist for the 52 Local Visibility checks, evidence states, and validity gates."
+---
+
 # Portable Local Visibility Audit Checklist
 
 > **Generated from `rubric.json`.** Do not edit by hand. This is a collection companion, not a replacement for the scorer.
@@ -895,3 +899,8 @@ These are never scored. Recommend them separately if the evidence supports them.
 | AI citation-source development | `market_intelligence` | AI answers cite sources. Relevant, citable content and third-party corroboration can improve the chance of being referenced. |
 | New service-area market | `market_intelligence` | The audit may reveal a geographic visibility gap that is better addressed by a deliberate market decision than by more content. |
 | Service and location content expansion | `market_intelligence` | Organic and AI visibility can be limited by the absence of pages that match the tracked intent. |
+
+
+---
+
+**Scorecard family boundary:** this reference covers discovery only. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. See [The Scorecard Family](https://thatguynef.github.io/local-visibility-scorecard/scorecard-family/).

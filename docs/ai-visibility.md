@@ -1,3 +1,7 @@
+---
+description: "How the Local Visibility Scorecard measures AI mention, recommendation, and citation behavior across validated consumer and model surfaces."
+---
+
 # AI visibility methodology
 
 AI answers are a real local-discovery surface. They are also the easiest surface to measure badly.
@@ -126,3 +130,9 @@ AI referral traffic and AI-origin leads are owner-data questions. They are repor
 The audit records the prompt, platform, surface, method, provider, market, language, repeat, and model version where available. The verifier checks that the observation's `source_type` matches its surface and that consumer/search and model/API observations are not pooled.
 
 A historical AI score can be reproduced from the audit artifact and the rubric. The external system may produce different answers tomorrow; that is acceptable when provenance is preserved.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

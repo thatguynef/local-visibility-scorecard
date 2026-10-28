@@ -1,3 +1,7 @@
+---
+description: "Deterministic check-to-fix mappings, priority order, and cross-scorecard routing for the Local Visibility Scorecard."
+---
+
 # Fix Library
 
 > **Generated from `rubric.json`.** Do not edit by hand. Run `python3 render_fix_library.py`.
@@ -124,3 +128,8 @@ A Local Visibility finding may require a sibling diagnosis. Route the question; 
 - Do not recommend a fix that requires private data the audit does not have.
 - Do not treat a directory or publisher as a local contractor competitor.
 - Do not pool consumer/search AI surfaces with model/API responses.
+
+
+---
+
+**Scorecard family boundary:** this reference covers discovery only. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. See [The Scorecard Family](https://thatguynef.github.io/local-visibility-scorecard/scorecard-family/).

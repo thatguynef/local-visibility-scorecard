@@ -1,3 +1,7 @@
+---
+description: "What the Local Visibility Scorecard scores, what is diagnostic or owner data, and why missing core evidence is INSUFFICIENT EVIDENCE."
+---
+
 # Coverage and completeness
 
 The score measures visibility outcomes, not how many checks were run. This page explains what is core, what is diagnostic, and what is deliberately excluded.
@@ -77,3 +81,9 @@ The score reflects the visibility outcome. The coverage matrix and the validity 
 - The verification record shows every invariant and the mutation suite result.
 
 If a reader cannot tell what was observed, what was not, and what remains owner data, the report is not finished.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

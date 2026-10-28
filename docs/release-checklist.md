@@ -1,3 +1,7 @@
+---
+description: "The Local Visibility Scorecard release gate: security, methodology, pipeline, documentation, GitHub settings, live validation, and calibration."
+---
+
 # Release Checklist
 
 Use this before publishing a release, enabling GitHub Pages, or merging a change that alters the rubric, schemas, or output.
@@ -95,3 +99,7 @@ Use this before publishing a release, enabling GitHub Pages, or merging a change
 - [ ] The rubric is not tuned to give one business a desired score.
 - [ ] Regression fixtures are maintained.
 - [ ] Rubric changes are versioned semantically.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

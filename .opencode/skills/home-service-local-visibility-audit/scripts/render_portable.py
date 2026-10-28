@@ -25,6 +25,10 @@ DOCS_OUT = HERE.parent.parent.parent.parent / "docs" / "portable-checklist.md"
 
 def render(rubric: dict) -> str:
     lines = [
+        "---",
+        'description: "A portable, human-readable collection checklist for the 52 Local Visibility checks, evidence states, and validity gates."',
+        "---",
+        "",
         "# Portable Local Visibility Audit Checklist",
         "",
         "> **Generated from `rubric.json`.** Do not edit by hand. This is a collection companion, not a replacement for the scorer.",
@@ -170,6 +174,15 @@ def render(rubric: dict) -> str:
     for opportunity in rubric["opportunities"]:
         lines.append(f"| {opportunity['label']} | `{opportunity['radModule']}` | {opportunity['why']} |")
     lines.append("")
+    lines += [
+        "",
+        "---",
+        "",
+        "**Scorecard family boundary:** this reference covers discovery only. The "
+        "[GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; "
+        "the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. "
+        "See [The Scorecard Family](https://thatguynef.github.io/local-visibility-scorecard/scorecard-family/).",
+    ]
     return "\n".join(lines)
 
 

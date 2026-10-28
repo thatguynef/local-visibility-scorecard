@@ -1,3 +1,7 @@
+---
+description: "The seven-category Local Visibility Scorecard framework: intent, Maps and Local Pack, organic, AI answers, competitive share, authority, and resilience."
+---
+
 # Framework
 
 Local Visibility Scorecard follows the customer's discovery journey, not a keyword list.
@@ -94,3 +98,9 @@ Generated artifacts:
 - [Fix library](fix-library.md)
 
 Do not hand-edit generated files.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

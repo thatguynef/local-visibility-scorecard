@@ -1,3 +1,7 @@
+---
+description: "The offline judgment evaluation harness for the Local Visibility Scorecard: agreement, evidence citation, unsupported claims, and synthetic-only rules."
+---
+
 # Model evaluation
 
 The eval harness tests the judgment layer offline. It does not call a live model.
@@ -77,3 +81,7 @@ Never publish a live client's evidence in a public eval. `evals/*` is gitignored
 - It does not decide which service to recommend.
 
 The point is to make disagreement observable before it becomes a client report.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

@@ -1,3 +1,7 @@
+---
+description: "The DataForSEO-backed Public Mode data sources, normalization rules, provenance, cost controls, and provider-agnostic model."
+---
+
 # Data sources
 
 DataForSEO is the **implementation provider** for Public Mode. It is not the methodology. The normalized data model, rubric, and score are provider-agnostic. A future adapter can replace the provider without rewriting the scorecard.
@@ -140,3 +144,9 @@ A future provider can implement the same normalized shape.
 ## What the report says
 
 The report identifies DataForSEO as the provider and includes a provenance table. It does not present the provider as the methodology, and it does not publish account spending.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

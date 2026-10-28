@@ -1,3 +1,7 @@
+---
+description: "The five judgment-only Local Visibility checks, the structured proposal shape, and the rules that keep deterministic facts out of the model layer."
+---
+
 # Judgment layer
 
 Most visibility checks are deterministic. Five require a reviewer or a model:
@@ -90,3 +94,7 @@ The eval harness makes no live model call. Public eval fixtures are synthetic.
 ## Why only five checks
 
 The rest of the rubric is deterministic from normalized observations. That is deliberate. A score that depends on a model's prose for 20 checks is harder to reproduce and easier to manipulate. Judgment is reserved for classification questions that structured parsing cannot settle.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

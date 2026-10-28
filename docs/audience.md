@@ -1,3 +1,7 @@
+---
+description: "Who the Local Visibility Scorecard is for — and when to use the GBP or Website Scorecard instead."
+---
+
 # Who it's for
 
 Local Visibility Scorecard is for **local home-service businesses** and the people who run their marketing.

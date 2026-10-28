@@ -17,6 +17,10 @@ DOCS_OUT = HERE.parent.parent.parent.parent / "docs" / "fix-library.md"
 def render(rubric: dict) -> str:
     by_id = {item["id"]: item for item in rubric["items"]}
     lines = [
+        "---",
+        'description: "Deterministic check-to-fix mappings, priority order, and cross-scorecard routing for the Local Visibility Scorecard."',
+        "---",
+        "",
         "# Fix Library",
         "",
         "> **Generated from `rubric.json`.** Do not edit by hand. Run `python3 render_fix_library.py`.",
@@ -91,6 +95,15 @@ def render(rubric: dict) -> str:
         "- Do not treat a directory or publisher as a local contractor competitor.",
         "- Do not pool consumer/search AI surfaces with model/API responses.",
         "",
+    ]
+    lines += [
+        "",
+        "---",
+        "",
+        "**Scorecard family boundary:** this reference covers discovery only. The "
+        "[GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; "
+        "the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. "
+        "See [The Scorecard Family](https://thatguynef.github.io/local-visibility-scorecard/scorecard-family/).",
     ]
     return "\n".join(lines)
 

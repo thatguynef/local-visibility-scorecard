@@ -37,3 +37,10 @@ Project:
 - [Privacy](privacy.md)
 - [Release checklist](release-checklist.md)
 - [GitHub settings](github-settings.md)
+
+## Scorecard family
+
+- [Local Visibility Scorecard](https://thatguynef.github.io/local-visibility-scorecard/) — discovery
+- [Website Scorecard](https://thatguynef.github.io/website-scorecard/) — owned-site conversion
+- [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) — profile trust and action
+- [The Scorecard Family](scorecard-family.md) — ownership matrix

@@ -1,3 +1,7 @@
+---
+description: "Voice, structure, tables, code, visual tokens, images, and claims for Local Visibility Scorecard documentation and reports."
+---
+
 # Style guide
 
 Local Visibility Scorecard is part of a scorecard family. It should look and read like Website Scorecard and GBP Scorecard while making its own diagnosis.
@@ -101,3 +105,7 @@ It may not say:
 > The business is losing 58% of its potential customers.
 
 The first is an observable visibility outcome. The second is a revenue claim the public evidence cannot support.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)

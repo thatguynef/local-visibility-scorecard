@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thatguynef.github.io/local-visibility-scorecard/sitemap.xml

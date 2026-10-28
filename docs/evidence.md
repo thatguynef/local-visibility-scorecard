@@ -1,3 +1,7 @@
+---
+description: "Evidence states, source provenance, confidence, target resolution, missing observations, and owner-data rules for the Local Visibility Scorecard."
+---
+
 # Evidence
 
 Every finding in a report ends in one evidence state. The state tells the reader how much the audit can prove.
@@ -145,3 +149,9 @@ The verifier independently checks:
 - report values and labels.
 
 If a finding cannot be traced to a source and a check, it does not belong in the report.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

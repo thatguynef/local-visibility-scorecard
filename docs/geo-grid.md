@@ -1,3 +1,7 @@
+---
+description: "How the Local Visibility Scorecard builds and reads a configurable geo-grid across Google Maps, the Local Pack, and Local Finder."
+---
+
 # Geo-grid methodology
 
 A single Maps rank is a single point. A local business can be the obvious choice at its own address and invisible two miles away. The geo-grid measures that difference.
@@ -96,3 +100,9 @@ A historical grid can be reproduced from:
 - the grid version.
 
 The verifier checks that the audit's grid hash is present and that the observations are consistent with the configured grid. If the grid changed after collection, the run is not comparable.
+
+---
+
+## Scorecard family boundary
+
+This page covers discovery. The [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) diagnoses profile trust and action; the [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses website conversion. Read [The Scorecard Family](scorecard-family.md) for the ownership matrix and the no-duplicate-scoring rule.

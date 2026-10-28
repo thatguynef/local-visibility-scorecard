@@ -2,6 +2,7 @@
 hide:
   - navigation
   - toc
+description: "Find where local customers can — and cannot — discover a home-service business across Search, Maps, AI answers, competitors, and external authority."
 ---
 
 <section class="lv-hero">
@@ -67,13 +68,13 @@ The score answers:
 
 It does not answer:
 
-> How complete is every SEO field, or how many backlinks does the business have?
+> Whether every SEO field is complete, or how many raw backlinks exist.
 
 ## What this is not
 
 It is not a generic SEO audit, a rank tracker, a citation checklist, a GEO magic product, a SaaS dashboard, or a guarantee of revenue lift.
 
-It is not the GBP Scorecard with search rankings added. Local Visibility diagnoses discovery. GBP diagnoses profile trust and action. Website diagnoses conversion.
+It is not the [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) with search rankings added. Local Visibility diagnoses discovery. GBP diagnoses profile trust and action. [Website Scorecard](https://thatguynef.github.io/website-scorecard/) diagnoses conversion.
 
 ## Start here
 

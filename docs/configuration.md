@@ -1,3 +1,7 @@
+---
+description: "Configure a Local Visibility Scorecard market: identity, geometry, services, competitors, applicability, and safety limits."
+---
+
 # Configuration
 
 A live audit starts with a market configuration. The synthetic example is `config/market.example.json`.
@@ -167,3 +171,7 @@ Do not commit:
 - a real competitor research package;
 - a real query universe tied to a client;
 - a real pricing agreement.
+
+---
+
+**Related:** [The Scorecard Family](scorecard-family.md) · [Website Scorecard](https://thatguynef.github.io/website-scorecard/) · [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/)
