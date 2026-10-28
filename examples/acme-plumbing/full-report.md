@@ -127,6 +127,8 @@
 
 **Prompt-intent coverage:** 50.0% · **Repeat stability:** 93.8% · **Surface breadth:** 100.0%.
 
+**Top cited source domains:** example-county-news.example (16) · yelp.com (16) · reddit.com (8) · acme-plumbing.example (5).
+
 Consumer/search surfaces and model/API surfaces are shown separately and are never pooled into one rank.
 
 ---

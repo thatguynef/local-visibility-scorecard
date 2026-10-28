@@ -243,6 +243,7 @@ function loadUniverseForConfig(config) {
     createdAt: config.created_at || nowIso,
     lockedAt: nowIso,
     reviewer: "collector",
+    demandSource: "configured_market_config",
   });
 }
 
@@ -381,6 +382,14 @@ function aiSurfaces(config) {
         model_version: "",
       });
     } else if (platform === "chatgpt") {
+      const country = String(config.market?.country || "").toUpperCase();
+      const language = String(config.market?.language || "").toLowerCase();
+      if (country !== "US" || language !== "en") {
+        throw new Error(
+          "ChatGPT LLM Mentions is available for the United States and English only. " +
+            "Remove the chatgpt surface or use a supported market configuration.",
+        );
+      }
       surfaces.push({
         id: "chatgpt-llm",
         platform: "chatgpt",
@@ -447,6 +456,21 @@ async function liveCollect() {
     process.exit(2);
   }
   const cohort = competitorCohort(config);
+  if (cohort.business.length < 2) {
+    console.error(
+      `error: the locked competitor cohort has ${cohort.business.length} business competitor(s); ` +
+        "at least two are required before collection. Add config.known_competitors.",
+    );
+    process.exit(2);
+  }
+  // Validate configured AI surfaces before any paid request. An unsupported
+  // platform should fail the plan, not surface after Maps and organic spending.
+  try {
+    aiSurfaces(config);
+  } catch (error) {
+    console.error(`error: ${error.message}`);
+    process.exit(2);
+  }
   const universeArg = arg("universe");
   const includeDemandTask = !(universeArg && universeArg !== true);
   let plan = buildPlan({
@@ -482,6 +506,17 @@ async function liveCollect() {
     }
     process.exit(0);
   }
+  // A cost ceiling configured through the environment must be estimated before
+  // the run, exactly like --max-cost-usd. Do not fall back to a post-hoc check
+  // after money has already been spent.
+  if (plan.limits.max_cost_usd !== null && !plan.cost.available) {
+    console.error(formatPlan(plan));
+    console.error(
+      "\nerror: a cost ceiling is configured but a reliable cost estimate is unavailable. " +
+        "Pass --pricing with your contracted task prices, or remove the cost ceiling and use task ceilings only.",
+    );
+    process.exit(2);
+  }
   if (plan.over_budget && !has("allow-over-budget")) {
     console.error(formatPlan(plan));
     console.error("\nerror: the plan exceeds a configured safety ceiling. No paid request was sent.");
@@ -497,7 +532,10 @@ async function liveCollect() {
     timeoutMs: numericEnv("LV_REQUEST_TIMEOUT_MS", 15000, 1000),
     maxConcurrency: numericEnv("LV_MAX_CONCURRENCY", 4, 1),
     maxTasks: plan.total_task_count + 5,
-    maxCostUsd: plan.limits.max_cost_usd,
+    // --allow-over-budget is the explicit opt-in. Without it, the client keeps
+    // the same hard cost ceiling as the plan; with it, the operator has chosen
+    // to proceed and the post-run actual cost is still recorded locally.
+    maxCostUsd: has("allow-over-budget") ? null : plan.limits.max_cost_usd,
     cacheDir: arg("cache-dir", undefined) === undefined ? undefined : String(arg("cache-dir")),
     useCache: !has("no-cache"),
   });
@@ -548,6 +586,7 @@ async function liveCollect() {
             volume: match.search_volume,
             cpc: match.cpc,
             trend: match.trend / 100,
+            source: "dataforseo_keyword_overview",
           };
           updated += 1;
         }
@@ -557,6 +596,7 @@ async function liveCollect() {
           createdAt: config.created_at || nowIso,
           lockedAt: nowIso,
           reviewer: "collector",
+          demandSource: "configured_market_config",
         });
         const refreshedCoreQueries = universe.queries.filter((query) => query.role === "core" && query.brand === "non_brand");
         if (refreshedCoreQueries.length > config.configuration.max_queries) {

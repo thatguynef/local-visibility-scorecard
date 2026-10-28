@@ -47,5 +47,20 @@ export async function llmMentions(client, params = {}) {
   if (params.location_code) task.location_code = Number(params.location_code);
   else if (params.location_name) task.location_name = String(params.location_name);
   else task.location_code = 2840;
+  // DataForSEO documents ChatGPT LLM Mentions as United States / English only.
+  // Refusing an unsupported market is better than silently scoring US data for
+  // a local business somewhere else.
+  if (platform === "chat_gpt") {
+    if (Number(task.location_code) !== 2840) {
+      throw new ProviderError(
+        "ChatGPT LLM Mentions is available for United States (location_code 2840) only; " +
+          "remove the chatgpt surface or supply a supported location.",
+        { kind: "bad_request" },
+      );
+    }
+    if (String(task.language_code).toLowerCase() !== "en") {
+      throw new ProviderError("ChatGPT LLM Mentions is available in English only", { kind: "bad_request" });
+    }
+  }
   return client.request(AI_ENDPOINTS.llm_mentions, [task], { taskType: "llm_mentions" });
 }

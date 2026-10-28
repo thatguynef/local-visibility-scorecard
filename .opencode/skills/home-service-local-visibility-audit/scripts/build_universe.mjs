@@ -27,6 +27,7 @@ Optional:
   --created-at <iso>    Deterministic created_at for a fixture
   --locked-at <iso>     Deterministic locked_at for a fixture
   --reviewer <name>     Reviewer label recorded in the universe
+  --demand-source <s>   Demand provenance (default: configured_market_config)
   --check <json>        Rebuild and compare with an existing universe
   --help
 
@@ -62,6 +63,7 @@ try {
     createdAt: arg("created-at", undefined),
     lockedAt: arg("locked-at", undefined),
     reviewer: arg("reviewer", undefined),
+    demandSource: arg("demand-source", "configured_market_config"),
   });
 } catch (error) {
   console.error(`error: could not build the query universe: ${error.message}`);

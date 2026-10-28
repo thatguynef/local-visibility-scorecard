@@ -124,6 +124,18 @@ class ScorerTests(unittest.TestCase):
         errors, _ = score.validate(audit, rubric)
         self.assertTrue(any("unknown source" in error for error in errors))
 
+    def test_invalid_source_method_fails(self):
+        audit, rubric = self.fresh()
+        audit["sources"][0]["method"] = "live"
+        errors, _ = score.validate(audit, rubric)
+        self.assertTrue(any("source method=fixture" in error for error in errors))
+
+    def test_invalid_source_surface_fails(self):
+        audit, rubric = self.fresh()
+        audit["sources"][0]["surface"] = "unknown_surface"
+        errors, _ = score.validate(audit, rubric)
+        self.assertTrue(any("surface" in error for error in errors))
+
     def test_unknown_schema_version_fails_safely(self):
         audit, rubric = self.fresh()
         audit["schema_version"] = "9.9"

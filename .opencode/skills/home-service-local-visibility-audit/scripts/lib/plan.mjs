@@ -39,14 +39,23 @@ export function estimateCost(plan, pricing) {
   }
   const tasks = pricing.tasks || {};
   const byTask = {};
+  // Local Pack and organic share the same Google Organic SERP price key. Add
+  // quantities into one line item; overwriting would silently under-estimate
+  // the cost ceiling.
   const add = (key, quantity) => {
     if (!quantity) return;
     const price = tasks[key];
+    const existing = byTask[key];
+    const totalQuantity = (existing?.quantity || 0) + quantity;
     if (typeof price !== "number" || !Number.isFinite(price) || price < 0) {
-      byTask[key] = { quantity, unit_usd: null, subtotal_usd: null };
+      byTask[key] = { quantity: totalQuantity, unit_usd: null, subtotal_usd: null };
       return;
     }
-    byTask[key] = { quantity, unit_usd: price, subtotal_usd: round(quantity * price) };
+    byTask[key] = {
+      quantity: totalQuantity,
+      unit_usd: price,
+      subtotal_usd: round(totalQuantity * price),
+    };
   };
   add(requiredPriceKeys.localPack, plan.local_pack_tasks);
   add(requiredPriceKeys.maps, plan.maps_tasks);
@@ -95,8 +104,12 @@ export function buildPlan({ universe, grid, configuration = {}, pricing = null, 
   const aiModeTasks = aiModePrompts.length * repeats;
   const llmMentionsTasks = llmPrompts.length * repeats;
   const competitorTasks = Math.max(0, Number(competitorCount) || 0);
-  const backlinksSummaryTasks = 1 + competitorTasks;
-  const referringDomainsTasks = 1;
+  // The collector fetches one backlinks summary for the target, then one
+  // referring-domains response for the target plus each configured competitor.
+  // Count them at the correct price so a --max-cost-usd ceiling cannot
+  // under-estimate the paid work.
+  const backlinksSummaryTasks = 1;
+  const referringDomainsTasks = 1 + competitorTasks;
   const businessListingsTasks = 1;
   const keywordOverviewTasks = includeDemandTask ? 1 : 0;
   const serpTasks = localPackTasks + mapsTasks + localFinderTasks + organicTasks;

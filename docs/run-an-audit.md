@@ -136,6 +136,8 @@ npm run audit -- \
 
 The plan shows core keywords, grid points, Maps tasks, organic tasks, AI prompt tasks, competitor and authority tasks, total task count, and the configured ceilings.
 
+Preflight also refuses a configuration that cannot produce a valid audit: fewer than two locked business competitors, an unsupported AI surface, or ChatGPT on a non-US market. These checks happen before any Maps or organic request.
+
 `--dry-run` is equivalent and sends no paid request.
 
 ### 3. Run the audit
@@ -162,7 +164,7 @@ The wrapper creates the raw run and the report directory, then prints the score/
 | `--allow-over-budget` | Explicit opt-in to exceed a configured ceiling |
 | `--no-cache` | Disable the local raw-response cache |
 
-A plan that exceeds a ceiling does not run without `--allow-over-budget`. `--max-cost-usd` cannot be enforced without a reliable local price. The tool will not invent one.
+A plan that exceeds a ceiling does not run without `--allow-over-budget`. `--max-cost-usd` cannot be enforced without a reliable local price. The tool will not invent one. A cost ceiling supplied through `LV_MAX_RUN_COST_USD` follows the same rule: without `--pricing`, the live run stops before any paid request.
 
 ### 4. Keep the run local
 

@@ -290,9 +290,27 @@ function aiTable() {
   lines.push(
     `| **All validated surfaces** | mixed | ${ai.pairs ?? 0} | ${fmtPct(ai.mention_coverage)} | ${fmtPct(ai.recommendation_coverage)} | ${fmtPct(ai.citation_coverage)} |`,
   );
+  const citedCounts = new Map();
+  for (const pair of ai.pairs_detail || []) {
+    for (const domain of pair.cited_domains || []) {
+      if (!domain) continue;
+      citedCounts.set(domain, (citedCounts.get(domain) || 0) + 1);
+    }
+  }
+  const topCited = [...citedCounts.entries()]
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
+    .slice(0, 5);
   lines = lines.concat([
     "",
     `**Prompt-intent coverage:** ${fmtPct(ai.prompt_intent_coverage)} · **Repeat stability:** ${fmtPct(ai.repeat_stability)} · **Surface breadth:** ${fmtPct(ai.surface_breadth)}.`,
+  ]);
+  if (topCited.length) {
+    lines.push(
+      "",
+      `**Top cited source domains:** ${topCited.map(([domain, count]) => `${domain} (${count})`).join(" · ")}.`,
+    );
+  }
+  lines = lines.concat([
     "",
     "Consumer/search surfaces and model/API surfaces are shown separately and are never pooled into one rank.",
   ]);

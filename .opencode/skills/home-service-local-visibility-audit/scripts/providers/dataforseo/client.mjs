@@ -275,6 +275,32 @@ export class DataForSeoClient {
           }
           throw error;
         }
+        // DataForSEO can return a top-level 20000 with a failing task. Treat the
+        // task status as authoritative so a provider-side task failure becomes a
+        // not-collected observation, never a "rank not found" result.
+        const taskStatus = Number(taskEntry?.status_code ?? 0);
+        if (taskEntry && Number.isFinite(taskStatus) && taskStatus !== 0 && taskStatus !== 20000) {
+          const taskIssue = classifyProviderStatus(taskStatus, taskEntry.status_message) || {
+            kind: "provider",
+            retryable: false,
+          };
+          const error = new ProviderError(
+            `DataForSEO task error ${taskStatus}: ${providerMessage(taskEntry.status_message)}`,
+            { kind: taskIssue.kind, status: taskStatus, endpoint, retryable: taskIssue.retryable },
+          );
+          if (taskIssue.retryable && attempt < this.maxRetries) {
+            lastError = error;
+            await sleep(400 * 3 ** attempt);
+            continue;
+          }
+          throw error;
+        }
+        if (!taskEntry && Number(payload.tasks_error) > 0) {
+          throw new ProviderError(
+            `DataForSEO reported ${Number(payload.tasks_error)} task error(s) without a task record`,
+            { kind: "provider", status: Number(payload.status_code) || null, endpoint, retryable: false },
+          );
+        }
         const cost = Number(payload.cost ?? taskEntry?.cost ?? 0) || 0;
         const result = {
           endpoint,

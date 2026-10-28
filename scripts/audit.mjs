@@ -163,6 +163,7 @@ if (has("prepare") && fs.existsSync(auditPath)) {
 }
 
 const skill = ".opencode/skills/home-service-local-visibility-audit/scripts";
+const syntheticFlag = fixture ? " --synthetic" : "";
 console.log(`\nReport directory: ${reportDir}\n
 1. Review the judgment checks. Fill ${auditPath}
    Save the completed audit as ${filledPath}
@@ -186,5 +187,5 @@ console.log(`\nReport directory: ${reportDir}\n
      --filled ${shellQuote(filledPath)} --scores ${shellQuote(scoresPath)} \\
      --content ${shellQuote(contentPath)} --report ${shellQuote(fullReportPath)} \\
      --one-page ${shellQuote(onePagePath)} --out ${shellQuote(verificationPath)} \\
-     --mutation --synthetic
+     --mutation${syntheticFlag}
 `);

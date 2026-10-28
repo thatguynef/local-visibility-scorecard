@@ -32,6 +32,18 @@ It is also for the people who run the marketing: in-house marketers, local agenc
 
 **Not a fit:** SaaS, e-commerce, national brands with mature analytics teams, and anyone looking for a guaranteed revenue lift or an automated fix. [Read the audience guide →](docs/audience.md)
 
+## Part of the scorecard family
+
+This is the discovery layer of a three-part diagnostic. Each score is independently meaningful, and none rewrites another.
+
+| Scorecard | Question it answers |
+|---|---|
+| **Local Visibility** (this repository) | Can prospective customers discover the business across Search, Maps, AI answers, competitors, and external authority? |
+| [GBP Scorecard](https://thatguynef.github.io/gbp-scorecard/) | Does the Google Business Profile create trust and enable action? |
+| [Website Scorecard](https://thatguynef.github.io/website-scorecard/) | Can the owned website convert that demand? |
+
+The ownership boundaries, shared evidence states, and the RAD handoff are documented in [The Scorecard Family](docs/scorecard-family.md).
+
 ## Quick start
 
 Requirements: Node.js 22+ and Python 3.10+. No runtime npm dependencies.

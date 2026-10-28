@@ -42,10 +42,12 @@ add("Python", Boolean(python) && (pythonMajor > 3 || (pythonMajor === 3 && pytho
 add("git", Boolean(version("git", ["--version"])), version("git", ["--version"]) || "not found");
 const hasLogin = Boolean(process.env.DATAFORSEO_LOGIN);
 const hasPassword = Boolean(process.env.DATAFORSEO_PASSWORD);
+const hasBasicAuth = Boolean(process.env.DATAFORSEO_BASIC_AUTH);
+const hasCredentials = (hasLogin && hasPassword) || hasBasicAuth;
 add(
   "DataForSEO credentials",
-  hasLogin && hasPassword,
-  hasLogin && hasPassword ? "present in environment (values not printed)" : "not set; fixture mode needs none",
+  hasCredentials,
+  hasCredentials ? "present in environment (values not printed)" : "not set; fixture mode needs none",
   false,
 );
 const fixture = path.join(

@@ -432,6 +432,11 @@ function geoStats(audit, gridIntents) {
   let quadrantsCompared = 0;
   for (const [quadrant, stats] of Object.entries(quadrantStats)) {
     if (!stats.observations) continue;
+    // A quadrant where neither the target nor a locked competitor appears has
+    // no comparable visibility. Counting 0 >= 0 as "meeting the median" would
+    // reward an empty market.
+    const competitorVisibility = Object.values(stats.competitors).some((count) => count > 0);
+    if (stats.target === 0 && !competitorVisibility) continue;
     const target = stats.target / stats.observations;
     const competitorValues = (audit.competitors?.business || []).map((competitor) => {
       const count = stats.competitors[competitor.id] || 0;
@@ -442,7 +447,7 @@ function geoStats(audit, gridIntents) {
   }
 
   return {
-    points_observed: observedPoints.size || audit.maps?.grid?.points || 0,
+    points_observed: observedPoints.size,
     points_planned: audit.maps?.grid?.points || observedPoints.size,
     covered_points: coveredPoints.size,
     geo_grid_coverage: geoGridCoverage,

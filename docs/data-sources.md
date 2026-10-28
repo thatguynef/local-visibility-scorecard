@@ -30,6 +30,13 @@ Official references:
 - [Referring Domains](https://docs.dataforseo.com/v3/backlinks/referring_domains/live/)
 - [Business Listings Search](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/)
 
+## Provider constraints the collector respects
+
+- **Maps `search_places`:** DataForSEO warns that search-places mode can return results for a location other than the requested coordinate. Grid collection therefore sends `search_places=false` by default and only opts in when a caller explicitly asks for it.
+- **ChatGPT LLM Mentions:** DataForSEO documents this surface for the United States and English only. The adapter refuses another market or language instead of silently scoring US data for a local business elsewhere.
+- **Task-level errors:** A top-level `20000` response can still contain a failed task. The client treats the task status as authoritative and raises a typed provider error, so the observation is recorded as not collected rather than as "rank not found."
+- **Competitor cohort:** Observed SERP businesses are matched to the locked cohort by place ID, CID, domain, phone, then name/alias. A matched business keeps the cohort ID; an unlocked local business is recorded as `obs-...` and is not counted as a scored peer. Directories and publishers remain `serp-...` occupiers.
+
 ## Provider layer
 
 All vendor-specific HTTP lives in:

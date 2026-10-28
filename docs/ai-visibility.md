@@ -12,10 +12,12 @@ V1 supports:
 |---|---|---|---|
 | Google | AI Mode | `consumer_surface` | SERP AI Mode observation |
 | Google | AI Overview (future) | `consumer_surface` | Not implemented in V1; validate the request shape first |
-| ChatGPT | ChatGPT via LLM Mentions | `model_api` | LLM mention observation |
+| ChatGPT | ChatGPT via LLM Mentions | `model_api` | LLM mention observation (US/English only per provider) |
 | Gemini, Perplexity, Claude | Future validated adapters | `model_api` | Not in V1 |
 
 A consumer/search surface observation is not the same as a model/API response. They are recorded separately and never pooled into one opaque metric.
+
+The ChatGPT adapter refuses a market or language the provider does not support. A US-only observation is never silently reused for a business in another country; the audit records the limitation or returns `INSUFFICIENT EVIDENCE` if the required surface cannot be collected.
 
 Only validated surfaces contribute to the core score. Experimental sources can be reported as diagnostics without score impact.
 
@@ -79,6 +81,8 @@ A live audit should increase repeats before drawing a firm conclusion. A single 
 | Competitive share | Target recommendations ÷ target + business-competitor recommendations |
 
 Directories and publishers are excluded from the competitor denominator. They are recorded as SERP occupiers and citation sources, not as contractors.
+
+Top cited source domains are counted from the per-pair citation lists and shown in the full report. They are diagnostic context, not a separate score.
 
 ## Where prompts come from
 

@@ -315,13 +315,42 @@ function makeChecker(data) {
   }
   naOk ? pass("I15") : addHard("I15", "conditional/N/A handling does not match configuration");
 
-  // I16 source provenance
+  // I16 source provenance, including the collection method and surface names
   const filledSources = JSON.stringify((filled.sources || []).map((source) => source.id).sort());
   const scoredSources = JSON.stringify((scores.sources || []).map((source) => source.id).sort());
-  filledSources === scoredSources &&
-  (scores.sources || []).every((source) => source.provider && source.type && source.surface && Number(source.field_completeness) >= 0)
+  const allowedMethods = new Set(["fixture", "live", "derived"]);
+  const allowedLocationMethods = new Set(["coordinate", "location_code", "not_applicable"]);
+  const allowedFamilies = new Set(["serp", "ai_optimization", "dataforseo_labs", "backlinks", "business_data", "local"]);
+  const allowedSurfaces = new Set([
+    "query_universe",
+    "google_local_pack",
+    "google_maps",
+    "google_local_finder",
+    "google_organic",
+    "google_ai_mode",
+    "google_keyword_data",
+    "chatgpt",
+    "backlinks",
+    "business_listings",
+  ]);
+  const sourceRows = filled.sources || [];
+  const sourceShapeOk = sourceRows.every(
+    (source) =>
+      source.provider &&
+      source.type &&
+      allowedMethods.has(source.method) &&
+      allowedLocationMethods.has(source.location_method) &&
+      allowedFamilies.has(source.endpoint_family) &&
+      allowedSurfaces.has(source.surface) &&
+      Number(source.field_completeness) >= 0,
+  );
+  const sourceModeOk =
+    filled.run?.source_mode === "fixture"
+      ? sourceRows.every((source) => source.method === "fixture")
+      : sourceRows.every((source) => source.method === "live" || source.method === "derived");
+  filledSources === scoredSources && sourceShapeOk && sourceModeOk && (scores.sources || []).every((source) => source.provider)
     ? pass("I16")
-    : addHard("I16", "source provenance is missing or differs between audit and scores");
+    : addHard("I16", "source provenance is missing, invalid, or differs between audit and scores");
 
   // I17 cross-artifact score and total row
   const scoreTitle = new RegExp(`^#\\s+${math.display}\\s*\\/\\s*100`, "m");
@@ -499,7 +528,12 @@ function makeChecker(data) {
   const businessIds = new Set((filled.competitors?.business || []).map((competitor) => competitor.id));
   for (const observation of [...(filled.maps?.observations || []), ...(filled.organic?.observations || [])]) {
     for (const competitor of observation.competitors || []) {
-      if (String(competitor.id).startsWith("cmp-") && !businessIds.has(competitor.id)) aiOk = false;
+      // Every scored peer must resolve to the locked cohort. Live collection
+      // marks unlocked local businesses with cohort=false and an "obs-" id;
+      // those are contextual only and are never counted as business peers.
+      const claimsCohort = competitor.cohort === true || String(competitor.id).startsWith("cmp-");
+      if (claimsCohort && !businessIds.has(competitor.id)) aiOk = false;
+      if (competitor.cohort === false && businessIds.has(competitor.id)) aiOk = false;
     }
   }
   aiOk ? pass("I37") : addHard("I37", "AI source types are pooled or a business competitor is outside the locked cohort");
@@ -548,6 +582,8 @@ function mutationSuite(data) {
     ["remove report finding row", (d) => { d.report = d.report.replace(/^\| LV-.*$/m, ""); }],
     ["score an owner-data id", (d) => { d.scores.checks.push({ id: "OD-LV-GSC-CLICKS", score: 1 }); }],
     ["remove source ref", (d) => { d.filled.checks[firstCheckId].evidence_refs = ["missing-source"]; }],
+    ["change source method", (d) => { d.filled.sources[0].method = "live"; }],
+    ["change source surface", (d) => { d.filled.sources[0].surface = "unknown_surface"; }],
     ["unlink top gap", (d) => { if (d.content) d.content.gaps[0].checkId = "LV-NOT-REAL"; }],
     ["tamper universe hash", (d) => {
       d.filled.query_universe.hash = `sha256:${"0".repeat(64)}`;

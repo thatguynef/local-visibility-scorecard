@@ -41,6 +41,21 @@ SECRET_VALUE = re.compile(
 )
 SURFACES = {"google_local_pack", "google_maps", "google_local_finder", "google_organic", "google_ai_mode", "chatgpt"}
 AI_SOURCE_TYPES = {"consumer_surface", "model_api"}
+SOURCE_METHODS = {"fixture", "live", "derived"}
+LOCATION_METHODS = {"coordinate", "location_code", "not_applicable"}
+SOURCE_FAMILIES = {"serp", "ai_optimization", "dataforseo_labs", "backlinks", "business_data", "local"}
+SOURCE_SURFACES = {
+    "query_universe",
+    "google_local_pack",
+    "google_maps",
+    "google_local_finder",
+    "google_organic",
+    "google_ai_mode",
+    "google_keyword_data",
+    "chatgpt",
+    "backlinks",
+    "business_listings",
+}
 
 
 def load_json(path: Path) -> dict:
@@ -154,6 +169,14 @@ def _validate_source(source: dict, index: int, errors: list[str], source_ids: se
             errors.append(f"{prefix}.{key} is required")
     if source.get("device") not in {"desktop", "mobile"}:
         errors.append(f"{prefix}.device must be desktop or mobile")
+    if source.get("method") not in SOURCE_METHODS:
+        errors.append(f"{prefix}.method must be one of {sorted(SOURCE_METHODS)}")
+    if source.get("location_method") not in LOCATION_METHODS:
+        errors.append(f"{prefix}.location_method must be one of {sorted(LOCATION_METHODS)}")
+    if source.get("endpoint_family") not in SOURCE_FAMILIES:
+        errors.append(f"{prefix}.endpoint_family must be one of {sorted(SOURCE_FAMILIES)}")
+    if source.get("surface") not in SOURCE_SURFACES:
+        errors.append(f"{prefix}.surface must be a documented source surface")
     completeness = source.get("field_completeness")
     if not is_number(completeness) or not 0 <= completeness <= 100:
         errors.append(f"{prefix}.field_completeness must be 0-100")
@@ -518,6 +541,11 @@ def validate(audit: dict, rubric: dict) -> tuple[list[str], list[str]]:
     else:
         for index, source in enumerate(sources):
             _validate_source(source, index, errors, source_ids)
+        methods = {source.get("method") for source in sources if isinstance(source, dict)}
+        if run.get("source_mode") == "fixture" and methods != {"fixture"}:
+            errors.append("fixture runs may only report source method=fixture")
+        if run.get("source_mode") == "live" and not methods.issubset({"live", "derived"}):
+            errors.append("live runs may only report source method=live or derived")
 
     _validate_validity(audit, rubric, errors, insufficient)
     _validate_observations(audit, errors)

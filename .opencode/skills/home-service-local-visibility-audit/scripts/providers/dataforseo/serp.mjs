@@ -42,7 +42,7 @@ function deviceOf(value) {
   return DEVICE.has(value) ? value : "mobile";
 }
 
-export function coordinate(lat, lng, zoom = 14) {
+export function coordinate(lat, lng, zoom = 14, minZoom = 3, maxZoom = 21) {
   const latitude = Number(lat);
   const longitude = Number(lng);
   if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) {
@@ -51,7 +51,9 @@ export function coordinate(lat, lng, zoom = 14) {
   if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) {
     throw new ProviderError("longitude must be between -180 and 180", { kind: "bad_request" });
   }
-  const zoomValue = Math.max(3, Math.min(21, Math.round(Number(zoom) || 14)));
+  // Each Google SERP endpoint has its own documented zoom range. Defaults are
+  // the Maps range; callers pass the narrower AI Mode / Local Finder bounds.
+  const zoomValue = Math.max(minZoom, Math.min(maxZoom, Math.round(Number(zoom) || 14)));
   return `${latitude.toFixed(6)},${longitude.toFixed(6)},${zoomValue}z`;
 }
 
@@ -76,13 +78,16 @@ export async function googleMaps(client, params = {}) {
     language_code: params.language_code || "en",
     device: deviceOf(params.device),
     depth: Math.max(10, Math.min(100, Number(params.depth) || 20)),
-    search_places: params.search_places !== false,
+    // DataForSEO warns that search_places mode can return results for a
+    // different location than the requested coordinate. Grid collection is
+    // explicitly local-intent work, so opt in only when a caller asks for it.
+    search_places: params.search_places === true,
     search_this_area: params.search_this_area !== false,
   };
   if (params.location_coordinate) {
     task.location_coordinate = String(params.location_coordinate);
   } else if (params.lat !== undefined && params.lng !== undefined) {
-    task.location_coordinate = coordinate(params.lat, params.lng, params.zoom || 14);
+    task.location_coordinate = coordinate(params.lat, params.lng, params.zoom || 14, 3, 21);
   } else if (params.location_code) {
     task.location_code = Number(params.location_code);
   } else {
@@ -101,7 +106,7 @@ export async function googleLocalFinder(client, params = {}) {
   if (params.location_coordinate) {
     task.location_coordinate = String(params.location_coordinate);
   } else if (params.lat !== undefined && params.lng !== undefined) {
-    task.location_coordinate = coordinate(params.lat, params.lng, params.zoom || 14);
+    task.location_coordinate = coordinate(params.lat, params.lng, params.zoom || 14, 4, 18);
   } else if (params.location_code) {
     task.location_code = Number(params.location_code);
   } else {
@@ -119,7 +124,8 @@ export async function googleAiMode(client, params = {}) {
   if (params.location_coordinate) {
     task.location_coordinate = String(params.location_coordinate);
   } else if (params.lat !== undefined && params.lng !== undefined) {
-    task.location_coordinate = coordinate(params.lat, params.lng, params.zoom || 15);
+    // AI Mode documents a 4z-18z zoom range.
+    task.location_coordinate = coordinate(params.lat, params.lng, params.zoom || 15, 4, 18);
   } else if (params.location_code) {
     task.location_code = Number(params.location_code);
   } else {

@@ -78,7 +78,7 @@ The market name is part of the query universe. If it changes, the universe hash 
 | `branded_diagnostics_enabled` | Branded/non-branded dependence check |
 | `historical_runs_available` | Reproducible visibility trend check |
 
-A disabled condition makes its check N/A. It does not lower the score.
+A disabled condition makes its check N/A and does not lower the score. For `emergency_service`, `near_me_demand`, and `city_modified_demand`, it also removes the corresponding intent and queries before the universe is hashed, so the disabled class cannot influence demand-weighted coverage.
 
 ## Services
 

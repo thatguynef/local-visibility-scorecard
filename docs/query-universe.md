@@ -81,6 +81,8 @@ Intent classes:
 
 Informational and DIY searches are not scored unless a future methodology documents their role. The V1 universe avoids them.
 
+A disabled condition removes the corresponding intent and its queries before hashing. If `emergency_service`, `near_me_demand`, or `city_modified_demand` is false, those classes do not appear in the universe at all. They are not scored as N/A while still contributing to demand-weighted coverage.
+
 ### Queries
 
 Each query points to an intent and records the text, surfaces, demand, weight, role, brand status, and whether it is a grid query.
@@ -117,6 +119,8 @@ This has two effects:
 
 CPC is stored as demand context. It is not a ranking-quality signal, and owner-reported profitability is not part of the public score.
 
+Each intent records a `demand.source`. A live run starts with `configured_market_config` and updates to `dataforseo_keyword_overview` only for services whose volume the provider returned. Synthetic examples use `synthetic_fixture`.
+
 ## The hash
 
 The hash covers everything that affects scoring:
@@ -145,6 +149,8 @@ npm run universe -- \
   --config config/market.example.json \
   --out /tmp/query-universe.json
 ```
+
+The CLI records `configured_market_config` by default. For a synthetic fixture, pass `--demand-source synthetic_fixture` so the provenance matches the fixture.
 
 Check an existing universe:
 

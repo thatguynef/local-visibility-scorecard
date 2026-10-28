@@ -165,16 +165,19 @@ export function matchEntity(entity, target) {
     return { found: true, method: "phone", confidence: 0.9 };
   }
   const entityName = normaliseName(entity.name);
+  let ambiguous = null;
   if (entityName) {
     for (const alias of target.aliases || []) {
       if (!alias) continue;
       if (entityName === alias) return { found: true, method: "name_alias", confidence: 0.8 };
       if (alias.length >= 6 && (entityName.includes(alias) || alias.includes(entityName))) {
-        return { found: true, method: "name_alias", confidence: 0.62 };
+        // A partial-name hit is a lead for review, not an identity resolution.
+        // Counting it as found would turn a similar business into the target.
+        ambiguous = { found: false, method: "name_alias", confidence: 0.62, ambiguous: true };
       }
     }
   }
-  return { found: false, method: null, confidence: 0 };
+  return ambiguous || { found: false, method: null, confidence: 0 };
 }
 
 export function classifyDomain(domain, serpOccupiers = []) {
@@ -224,12 +227,70 @@ function classifySourceType(domain, serpOccupiers = []) {
 
 function competitorId(entity, type) {
   const raw = entity.place_id || entity.cid || entity.domain || normaliseName(entity.name) || "unknown";
-  const prefix = type === "local_business" ? "cmp" : "serp";
+  // "cmp-" is reserved for the locked business-competitor cohort. Observed
+  // local businesses outside that cohort are recorded as "obs-" so they never
+  // masquerade as a scored peer after the cohort was locked.
+  const prefix = type === "local_business" ? "obs" : "serp";
   return `${prefix}-${String(raw).toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60)}`;
+}
+
+/**
+ * Resolve an observed SERP entity to the locked business-competitor cohort.
+ * Matching is identifier-first (place ID, CID, domain, phone) and only then
+ * name/alias. A near-name match is never enough to attribute a competitor.
+ */
+export function matchConfiguredCompetitor(entity, competitors = []) {
+  if (!entity || !Array.isArray(competitors)) return null;
+  const placeId = String(entity.place_id || "");
+  const cid = String(entity.cid || "");
+  const domain = normaliseDomain(entity.domain || "");
+  const phone = normalisePhone(entity.phone || "");
+  const name = normaliseName(entity.name || "");
+  for (const competitor of competitors) {
+    if (!competitor || !competitor.id) continue;
+    if (placeId && competitor.place_id && placeId === String(competitor.place_id)) {
+      return { competitor, method: "place_id", confidence: 1 };
+    }
+    if (cid && competitor.cid && cid === String(competitor.cid)) {
+      return { competitor, method: "place_id", confidence: 0.98 };
+    }
+    if (domain && competitor.domain && domain === normaliseDomain(competitor.domain)) {
+      return { competitor, method: "domain", confidence: 0.95 };
+    }
+    if (phone && competitor.phone && phone === normalisePhone(competitor.phone)) {
+      return { competitor, method: "phone", confidence: 0.9 };
+    }
+    const aliases = [competitor.name, ...(competitor.aliases || [])]
+      .map((alias) => normaliseName(alias || ""))
+      .filter(Boolean);
+    if (name && aliases.includes(name)) {
+      return { competitor, method: "name_alias", confidence: 0.8 };
+    }
+  }
+  return null;
 }
 
 function competitorFromEntity(entity, rank, context) {
   const type = context.directoryItem ? "directory" : classifyDomain(entity.domain, context.serpOccupiers);
+  if (type === "local_business") {
+    const match = matchConfiguredCompetitor(entity, context.competitors || []);
+    if (match) {
+      const competitor = match.competitor;
+      return {
+        id: competitor.id,
+        name: competitor.name || entity.name || competitor.id,
+        ...(competitor.place_id || entity.place_id
+          ? { place_id: competitor.place_id || entity.place_id }
+          : {}),
+        ...(competitor.domain || entity.domain ? { domain: competitor.domain || entity.domain } : {}),
+        rank,
+        type: "local_business",
+        cohort: true,
+        matched_by: match.method,
+        match_confidence: match.confidence,
+      };
+    }
+  }
   const id = competitorId(entity, type);
   return {
     id,
@@ -238,6 +299,7 @@ function competitorFromEntity(entity, rank, context) {
     ...(entity.domain ? { domain: entity.domain } : {}),
     rank,
     type,
+    cohort: false,
   };
 }
 

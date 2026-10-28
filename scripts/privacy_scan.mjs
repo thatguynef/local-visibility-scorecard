@@ -264,8 +264,11 @@ function scanText(file, text) {
     }
 
     for (const match of line.matchAll(streetPattern)) {
-      if (/example/i.test(match[0])) continue;
-      warnings.push(`${location}: street-address-like text (value redacted) — verify it is synthetic`);
+      // A real customer address is a hard privacy finding, not a stylistic
+      // warning. Synthetic examples must use "Example", "Synthetic", or a
+      // documented placeholder street.
+      if (/example|synthetic|placeholder/i.test(match[0])) continue;
+      errors.push(`${location}: street-address-like text (value redacted) — use a synthetic address or omit it`);
     }
   }
 }

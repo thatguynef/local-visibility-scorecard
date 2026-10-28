@@ -7,8 +7,14 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { buildGrid } from "./lib/grid.mjs";
+import { buildPlan } from "./lib/plan.mjs";
 import { buildUniverse } from "./lib/universe.mjs";
+import { DataForSeoClient, ProviderError } from "./providers/dataforseo/client.mjs";
 import { authorizationHeader, credentialsPresent, normalizeBasicToken, redactSecrets } from "./providers/dataforseo/auth.mjs";
+import { llmMentions } from "./providers/dataforseo/ai.mjs";
+import { makeTarget, matchEntity, normalizeOrganicResult } from "./providers/dataforseo/normalize.mjs";
+import { coordinate, googleMaps } from "./providers/dataforseo/serp.mjs";
 
 const HERE = import.meta.dirname;
 const ROOT = path.resolve(HERE, "..", "..", "..", "..");
@@ -90,6 +96,79 @@ test("query universe is deterministic, locked, and reproducible", () => {
   }
 });
 
+test("disabled conditions remove intents and queries before hashing", () => {
+  const config = JSON.parse(fs.readFileSync(CONFIG, "utf8"));
+  config.configuration.emergency_service = false;
+  config.configuration.near_me_demand = false;
+  config.configuration.city_modified_demand = false;
+  const options = { createdAt: "2026-01-01T00:00:00Z", lockedAt: "2026-01-01T00:00:00Z", reviewer: "test" };
+  const a = buildUniverse(config, options);
+  const b = buildUniverse(config, options);
+  assert.equal(a.hash, b.hash);
+  const classes = new Set(a.intents.map((intent) => intent.class));
+  assert.equal(classes.has("emergency"), false);
+  assert.equal(classes.has("near_me"), false);
+  assert.equal(classes.has("city_modified"), false);
+  assert.ok(a.queries.filter((query) => query.role === "core").length < 30);
+  assert.ok(a.queries.filter((query) => query.role === "core").every((query) => !["emergency", "near_me", "city_modified"].includes(query.intent_class)));
+  assert.ok(a.prompts.every((prompt) => a.intents.find((intent) => intent.id === prompt.intent_id)?.class !== "emergency"));
+});
+
+test("cost plan prices competitor authority tasks correctly", () => {
+  const config = JSON.parse(fs.readFileSync(CONFIG, "utf8"));
+  const universe = buildUniverse(config, {
+    createdAt: "2026-01-01T00:00:00Z",
+    lockedAt: "2026-01-01T00:00:00Z",
+    reviewer: "test",
+  });
+  const { grid } = buildGrid({
+    center: config.market.center,
+    radius_km: config.market.radius_km,
+    size: config.configuration.grid_size,
+  });
+  const pricing = {
+    schema_version: "1.0",
+    tasks: {
+      serp_google_organic: 1,
+      serp_google_maps: 1,
+      serp_google_local_finder: 1,
+      serp_google_ai_mode: 1,
+      llm_mentions: 1,
+      labs_keyword_overview: 1,
+      backlinks_summary: 1,
+      backlinks_referring_domains: 1,
+      business_listings_search: 1,
+    },
+  };
+  const plan = buildPlan({
+    universe,
+    grid,
+    configuration: config.configuration,
+    pricing,
+    competitorCount: 3,
+    includeDemandTask: true,
+    limits: { maxSerpTasks: 5000, maxAiTasks: 250 },
+  });
+  assert.equal(plan.backlinks_summary_tasks, 1);
+  assert.equal(plan.referring_domains_tasks, 4);
+  assert.equal(plan.cost.available, true);
+  assert.equal(plan.cost.by_task.serp_google_organic.quantity, plan.local_pack_tasks + plan.organic_tasks);
+  assert.equal(plan.cost.by_task.backlinks_summary.quantity, 1);
+  assert.equal(plan.cost.by_task.backlinks_referring_domains.quantity, 4);
+  assert.equal(
+    plan.cost.total_usd,
+    plan.local_pack_tasks +
+      plan.maps_tasks +
+      plan.organic_tasks +
+      plan.ai_mode_tasks +
+      plan.llm_mentions_tasks +
+      plan.keyword_overview_tasks +
+      plan.business_listings_tasks +
+      1 +
+      4,
+  );
+});
+
 test("DataForSEO accepts a pre-encoded Basic Auth value without exposing it", () => {
   const token = Buffer.from("synthetic-login:synthetic-password").toString("base64");
   assert.equal(credentialsPresent({ DATAFORSEO_BASIC_AUTH: token }), true);
@@ -102,6 +181,181 @@ test("DataForSEO accepts a pre-encoded Basic Auth value without exposing it", ()
   assert.throws(() => authorizationHeader({}));
 });
 
+test("DataForSEO task-level failures are not treated as empty SERPs", async () => {
+  let calls = 0;
+  const fetchImpl = async () => {
+    calls += 1;
+    return new Response(
+      JSON.stringify({
+        status_code: 20000,
+        status_message: "Ok.",
+        tasks_error: 1,
+        cost: 0.002,
+        tasks: [
+          {
+            id: "synthetic-task",
+            status_code: 40501,
+            status_message: "Rate limit exceeded",
+            result: null,
+            cost: 0.002,
+          },
+        ],
+      }),
+      { status: 200, headers: { "content-type": "application/json" } },
+    );
+  };
+  const client = new DataForSeoClient({
+    env: { DATAFORSEO_LOGIN: "synthetic-login", DATAFORSEO_PASSWORD: "synthetic-password" },
+    fetchImpl,
+    useCache: false,
+    maxRetries: 0,
+  });
+  await assert.rejects(
+    () => client.request("/v3/serp/google/organic/live/advanced", [{ keyword: "plumber" }], { taskType: "test" }),
+    (error) => error instanceof ProviderError && error.status === 40501 && /task error/i.test(error.message),
+  );
+  assert.equal(calls, 1);
+  assert.equal(client.errors.length, 1);
+});
+
+test("a partial name is not treated as a confirmed target match", () => {
+  const target = makeTarget({ name: "Acme Plumbing", domain: "acme-plumbing.example" });
+  const exact = matchEntity({ name: "Acme Plumbing", domain: "" }, target);
+  assert.equal(exact.found, true);
+  assert.equal(exact.confidence, 0.8);
+  const ambiguous = matchEntity({ name: "Acme Plumbing & Drain", domain: "" }, target);
+  assert.equal(ambiguous.found, false);
+  assert.equal(ambiguous.ambiguous, true);
+});
+
+test("observed competitors are resolved to the locked cohort by identifier", () => {
+  const target = makeTarget({
+    name: "Acme Plumbing (synthetic)",
+    domain: "acme-plumbing.example",
+    place_id: "SYNTHETIC-PLACE-ACME-001",
+  });
+  const cohort = [
+    {
+      id: "cmp-blue-line",
+      name: "Blue Line Plumbing (synthetic)",
+      domain: "blueline-plumbing.example",
+      place_id: "SYNTHETIC-PLACE-BLUE-002",
+    },
+  ];
+  const response = {
+    result: [
+      {
+        items: [
+          {
+            type: "organic",
+            rank_group: 1,
+            rank_absolute: 1,
+            domain: "acme-plumbing.example",
+            url: "https://acme-plumbing.example/",
+            title: "Acme Plumbing",
+            website_name: "Acme Plumbing",
+          },
+          {
+            type: "organic",
+            rank_group: 2,
+            rank_absolute: 2,
+            domain: "blueline-plumbing.example",
+            url: "https://blueline-plumbing.example/",
+            title: "Blue Line Plumbing",
+            website_name: "Blue Line Plumbing",
+          },
+          {
+            type: "organic",
+            rank_group: 3,
+            rank_absolute: 3,
+            domain: "unlocked-plumbing.example",
+            url: "https://unlocked-plumbing.example/",
+            title: "Unlocked Plumbing",
+            website_name: "Unlocked Plumbing",
+          },
+          {
+            type: "organic",
+            rank_group: 4,
+            rank_absolute: 4,
+            domain: "yelp.com",
+            url: "https://www.yelp.com/search?find_desc=plumber",
+            title: "Plumbers near you",
+            website_name: "Yelp",
+          },
+        ],
+      },
+    ],
+  };
+  const normalized = normalizeOrganicResult(response, { target, competitors: cohort, serpOccupiers: [] });
+  assert.equal(normalized.target_found, true);
+  assert.equal(normalized.competitors.length, 3);
+  assert.deepEqual(
+    normalized.competitors.map((competitor) => competitor.id),
+    ["cmp-blue-line", "obs-unlocked-plumbing-example", "serp-yelp-com"],
+  );
+  assert.equal(normalized.competitors[0].cohort, true);
+  assert.equal(normalized.competitors[0].matched_by, "domain");
+  assert.equal(normalized.competitors[1].cohort, false);
+  assert.equal(normalized.competitors[2].type, "directory");
+});
+
+test("Maps requests disable search_places by default and clamp documented zoom ranges", async () => {
+  const tasks = [];
+  const client = {
+    request: async (endpoint, [task]) => {
+      tasks.push({ endpoint, task });
+      return { result: [] };
+    },
+  };
+  await googleMaps(client, { keyword: "plumber", lat: 34, lng: -117, depth: 20 });
+  await googleMaps(client, { keyword: "plumber", lat: 34, lng: -117, depth: 20, search_places: true });
+  assert.equal(tasks[0].task.search_places, false);
+  assert.equal(tasks[1].task.search_places, true);
+  assert.match(tasks[0].task.location_coordinate, /,14z$/);
+  assert.match(coordinate(34, -117, 1, 4, 18), /,4z$/);
+  assert.match(coordinate(34, -117, 99, 4, 18), /,18z$/);
+});
+
+test("ChatGPT LLM Mentions refuses unsupported markets and languages", async () => {
+  const client = { request: async () => ({ result: [] }) };
+  await assert.rejects(
+    () => llmMentions(client, { keyword: "emergency plumber", platform: "chat_gpt", location_code: 2841 }),
+    /United States/,
+  );
+  await assert.rejects(
+    () => llmMentions(client, { keyword: "emergency plumber", platform: "chat_gpt", location_code: 2840, language_code: "es" }),
+    /English only/,
+  );
+  const accepted = await llmMentions(client, {
+    keyword: "emergency plumber",
+    platform: "chat_gpt",
+    location_code: 2840,
+    language_code: "en",
+  });
+  assert.deepEqual(accepted, { result: [] });
+});
+
+test("audit wrapper labels only fixture verification as synthetic", () => {
+  const dir = temp("wrapper");
+  try {
+    const out = path.join(dir, "run");
+    const reportDir = path.join(dir, "report");
+    const result = run(process.execPath, [
+      path.join(ROOT, "scripts", "audit.mjs"),
+      "--fixture", RAW_FIXTURE,
+      "--out", out,
+      "--report-dir", reportDir,
+      "--run-id", "test",
+    ]);
+    assert.equal(result.status, 0, result.stderr + result.stdout);
+    assert.match(result.stdout, /--mutation --synthetic/);
+    assert.ok(fs.existsSync(path.join(out, "audit.json")));
+    assert.ok(!fs.existsSync(path.join(out, "audit.filled.json")));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test("fixture collector needs no credentials and emits a pending worksheet", () => {
   const dir = temp("collect");
   try {
@@ -109,6 +363,8 @@ test("fixture collector needs no credentials and emits a pending worksheet", () 
     const env = { ...process.env };
     delete env.DATAFORSEO_LOGIN;
     delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    delete env.LV_MAX_RUN_COST_USD;
     const result = run(process.execPath, [COLLECT, "--fixture", RAW_FIXTURE, "--out", out, "--run-id", "test-run"], { env });
     assert.equal(result.status, 0, result.stderr);
     const audit = JSON.parse(fs.readFileSync(path.join(out, "audit.json"), "utf8"));
@@ -141,6 +397,8 @@ test("live mode fails clearly without credentials and writes no audit", () => {
     const env = { ...process.env };
     delete env.DATAFORSEO_LOGIN;
     delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    delete env.LV_MAX_RUN_COST_USD;
     const result = run(process.execPath, [COLLECT, "--config", CONFIG, "--out", path.join(dir, "run"), "--run-id", "test"], { env });
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /DATAFORSEO_(LOGIN|PASSWORD)|credentials are not set/);
@@ -157,6 +415,8 @@ test("dry-run plan sends no paid request and writes no audit", () => {
     const env = { ...process.env };
     delete env.DATAFORSEO_LOGIN;
     delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    delete env.LV_MAX_RUN_COST_USD;
     const result = run(process.execPath, [COLLECT, "--config", CONFIG, "--plan", "--out", out, "--run-id", "test"], { env });
     assert.equal(result.status, 0, result.stderr + result.stdout);
     assert.match(result.stdout, /Core keywords/);
@@ -166,6 +426,144 @@ test("dry-run plan sends no paid request and writes no audit", () => {
     assert.equal(plan.over_budget, false);
     assert.ok(!fs.existsSync(path.join(out, "audit.json")));
     assert.ok(!fs.existsSync(path.join(out, "query-universe.json")));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("an environment cost ceiling without local pricing blocks the live run", () => {
+  const dir = temp("cost-ceiling");
+  try {
+    const env = { ...process.env, LV_MAX_RUN_COST_USD: "1" };
+    delete env.DATAFORSEO_LOGIN;
+    delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    const result = run(process.execPath, [COLLECT, "--config", CONFIG, "--out", path.join(dir, "run"), "--run-id", "test"], { env });
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /reliable cost estimate is unavailable|pricing/i);
+    assert.ok(!fs.existsSync(path.join(dir, "run", "audit.json")));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a missing competitor cohort fails before any paid request", () => {
+  const dir = temp("cohort-required");
+  try {
+    const config = JSON.parse(fs.readFileSync(CONFIG, "utf8"));
+    delete config.known_competitors;
+    const configPath = path.join(dir, "config.json");
+    fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
+    const env = { ...process.env };
+    delete env.DATAFORSEO_LOGIN;
+    delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    delete env.LV_MAX_RUN_COST_USD;
+    const result = run(
+      process.execPath,
+      [COLLECT, "--config", configPath, "--plan", "--out", path.join(dir, "run"), "--run-id", "test"],
+      { env },
+    );
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /at least two are required before collection/);
+    assert.ok(!fs.existsSync(path.join(dir, "run", "plan.json")));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("unsupported AI surfaces fail before Maps and organic spending", () => {
+  const dir = temp("unsupported-ai");
+  try {
+    const config = JSON.parse(fs.readFileSync(CONFIG, "utf8"));
+    config.ai_platforms = ["gemini"];
+    const configPath = path.join(dir, "config.json");
+    fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
+    const env = { ...process.env };
+    delete env.DATAFORSEO_LOGIN;
+    delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    delete env.LV_MAX_RUN_COST_USD;
+    const result = run(
+      process.execPath,
+      [COLLECT, "--config", configPath, "--plan", "--out", path.join(dir, "run"), "--run-id", "test"],
+      { env },
+    );
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /unsupported AI surface in V1/);
+    assert.ok(!fs.existsSync(path.join(dir, "run", "plan.json")));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("ChatGPT on a non-US market fails before collection", () => {
+  const dir = temp("ai-market");
+  try {
+    const config = JSON.parse(fs.readFileSync(CONFIG, "utf8"));
+    config.market.country = "CA";
+    const configPath = path.join(dir, "config.json");
+    fs.writeFileSync(configPath, JSON.stringify(config), "utf8");
+    const env = { ...process.env };
+    delete env.DATAFORSEO_LOGIN;
+    delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    delete env.LV_MAX_RUN_COST_USD;
+    const result = run(
+      process.execPath,
+      [COLLECT, "--config", configPath, "--plan", "--out", path.join(dir, "run"), "--run-id", "test"],
+      { env },
+    );
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /United States and English only/);
+    assert.ok(!fs.existsSync(path.join(dir, "run", "plan.json")));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("a cost ceiling above the estimate stops before any paid request", () => {
+  const dir = temp("priced-plan");
+  try {
+    const pricingPath = path.join(dir, "pricing.json");
+    fs.writeFileSync(
+      pricingPath,
+      JSON.stringify({
+        schema_version: "1.0",
+        tasks: {
+          serp_google_organic: 1,
+          serp_google_maps: 1,
+          serp_google_local_finder: 1,
+          serp_google_ai_mode: 1,
+          llm_mentions: 1,
+          labs_keyword_overview: 1,
+          backlinks_summary: 1,
+          backlinks_referring_domains: 1,
+          business_listings_search: 1,
+        },
+      }),
+      "utf8",
+    );
+    const env = { ...process.env };
+    delete env.DATAFORSEO_LOGIN;
+    delete env.DATAFORSEO_PASSWORD;
+    delete env.DATAFORSEO_BASIC_AUTH;
+    delete env.LV_MAX_RUN_COST_USD;
+    const result = run(
+      process.execPath,
+      [
+        COLLECT,
+        "--config", CONFIG,
+        "--pricing", pricingPath,
+        "--max-cost-usd", "1",
+        "--out", path.join(dir, "run"),
+        "--run-id", "test",
+      ],
+      { env },
+    );
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /exceeds a configured safety ceiling|No paid request was sent/i);
+    assert.ok(!fs.existsSync(path.join(dir, "run", "audit.json")));
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -300,10 +698,29 @@ test("privacy scanner fails on synthetic DataForSEO credentials and never prints
 test("privacy scanner passes a clean synthetic directory", () => {
   const dir = temp("privacy-clean");
   try {
-    fs.writeFileSync(path.join(dir, "notes.md"), "Synthetic business. Phone (555) 010-0200. Email hello@example.com. No credentials.\n", "utf8");
+    fs.writeFileSync(
+      path.join(dir, "notes.md"),
+      "Synthetic business at 123 Example Street. Phone (555) 010-0200. Email hello@example.com. No credentials.\n",
+      "utf8",
+    );
     const result = run(process.execPath, [PRIVACY, "--dir", dir]);
     assert.equal(result.status, 0, result.stderr + result.stdout);
     assert.match(result.stdout, /no hard privacy findings/);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("privacy scanner rejects a real-looking customer address", () => {
+  const dir = temp("privacy-address");
+  // Build the fixture at runtime so the scanner does not flag this source file.
+  const address = ["1234", "Maple", "Avenue"].join(" ");
+  try {
+    fs.writeFileSync(path.join(dir, "report.md"), `Customer: ${address}, Springfield\n`, "utf8");
+    const result = run(process.execPath, [PRIVACY, "--dir", dir]);
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /street-address-like text/);
+    assert.ok(!result.stderr.includes(address), "scanner must not print the detected address");
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }

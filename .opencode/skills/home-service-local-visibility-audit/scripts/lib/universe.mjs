@@ -93,6 +93,7 @@ export function buildUniverse(config, options = {}) {
   const shortMarket = marketShortName(market.name);
   const createdAt = options.createdAt || config.created_at || "2026-01-01T00:00:00Z";
   const lockedAt = options.lockedAt || createdAt;
+  const defaultDemandSource = options.demandSource || config.demand_source || "synthetic_fixture";
 
   const services = config.services.map((service) => ({
     id: service.id || slug(service.label),
@@ -103,8 +104,16 @@ export function buildUniverse(config, options = {}) {
       volume: Number(service.demand?.volume) || 0,
       cpc: Number(service.demand?.cpc) || 0,
       trend: Number(service.demand?.trend) || 0,
+      ...(service.demand?.source ? { source: String(service.demand.source) } : {}),
     },
   }));
+
+  const serviceIds = new Set();
+  for (const service of services) {
+    if (!service.label) throw new Error("every service needs a label");
+    if (serviceIds.has(service.id)) throw new Error(`duplicate service id: ${service.id}`);
+    serviceIds.add(service.id);
+  }
 
   const intents = [];
   const queries = [];
@@ -131,26 +140,38 @@ export function buildUniverse(config, options = {}) {
     });
   };
 
+  const configuration = config.configuration || {};
+  const includeNearMe = configuration.near_me_demand !== false;
+  const includeCity = configuration.city_modified_demand !== false;
+  const includeEmergency = configuration.emergency_service !== false;
+
   for (const service of services) {
-    const base = { service_id: service.id, brand: "non_brand", core: true, demand: { ...service.demand, source: "synthetic_fixture" }, weight: 0 };
+    const base = { service_id: service.id, brand: "non_brand", core: true, demand: { ...service.demand, source: service.demand.source || options.demandSource || defaultDemandSource }, weight: 0 };
     const serviceIntent = addIntent({
       ...base,
       id: `INT-${service.id}-SERVICE`,
       class: "service",
       label: service.label,
     });
-    const nearMeIntent = addIntent({
-      ...base,
-      id: `INT-${service.id}-NEAR_ME`,
-      class: "near_me",
-      label: `${service.label} near me`,
-    });
-    const cityIntent = addIntent({
-      ...base,
-      id: `INT-${service.id}-CITY`,
-      class: "city_modified",
-      label: `${service.label} ${shortMarket}`,
-    });
+    // A disabled condition removes the intent and its queries before the
+    // universe is hashed. It is not scored as N/A while still influencing the
+    // demand-weighted visibility metrics.
+    const nearMeIntent = includeNearMe
+      ? addIntent({
+          ...base,
+          id: `INT-${service.id}-NEAR_ME`,
+          class: "near_me",
+          label: `${service.label} near me`,
+        })
+      : null;
+    const cityIntent = includeCity
+      ? addIntent({
+          ...base,
+          id: `INT-${service.id}-CITY`,
+          class: "city_modified",
+          label: `${service.label} ${shortMarket}`,
+        })
+      : null;
     const problemIntent = addIntent({
       ...base,
       id: `INT-${service.id}-PROBLEM`,
@@ -158,8 +179,8 @@ export function buildUniverse(config, options = {}) {
       label: service.symptoms[0] ? `${service.symptoms[0]} repair` : `${service.label} problem`,
     });
     addQuery(serviceIntent, service.label, ["google_local_pack", "google_maps", "google_organic"]);
-    addQuery(nearMeIntent, `${service.label} near me`, ["google_local_pack", "google_maps", "google_organic"]);
-    addQuery(cityIntent, `${service.label} ${shortMarket}`, ["google_local_pack", "google_maps", "google_organic"]);
+    if (nearMeIntent) addQuery(nearMeIntent, `${service.label} near me`, ["google_local_pack", "google_maps", "google_organic"]);
+    if (cityIntent) addQuery(cityIntent, `${service.label} ${shortMarket}`, ["google_local_pack", "google_maps", "google_organic"]);
     addQuery(problemIntent, service.symptoms[0] ? `${service.symptoms[0]} repair` : `${service.label} repair`, ["google_maps", "google_organic"]);
 
     if (service.priority === "primary") {
@@ -175,21 +196,23 @@ export function buildUniverse(config, options = {}) {
 
   // One emergency intent. It belongs to the service that already expresses
   // urgency, or to the first primary service when no emergency service is named.
-  const emergencyService =
-    services.find((service) => /emergency/i.test(service.id) || /emergency/i.test(service.label)) ||
-    services.find((service) => service.priority === "primary") ||
-    services[0];
-  const emergencyIntent = addIntent({
-    id: `INT-${emergencyService.id}-EMERGENCY`,
-    service_id: emergencyService.id,
-    class: "emergency",
-    label: `emergency ${trade}`,
-    brand: "non_brand",
-    core: true,
-    demand: { volume: Math.round((emergencyService.demand.volume || 0) * 0.6), cpc: emergencyService.demand.cpc, trend: emergencyService.demand.trend, source: "synthetic_fixture" },
-    weight: 0,
-  });
-  addQuery(emergencyIntent, `emergency ${trade}`, ["google_local_pack", "google_maps", "google_organic"]);
+  if (includeEmergency) {
+    const emergencyService =
+      services.find((service) => /emergency/i.test(service.id) || /emergency/i.test(service.label)) ||
+      services.find((service) => service.priority === "primary") ||
+      services[0];
+    const emergencyIntent = addIntent({
+      id: `INT-${emergencyService.id}-EMERGENCY`,
+      service_id: emergencyService.id,
+      class: "emergency",
+      label: `emergency ${trade}`,
+      brand: "non_brand",
+      core: true,
+      demand: { volume: Math.round((emergencyService.demand.volume || 0) * 0.6), cpc: emergencyService.demand.cpc, trend: emergencyService.demand.trend, source: emergencyService.demand.source || options.demandSource || defaultDemandSource },
+      weight: 0,
+    });
+    addQuery(emergencyIntent, `emergency ${trade}`, ["google_local_pack", "google_maps", "google_organic"]);
+  }
 
   // Category intent.
   const categoryService = services.find((service) => service.id === "general_plumbing") || services[0];
@@ -200,7 +223,7 @@ export function buildUniverse(config, options = {}) {
     label: trade,
     brand: "non_brand",
     core: true,
-    demand: { volume: Math.round((categoryService.demand.volume || 0) * 1.2), cpc: categoryService.demand.cpc, trend: categoryService.demand.trend, source: "synthetic_fixture" },
+    demand: { volume: Math.round((categoryService.demand.volume || 0) * 1.2), cpc: categoryService.demand.cpc, trend: categoryService.demand.trend, source: categoryService.demand.source || options.demandSource || defaultDemandSource },
     weight: 0,
   });
   addQuery(categoryIntent, trade, ["google_local_pack", "google_maps", "google_organic"]);
@@ -217,7 +240,7 @@ export function buildUniverse(config, options = {}) {
       label: text,
       brand: "brand",
       core: false,
-      demand: { volume: 0, cpc: 0, trend: 0, source: "synthetic_fixture" },
+      demand: { volume: 0, cpc: 0, trend: 0, source: options.demandSource || defaultDemandSource },
       weight: 0,
     });
     addQuery(intent, text, ["google_organic"]);

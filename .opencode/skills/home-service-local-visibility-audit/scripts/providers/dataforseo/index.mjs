@@ -27,6 +27,7 @@ export { BUSINESS_DATA_ENDPOINTS, businessListingsSearch } from "./business-data
 export {
   classifyDomain,
   makeTarget,
+  matchConfiguredCompetitor,
   matchEntity,
   normaliseDomain,
   normaliseName,
