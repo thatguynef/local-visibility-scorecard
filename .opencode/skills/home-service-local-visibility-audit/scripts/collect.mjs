@@ -919,10 +919,12 @@ async function liveCollect() {
           endpoint: "/v3/serp/google/ai_mode/live/advanced",
         });
       } else {
+        // LLM Mentions is documented for the United States only. The prompt
+        // still names the local market; the provider location is US-level.
         const response = await llmMentions(client, {
           keyword: task.prompt.text,
           platform: "chat_gpt",
-          location_code: config.market.location_code || config.provider?.location_code || 2840,
+          location_code: 2840,
           language_code: universe.language,
           limit: 10,
         });
@@ -1085,6 +1087,9 @@ async function liveCollect() {
       "Local Pack, Google Maps, and Local Finder are recorded as separate surfaces.",
       "Authority relevance is classified heuristically; LV-AUT-02 is review-only.",
       "Paid visibility is diagnostic and unscored.",
+      ...(config.ai_platforms?.includes("chatgpt") || config.configuration?.ai_surfaces?.includes("chatgpt")
+        ? ["ChatGPT LLM Mentions observations use the provider's US-level location; the prompts still name the target market."]
+        : []),
       "No credentials, authorization headers, cookies, or raw provider payloads are stored in this artifact.",
     ],
     review: {

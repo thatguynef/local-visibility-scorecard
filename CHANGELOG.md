@@ -31,7 +31,8 @@ Initial public V1.
 - Google Maps collection disables `search_places` by default, matching DataForSEO's warning that the mode can return a different location than the requested coordinate.
 - The cost plan prices the actual authority work: one backlinks summary, then one referring-domains request for the target plus each competitor. Local Pack and organic quantities are aggregated under their shared price key instead of overwriting each other.
 - A cost ceiling configured through `LV_MAX_RUN_COST_USD` now stops the run before any paid request when no reliable local pricing file is available.
-- ChatGPT LLM Mentions refuses a non-US location or non-English language instead of silently collecting US data for another market.
+- A missing cost or task ceiling is preserved as `null`. `Number(null)` previously became `0`, which would have blocked the first live request with an immediate zero-dollar ceiling.
+- ChatGPT LLM Mentions refuses a non-US location or non-English language instead of silently collecting US data for another market. The collector pins the provider's US-level location code and records that limitation; prompts still name the target market.
 - AI Mode and Local Finder coordinates are clamped to their documented zoom ranges.
 - The privacy scanner treats a real-looking street address as a hard finding; synthetic addresses must contain `Example`, `Synthetic`, or `placeholder`.
 - A disabled emergency, near-me, or city-modified condition now removes that intent and its queries before the universe is hashed, instead of scoring it as N/A while it still influenced demand-weighted visibility.
@@ -39,7 +40,7 @@ Initial public V1.
 - The full report now lists the top cited AI source domains, counted from the recorded per-pair citation lists.
 - A missing competitor cohort, an unsupported AI surface, and ChatGPT on a non-US market now fail during preflight, before Maps and organic requests are sent.
 - A partial-name match is now reported as ambiguous instead of a confirmed target match. Identity resolution requires a place ID, CID, domain, phone, or exact name/alias.
-- Regression coverage increased to 29 pipeline tests and 22 scorer tests, including provider task errors, cohort matching, cost math, Maps defaults, the LLM Mentions market guard, source provenance, target ambiguity, and the wrapper's synthetic-label behavior.
+- Regression coverage increased to 30 pipeline tests and 22 scorer tests, including provider task errors, null ceilings, cohort matching, cost math, Maps defaults, the LLM Mentions market guard, source provenance, target ambiguity, and the wrapper's synthetic-label behavior.
 
 ### Security
 

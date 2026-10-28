@@ -181,6 +181,14 @@ test("DataForSEO accepts a pre-encoded Basic Auth value without exposing it", ()
   assert.throws(() => authorizationHeader({}));
 });
 
+test("a missing cost ceiling stays unset on the provider client", () => {
+  const env = { DATAFORSEO_LOGIN: "synthetic-login", DATAFORSEO_PASSWORD: "synthetic-password" };
+  assert.equal(new DataForSeoClient({ env, useCache: false }).maxCostUsd, null);
+  assert.equal(new DataForSeoClient({ env, useCache: false, maxCostUsd: null }).maxCostUsd, null);
+  assert.equal(new DataForSeoClient({ env, useCache: false, maxCostUsd: 0.25 }).maxCostUsd, 0.25);
+  assert.equal(new DataForSeoClient({ env, useCache: false, maxCostUsd: 0 }).maxCostUsd, 0);
+});
+
 test("DataForSEO task-level failures are not treated as empty SERPs", async () => {
   let calls = 0;
   const fetchImpl = async () => {

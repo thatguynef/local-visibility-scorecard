@@ -117,8 +117,20 @@ export class DataForSeoClient {
     this.timeoutMs = Math.max(1000, Number(options.timeoutMs) || DEFAULT_TIMEOUT_MS);
     this.maxConcurrency = Math.max(1, Math.min(32, Number(options.maxConcurrency) || DEFAULT_MAX_CONCURRENCY));
     this.maxRetries = Math.max(0, Math.min(6, Number(options.maxRetries ?? DEFAULT_MAX_RETRIES)));
-    this.maxTasks = Number.isFinite(Number(options.maxTasks)) ? Number(options.maxTasks) : null;
-    this.maxCostUsd = Number.isFinite(Number(options.maxCostUsd)) ? Number(options.maxCostUsd) : null;
+    this.maxTasks =
+      options.maxTasks === null || options.maxTasks === undefined || options.maxTasks === ""
+        ? null
+        : Number.isFinite(Number(options.maxTasks))
+          ? Number(options.maxTasks)
+          : null;
+    // Number(null) is 0. A missing cost ceiling must remain null, not become
+    // an immediate zero-dollar ceiling.
+    this.maxCostUsd =
+      options.maxCostUsd === null || options.maxCostUsd === undefined || options.maxCostUsd === ""
+        ? null
+        : Number.isFinite(Number(options.maxCostUsd))
+          ? Number(options.maxCostUsd)
+          : null;
     this.useCache = options.useCache !== false;
     this.#cacheDir = options.cacheDir ? path.resolve(options.cacheDir) : path.resolve(".cache", "dataforseo");
     this.fetchImpl = options.fetchImpl || globalThis.fetch;
