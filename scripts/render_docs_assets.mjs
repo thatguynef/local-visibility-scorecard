@@ -135,17 +135,17 @@ const preview = svg(1200, 820, "Synthetic Acme Plumbing local visibility report 
   <text x="76" y="752" fill="${C.muted}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="12">Synthetic example. Not a real business. Public Mode · evidence first · owner data separate.</text>
 `);
 
-const social = svg(1200, 630, "Local Visibility Scorecard — evidence-based diagnosis across Search, Maps, and AI answers", `
-  <rect width="1200" height="630" fill="${C.ink}"/>
-  <rect width="1200" height="630" fill="url(#grid)"/>
-  <rect width="1200" height="630" fill="url(#glow)"/>
-  <text x="72" y="120" fill="${C.soft}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
-  <text x="72" y="240" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">Can local customers</text>
-  <text x="72" y="312" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">discover your business?</text>
-  <text x="72" y="388" fill="${C.muted}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="22">Search · Maps · AI answers · competitors · authority</text>
-  <rect x="72" y="440" width="352" height="54" rx="8" fill="${C.red}"/>
-  <text x="248" y="474" text-anchor="middle" fill="${C.ink}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700">Measure discovery</text>
-  <text x="72" y="552" fill="${C.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2">SYNTHETIC EXAMPLES · PUBLIC MODE · NO CREDENTIALS IN ARTIFACTS</text>
+const social = svg(1280, 640, "Local Visibility Scorecard — evidence-based diagnosis across Search, Maps, and AI answers", `
+  <rect width="1280" height="640" fill="${C.ink}"/>
+  <rect width="1280" height="640" fill="url(#grid)"/>
+  <rect width="1280" height="640" fill="url(#glow)"/>
+  <text x="80" y="132" fill="${C.soft}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
+  <text x="80" y="252" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">Can local customers</text>
+  <text x="80" y="324" fill="${C.paper}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">discover your business?</text>
+  <text x="80" y="400" fill="${C.muted}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="22">Search · Maps · AI answers · competitors · authority</text>
+  <rect x="80" y="452" width="370" height="56" rx="8" fill="${C.red}"/>
+  <text x="265" y="487" text-anchor="middle" fill="${C.ink}" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700">Measure discovery</text>
+  <text x="80" y="582" fill="${C.muted}" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2">SYNTHETIC EXAMPLES · PUBLIC MODE · NO CREDENTIALS IN ARTIFACTS</text>
 `);
 
 const logo = svg(64, 64, "Local Visibility Scorecard", `

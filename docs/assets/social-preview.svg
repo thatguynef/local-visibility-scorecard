@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title">
   <title id="title">Local Visibility Scorecard — evidence-based diagnosis across Search, Maps, and AI answers</title>
   <defs>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -10,15 +10,15 @@
     </radialGradient>
   </defs>
 
-  <rect width="1200" height="630" fill="#0B0B0C"/>
-  <rect width="1200" height="630" fill="url(#grid)"/>
-  <rect width="1200" height="630" fill="url(#glow)"/>
-  <text x="72" y="120" fill="#FF8F8F" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
-  <text x="72" y="240" fill="#F7F7F5" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">Can local customers</text>
-  <text x="72" y="312" fill="#F7F7F5" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">discover your business?</text>
-  <text x="72" y="388" fill="#A6A6AA" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="22">Search · Maps · AI answers · competitors · authority</text>
-  <rect x="72" y="440" width="352" height="54" rx="8" fill="#FF3B3B"/>
-  <text x="248" y="474" text-anchor="middle" fill="#0B0B0C" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700">Measure discovery</text>
-  <text x="72" y="552" fill="#A6A6AA" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2">SYNTHETIC EXAMPLES · PUBLIC MODE · NO CREDENTIALS IN ARTIFACTS</text>
+  <rect width="1280" height="640" fill="#0B0B0C"/>
+  <rect width="1280" height="640" fill="url(#grid)"/>
+  <rect width="1280" height="640" fill="url(#glow)"/>
+  <text x="80" y="132" fill="#FF8F8F" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" letter-spacing="4">LOCAL VISIBILITY SCORECARD</text>
+  <text x="80" y="252" fill="#F7F7F5" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">Can local customers</text>
+  <text x="80" y="324" fill="#F7F7F5" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="60" font-weight="700" letter-spacing="-2">discover your business?</text>
+  <text x="80" y="400" fill="#A6A6AA" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="22">Search · Maps · AI answers · competitors · authority</text>
+  <rect x="80" y="452" width="370" height="56" rx="8" fill="#FF3B3B"/>
+  <text x="265" y="487" text-anchor="middle" fill="#0B0B0C" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700">Measure discovery</text>
+  <text x="80" y="582" fill="#A6A6AA" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2">SYNTHETIC EXAMPLES · PUBLIC MODE · NO CREDENTIALS IN ARTIFACTS</text>
 
 </svg>
