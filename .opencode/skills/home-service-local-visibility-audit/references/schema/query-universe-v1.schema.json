@@ -40,6 +40,10 @@
             },
             "trend": {
               "type": "number"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1
             }
           },
           "additionalProperties": false
